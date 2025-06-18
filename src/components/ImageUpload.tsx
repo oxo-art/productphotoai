@@ -1,6 +1,6 @@
 
 import { useState, useRef } from "react";
-import { Upload, Image as ImageIcon, X, Loader2 } from "lucide-react";
+import { Upload, Image as ImageIcon, X, Loader2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -92,6 +92,27 @@ const ImageUpload = () => {
     fileInputRef.current?.click();
   };
 
+  const downloadImage = async (imageUrl: string, index: number) => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `generated-image-${index + 1}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      toast({
+        title: "Download failed",
+        description: "Failed to download the image",
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleGenerate = async () => {
     if (!prompt.trim()) {
       toast({
@@ -115,6 +136,8 @@ const ImageUpload = () => {
     
     try {
       console.log("Starting image generation with Flux Kontext Pro");
+      console.log("Prompt:", prompt.trim());
+      console.log("Input image URL:", uploadedImage.url);
       
       const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
         body: {
@@ -126,29 +149,33 @@ const ImageUpload = () => {
         }
       });
 
-      console.log("Supabase response:", data, error);
+      console.log("Supabase response:", { data, error });
 
       if (error) {
         console.error("Supabase function error:", error);
         throw new Error(error.message || "Failed to generate image");
       }
 
-      // Handle the response - data.output is a single URL string, not an array
-      if (data?.output && typeof data.output === 'string') {
+      if (!data) {
+        throw new Error("No data received from the service");
+      }
+
+      // Handle the response - data.output should be a single URL string
+      if (data.output && typeof data.output === 'string') {
         const generatedImageUrl = data.output;
         console.log("Generated image URL:", generatedImageUrl);
         
-        // Create a new image to get the actual dimensions, but use input image dimensions as fallback
+        // Create a new image to get the actual dimensions
         const img = new Image();
         img.onload = () => {
           setGeneratedImages(prev => [...prev, {
             url: generatedImageUrl,
-            width: img.width || uploadedImage.width || 1024,
-            height: img.height || uploadedImage.height || 1024
+            width: uploadedImage.width || img.width || 1024,
+            height: uploadedImage.height || img.height || 1024
           }]);
         };
         img.onerror = () => {
-          // If image fails to load, still add it with input dimensions
+          // If image fails to load for dimensions, still add it with input dimensions
           setGeneratedImages(prev => [...prev, {
             url: generatedImageUrl,
             width: uploadedImage.width || 1024,
@@ -298,14 +325,24 @@ const ImageUpload = () => {
                       maxHeight: `${image.height}px`
                     }}
                   />
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
-                    onClick={() => setGeneratedImages(prev => prev.filter((_, i) => i !== index))}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
+                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="h-8 w-8 bg-white/80 hover:bg-white"
+                      onClick={() => downloadImage(image.url, index)}
+                    >
+                      <Download className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      className="h-8 w-8"
+                      onClick={() => setGeneratedImages(prev => prev.filter((_, i) => i !== index))}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
