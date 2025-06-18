@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -127,13 +128,17 @@ const ImageUpload = () => {
         }
       });
 
+      console.log("Supabase response:", data, error);
+
       if (error) {
         console.error("Supabase function error:", error);
         throw new Error(error.message || "Failed to generate image");
       }
 
-      if (data?.output && Array.isArray(data.output) && data.output.length > 0) {
-        const generatedImageUrl = data.output[0];
+      // Handle the response - data.output is a single URL string, not an array
+      if (data?.output && typeof data.output === 'string') {
+        const generatedImageUrl = data.output;
+        console.log("Generated image URL:", generatedImageUrl);
         
         // Create a new image to get the actual dimensions, but use input image dimensions as fallback
         const img = new Image();
@@ -159,7 +164,8 @@ const ImageUpload = () => {
           description: "Your image has been generated with Flux Kontext Pro",
         });
       } else {
-        throw new Error("No image generated");
+        console.error("Unexpected response format:", data);
+        throw new Error("Invalid response format from AI service");
       }
     } catch (error) {
       console.error("Generation error:", error);
@@ -216,6 +222,10 @@ const ImageUpload = () => {
                       src={image.url}
                       alt={`Uploaded ${index + 1}`}
                       className="w-full h-auto object-contain rounded-lg border"
+                      style={{
+                        maxWidth: `${image.width}px`,
+                        maxHeight: `${image.height}px`
+                      }}
                     />
                     <Button
                       variant="destructive"
