@@ -1,19 +1,29 @@
-
 import { useState, useRef } from "react";
-import { Upload, Image as ImageIcon, X } from "lucide-react";
+import { Upload, Image as ImageIcon, X, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 interface UploadedImage {
   url: string;
+  width?: number;
+  height?: number;
+}
+
+interface GeneratedImage {
+  url: string;
+  width: number;
+  height: number;
 }
 
 const ImageUpload = () => {
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const [prompt, setPrompt] = useState("");
+  const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([]);
+  const [isGenerating, setIsGenerating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -56,7 +66,17 @@ const ImageUpload = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        setUploadedImages(prev => [...prev, { url: result }]);
+        
+        // Create an image element to get dimensions
+        const img = new Image();
+        img.onload = () => {
+          setUploadedImages(prev => [...prev, { 
+            url: result,
+            width: img.width,
+            height: img.height
+          }]);
+        };
+        img.src = result;
       };
       reader.readAsDataURL(file);
     });
@@ -70,7 +90,7 @@ const ImageUpload = () => {
     fileInputRef.current?.click();
   };
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (!prompt.trim()) {
       toast({
         title: "Prompt required",
@@ -79,13 +99,78 @@ const ImageUpload = () => {
       });
       return;
     }
+
+    if (uploadedImages.length === 0) {
+      toast({
+        title: "Image required",
+        description: "Please upload an image first",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsGenerating(true);
     
-    // TODO: Connect to Flux Kontext Pro AI model
-    console.log("Generating image with prompt:", prompt);
-    toast({
-      title: "Generation started",
-      description: "Your image is being generated...",
-    });
+    try {
+      console.log("Starting image generation with Flux Kontext Pro");
+      
+      // Use the first uploaded image
+      const inputImage = uploadedImages[0];
+      
+      const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
+        body: {
+          prompt: prompt.trim(),
+          input_image: inputImage.url,
+          aspect_ratio: "match_input_image",
+          output_format: "png",
+          safety_tolerance: 2
+        }
+      });
+
+      if (error) {
+        console.error("Supabase function error:", error);
+        throw new Error(error.message || "Failed to generate image");
+      }
+
+      if (data?.output && Array.isArray(data.output) && data.output.length > 0) {
+        const generatedImageUrl = data.output[0];
+        
+        // Create a new image to get the actual dimensions, but use input image dimensions as fallback
+        const img = new Image();
+        img.onload = () => {
+          setGeneratedImages(prev => [...prev, {
+            url: generatedImageUrl,
+            width: img.width || inputImage.width || 1024,
+            height: img.height || inputImage.height || 1024
+          }]);
+        };
+        img.onerror = () => {
+          // If image fails to load, still add it with input dimensions
+          setGeneratedImages(prev => [...prev, {
+            url: generatedImageUrl,
+            width: inputImage.width || 1024,
+            height: inputImage.height || 1024
+          }]);
+        };
+        img.src = generatedImageUrl;
+
+        toast({
+          title: "Image generated successfully",
+          description: "Your image has been generated with Flux Kontext Pro",
+        });
+      } else {
+        throw new Error("No image generated");
+      }
+    } catch (error) {
+      console.error("Generation error:", error);
+      toast({
+        title: "Generation failed",
+        description: error instanceof Error ? error.message : "Failed to generate image",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -170,17 +255,60 @@ const ImageUpload = () => {
           <h3 className="text-lg font-semibold mb-4">Prompt</h3>
           <div className="space-y-4">
             <Textarea
-              placeholder="Describe the image you want to generate..."
+              placeholder="Describe how you want to transform the image..."
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               className="min-h-[100px]"
             />
-            <Button onClick={handleGenerate} className="w-full">
-              Generate Image
+            <Button 
+              onClick={handleGenerate} 
+              className="w-full"
+              disabled={isGenerating || uploadedImages.length === 0}
+            >
+              {isGenerating ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Generating...
+                </>
+              ) : (
+                "Generate Image"
+              )}
             </Button>
           </div>
         </CardContent>
       </Card>
+
+      {/* Output Section */}
+      {generatedImages.length > 0 && (
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="text-lg font-semibold mb-4">Generated Images</h3>
+            <div className="grid gap-4">
+              {generatedImages.map((image, index) => (
+                <div key={index} className="relative group">
+                  <img
+                    src={image.url}
+                    alt={`Generated ${index + 1}`}
+                    className="w-full h-auto object-contain rounded-lg border"
+                    style={{
+                      maxWidth: `${image.width}px`,
+                      maxHeight: `${image.height}px`
+                    }}
+                  />
+                  <Button
+                    variant="destructive"
+                    size="icon"
+                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
+                    onClick={() => setGeneratedImages(prev => prev.filter((_, i) => i !== index))}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 };
