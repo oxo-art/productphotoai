@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -57,22 +58,6 @@ const ImageUpload = () => {
       };
       reader.readAsDataURL(file);
     });
-
-    if (imageFiles.length > 0) {
-      toast({
-        title: "Upload successful",
-        description: `${imageFiles.length} image(s) uploaded successfully`
-      });
-    }
-  };
-
-  const downloadImage = (imageUrl: string, filename: string) => {
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   };
 
   const removeImage = (index: number) => {
