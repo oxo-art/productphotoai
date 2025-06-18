@@ -1,8 +1,8 @@
-
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 
 interface UploadedImage {
@@ -12,6 +12,7 @@ interface UploadedImage {
 const ImageUpload = () => {
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+  const [prompt, setPrompt] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -68,8 +69,45 @@ const ImageUpload = () => {
     fileInputRef.current?.click();
   };
 
+  const handleGenerate = () => {
+    if (!prompt.trim()) {
+      toast({
+        title: "Prompt required",
+        description: "Please enter a prompt to generate an image",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // TODO: Connect to Flux Kontext Pro AI model
+    console.log("Generating image with prompt:", prompt);
+    toast({
+      title: "Generation started",
+      description: "Your image is being generated...",
+    });
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
+      {/* AI Generation Section */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold mb-4">Generate with AI</h3>
+          <div className="space-y-4">
+            <Textarea
+              placeholder="Describe the image you want to generate..."
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              className="min-h-[100px]"
+            />
+            <Button onClick={handleGenerate} className="w-full">
+              Generate Image
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Upload Section */}
       <Card>
         <CardContent className="p-6">
           {uploadedImages.length === 0 ? (
@@ -103,29 +141,26 @@ const ImageUpload = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              <div className="space-y-6">
+              <div className="grid gap-4">
                 {uploadedImages.map((image, index) => (
-                  <div key={index} className="space-y-4">
-                    <div className="relative group">
-                      <img
-                        src={image.url}
-                        alt={`Uploaded ${index + 1}`}
-                        className="w-full h-auto object-contain rounded-lg border"
-                      />
-                      <Button
-                        variant="destructive"
-                        size="icon"
-                        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
-                        onClick={() => removeImage(index)}
-                      >
-                        <X className="h-4 w-4" />
-                      </Button>
-                    </div>
-                    
+                  <div key={index} className="relative group">
+                    <img
+                      src={image.url}
+                      alt={`Uploaded ${index + 1}`}
+                      className="w-full h-auto object-contain rounded-lg border"
+                    />
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
+                      onClick={() => removeImage(index)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
                     <Button
                       variant="outline"
                       onClick={openFileDialog}
-                      className="w-full"
+                      className="w-full mt-2"
                     >
                       Choose another image
                     </Button>
