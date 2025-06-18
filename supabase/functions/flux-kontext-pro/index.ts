@@ -25,18 +25,9 @@ serve(async (req) => {
     })
 
     const body = await req.json()
+    console.log("Received request body:", body)
 
-    // If it's a status check request
-    if (body.predictionId) {
-      console.log("Checking status for prediction:", body.predictionId)
-      const prediction = await replicate.predictions.get(body.predictionId)
-      console.log("Status check response:", prediction)
-      return new Response(JSON.stringify(prediction), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      })
-    }
-
-    // If it's a generation request
+    // Validate required fields
     if (!body.prompt || !body.input_image) {
       return new Response(
         JSON.stringify({ 
@@ -50,9 +41,9 @@ serve(async (req) => {
 
     console.log("Generating image with Flux Kontext Pro")
     console.log("Prompt:", body.prompt)
-    console.log("Input image type:", typeof body.input_image)
+    console.log("Input image received, length:", body.input_image.length)
 
-    // Use Flux Kontext Pro model with the exact input structure you specified
+    // Use Flux Kontext Pro model with proper input structure
     const input = {
       prompt: body.prompt,
       input_image: body.input_image,
@@ -61,28 +52,38 @@ serve(async (req) => {
       safety_tolerance: body.safety_tolerance || 2
     };
 
+    console.log("Calling Replicate with input:", { ...input, input_image: "[base64 data]" })
+
     const output = await replicate.run("black-forest-labs/flux-kontext-pro", { input });
 
-    console.log("Generation successful, output:", output)
+    console.log("Replicate response received:", typeof output, Array.isArray(output))
     
-    // Handle the output - it should be a single URL or array of URLs
+    // Handle different output formats from Flux Kontext Pro
+    let imageUrl;
     if (Array.isArray(output) && output.length > 0) {
-      return new Response(JSON.stringify({ output: output[0] }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      })
+      imageUrl = output[0];
     } else if (typeof output === 'string') {
-      return new Response(JSON.stringify({ output: output }), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      })
+      imageUrl = output;
+    } else if (output && output.url) {
+      imageUrl = output.url;
     } else {
-      throw new Error("No output generated")
+      console.error("Unexpected output format:", output)
+      throw new Error("No valid image URL in response")
     }
+
+    console.log("Final image URL:", imageUrl)
+
+    return new Response(JSON.stringify({ output: imageUrl }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      status: 200,
+    })
 
   } catch (error) {
     console.error("Error in flux-kontext-pro function:", error)
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ 
+      error: error.message || "An unexpected error occurred",
+      details: error.toString()
+    }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500,
     })
