@@ -21,7 +21,7 @@ interface GeneratedImage {
 
 const ImageUpload = () => {
   const [dragActive, setDragActive] = useState(false);
-  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
+  const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
   const [prompt, setPrompt] = useState("");
   const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -53,38 +53,39 @@ const ImageUpload = () => {
   };
 
   const handleFiles = (files: File[]) => {
-    const imageFiles = files.filter(file => file.type.startsWith('image/'));
+    if (files.length === 0) return;
     
-    if (imageFiles.length !== files.length) {
+    const file = files[0]; // Only take the first file
+    
+    if (!file.type.startsWith('image/')) {
       toast({
-        title: "Invalid files detected",
+        title: "Invalid file",
         description: "Only image files are allowed",
         variant: "destructive"
       });
+      return;
     }
 
-    imageFiles.forEach(file => {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const result = e.target?.result as string;
-        
-        // Create an image element to get dimensions
-        const img = new Image();
-        img.onload = () => {
-          setUploadedImages(prev => [...prev, { 
-            url: result,
-            width: img.width,
-            height: img.height
-          }]);
-        };
-        img.src = result;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target?.result as string;
+      
+      // Create an image element to get dimensions
+      const img = new Image();
+      img.onload = () => {
+        setUploadedImage({ 
+          url: result,
+          width: img.width,
+          height: img.height
+        });
       };
-      reader.readAsDataURL(file);
-    });
+      img.src = result;
+    };
+    reader.readAsDataURL(file);
   };
 
-  const removeImage = (index: number) => {
-    setUploadedImages(prev => prev.filter((_, i) => i !== index));
+  const removeImage = () => {
+    setUploadedImage(null);
   };
 
   const openFileDialog = () => {
@@ -101,7 +102,7 @@ const ImageUpload = () => {
       return;
     }
 
-    if (uploadedImages.length === 0) {
+    if (!uploadedImage) {
       toast({
         title: "Image required",
         description: "Please upload an image first",
@@ -115,13 +116,10 @@ const ImageUpload = () => {
     try {
       console.log("Starting image generation with Flux Kontext Pro");
       
-      // Use the first uploaded image
-      const inputImage = uploadedImages[0];
-      
       const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
         body: {
           prompt: prompt.trim(),
-          input_image: inputImage.url,
+          input_image: uploadedImage.url,
           aspect_ratio: "match_input_image",
           output_format: "png",
           safety_tolerance: 2
@@ -145,16 +143,16 @@ const ImageUpload = () => {
         img.onload = () => {
           setGeneratedImages(prev => [...prev, {
             url: generatedImageUrl,
-            width: img.width || inputImage.width || 1024,
-            height: img.height || inputImage.height || 1024
+            width: img.width || uploadedImage.width || 1024,
+            height: img.height || uploadedImage.height || 1024
           }]);
         };
         img.onerror = () => {
           // If image fails to load, still add it with input dimensions
           setGeneratedImages(prev => [...prev, {
             url: generatedImageUrl,
-            width: inputImage.width || 1024,
-            height: inputImage.height || 1024
+            width: uploadedImage.width || 1024,
+            height: uploadedImage.height || 1024
           }]);
         };
         img.src = generatedImageUrl;
@@ -184,7 +182,8 @@ const ImageUpload = () => {
       {/* Upload Section */}
       <Card>
         <CardContent className="p-6">
-          {uploadedImages.length === 0 ? (
+          <h3 className="text-lg font-semibold mb-4">Upload image</h3>
+          {!uploadedImage ? (
             <div
               className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
                 dragActive 
@@ -197,59 +196,53 @@ const ImageUpload = () => {
               onDrop={handleDrop}
             >
               <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Upload Images</h3>
+              <h3 className="text-lg font-semibold mb-2">Upload Image</h3>
               <p className="text-muted-foreground mb-4">
-                Drag and drop your images here, or click to browse
+                Drag and drop your image here, or click to browse
               </p>
               <Button onClick={openFileDialog}>
-                Choose Files
+                Choose File
               </Button>
               <input
                 ref={fileInputRef}
                 type="file"
-                multiple
                 accept="image/*"
                 onChange={handleFileInput}
                 className="hidden"
               />
             </div>
           ) : (
-            <div className="space-y-6">
-              <div className="grid gap-4">
-                {uploadedImages.map((image, index) => (
-                  <div key={index} className="relative group">
-                    <img
-                      src={image.url}
-                      alt={`Uploaded ${index + 1}`}
-                      className="w-full h-auto object-contain rounded-lg border"
-                      style={{
-                        maxWidth: `${image.width}px`,
-                        maxHeight: `${image.height}px`
-                      }}
-                    />
-                    <Button
-                      variant="destructive"
-                      size="icon"
-                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
-                      onClick={() => removeImage(index)}
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={openFileDialog}
-                      className="w-full mt-2"
-                    >
-                      Choose another image
-                    </Button>
-                  </div>
-                ))}
+            <div className="space-y-4">
+              <div className="relative group">
+                <img
+                  src={uploadedImage.url}
+                  alt="Uploaded image"
+                  className="w-full h-auto object-contain rounded-lg border"
+                  style={{
+                    maxWidth: `${uploadedImage.width}px`,
+                    maxHeight: `${uploadedImage.height}px`
+                  }}
+                />
+                <Button
+                  variant="destructive"
+                  size="icon"
+                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
+                  onClick={removeImage}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={openFileDialog}
+                  className="w-full mt-2"
+                >
+                  Choose another image
+                </Button>
               </div>
               
               <input
                 ref={fileInputRef}
                 type="file"
-                multiple
                 accept="image/*"
                 onChange={handleFileInput}
                 className="hidden"
@@ -273,7 +266,7 @@ const ImageUpload = () => {
             <Button 
               onClick={handleGenerate} 
               className="w-full"
-              disabled={isGenerating || uploadedImages.length === 0}
+              disabled={isGenerating || !uploadedImage}
             >
               {isGenerating ? (
                 <>
