@@ -88,77 +88,90 @@ const ImageUpload = () => {
     <div className="w-full max-w-4xl mx-auto space-y-6">
       <Card>
         <CardContent className="p-6">
-          <div
-            className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
-              dragActive 
-                ? "border-primary bg-primary/5" 
-                : "border-muted-foreground/25 hover:border-primary/50"
-            }`}
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          >
-            <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Upload Images</h3>
-            <p className="text-muted-foreground mb-4">
-              Drag and drop your images here, or click to browse
-            </p>
-            <Button onClick={openFileDialog}>
-              Choose Files
-            </Button>
-            <input
-              ref={fileInputRef}
-              type="file"
-              multiple
-              accept="image/*"
-              onChange={handleFileInput}
-              className="hidden"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {uploadedImages.length > 0 && (
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold mb-4 flex items-center">
-              <ImageIcon className="mr-2 h-5 w-5" />
-              Uploaded Images ({uploadedImages.length})
-            </h3>
+          {uploadedImages.length === 0 ? (
+            <div
+              className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+                dragActive 
+                  ? "border-primary bg-primary/5" 
+                  : "border-muted-foreground/25 hover:border-primary/50"
+              }`}
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+            >
+              <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-semibold mb-2">Upload Images</h3>
+              <p className="text-muted-foreground mb-4">
+                Drag and drop your images here, or click to browse
+              </p>
+              <Button onClick={openFileDialog}>
+                Choose Files
+              </Button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleFileInput}
+                className="hidden"
+              />
+            </div>
+          ) : (
             <div className="space-y-6">
-              {uploadedImages.map((image, index) => (
-                <div key={index} className="space-y-4">
-                  <div className="relative group">
-                    <img
-                      src={image.url}
-                      alt={`Uploaded ${index + 1}`}
-                      className="w-full h-auto object-contain rounded-lg border"
-                    />
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold flex items-center">
+                  <ImageIcon className="mr-2 h-5 w-5" />
+                  Uploaded Images ({uploadedImages.length})
+                </h3>
+                <Button onClick={openFileDialog} variant="outline">
+                  Add More Images
+                </Button>
+              </div>
+              
+              <div className="space-y-6">
+                {uploadedImages.map((image, index) => (
+                  <div key={index} className="space-y-4">
+                    <div className="relative group">
+                      <img
+                        src={image.url}
+                        alt={`Uploaded ${index + 1}`}
+                        className="w-full h-auto object-contain rounded-lg border"
+                      />
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
+                        onClick={() => removeImage(index)}
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
                     <Button
-                      variant="destructive"
-                      size="icon"
-                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
-                      onClick={() => removeImage(index)}
+                      variant="outline"
+                      onClick={() => downloadImage(image.url, `image-${index + 1}.jpg`)}
+                      className="w-full"
                     >
-                      <X className="h-4 w-4" />
+                      <Download className="mr-2 h-4 w-4" />
+                      Download
                     </Button>
                   </div>
-                  
-                  <Button
-                    variant="outline"
-                    onClick={() => downloadImage(image.url, `image-${index + 1}.jpg`)}
-                    className="w-full"
-                  >
-                    <Download className="mr-2 h-4 w-4" />
-                    Download
-                  </Button>
-                </div>
-              ))}
+                ))}
+              </div>
+              
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={handleFileInput}
+                className="hidden"
+              />
             </div>
-          </CardContent>
-        </Card>
-      )}
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };
