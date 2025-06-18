@@ -1,13 +1,20 @@
 
 import { useState, useRef } from "react";
-import { Upload, Image as ImageIcon, X } from "lucide-react";
+import { Upload, Image as ImageIcon, X, Sparkles, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+
+interface UploadedImage {
+  url: string;
+  enhanced?: string;
+  isEnhancing?: boolean;
+}
 
 const ImageUpload = () => {
   const [dragActive, setDragActive] = useState(false);
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
@@ -50,7 +57,7 @@ const ImageUpload = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         const result = e.target?.result as string;
-        setUploadedImages(prev => [...prev, result]);
+        setUploadedImages(prev => [...prev, { url: result }]);
       };
       reader.readAsDataURL(file);
     });
@@ -61,6 +68,63 @@ const ImageUpload = () => {
         description: `${imageFiles.length} image(s) uploaded successfully`
       });
     }
+  };
+
+  const enhanceImage = async (index: number) => {
+    const image = uploadedImages[index];
+    if (!image || image.isEnhancing) return;
+
+    // Set enhancing state
+    setUploadedImages(prev => 
+      prev.map((img, i) => 
+        i === index ? { ...img, isEnhancing: true } : img
+      )
+    );
+
+    try {
+      const { data, error } = await supabase.functions.invoke('enhance-image', {
+        body: { imageUrl: image.url }
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      if (data.output) {
+        setUploadedImages(prev => 
+          prev.map((img, i) => 
+            i === index ? { ...img, enhanced: data.output, isEnhancing: false } : img
+          )
+        );
+        
+        toast({
+          title: "Enhancement complete",
+          description: "Your image has been enhanced with AI!"
+        });
+      }
+    } catch (error) {
+      console.error('Enhancement error:', error);
+      setUploadedImages(prev => 
+        prev.map((img, i) => 
+          i === index ? { ...img, isEnhancing: false } : img
+        )
+      );
+      
+      toast({
+        title: "Enhancement failed",
+        description: "Failed to enhance image. Please try again.",
+        variant: "destructive"
+      });
+    }
+  };
+
+  const downloadImage = (imageUrl: string, filename: string) => {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const removeImage = (index: number) => {
@@ -113,22 +177,82 @@ const ImageUpload = () => {
               <ImageIcon className="mr-2 h-5 w-5" />
               Uploaded Images ({uploadedImages.length})
             </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {uploadedImages.map((image, index) => (
-                <div key={index} className="relative group">
-                  <img
-                    src={image}
-                    alt={`Uploaded ${index + 1}`}
-                    className="w-full h-32 object-cover rounded-lg border"
-                  />
-                  <Button
-                    variant="destructive"
-                    size="icon"
-                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6"
-                    onClick={() => removeImage(index)}
-                  >
-                    <X className="h-3 w-3" />
-                  </Button>
+                <div key={index} className="space-y-4">
+                  <div className="relative group">
+                    <img
+                      src={image.url}
+                      alt={`Original ${index + 1}`}
+                      className="w-full h-48 object-cover rounded-lg border"
+                    />
+                    <Button
+                      variant="destructive"
+                      size="icon"
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6"
+                      onClick={() => removeImage(index)}
+                    >
+                      <X className="h-3 w-3" />
+                    </Button>
+                    <div className="absolute bottom-2 left-2">
+                      <span className="bg-black/50 text-white px-2 py-1 rounded text-xs">
+                        Original
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => enhanceImage(index)}
+                      disabled={image.isEnhancing}
+                      className="flex-1"
+                    >
+                      {image.isEnhancing ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                          Enhancing...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="mr-2 h-4 w-4" />
+                          Enhance with AI
+                        </>
+                      )}
+                    </Button>
+                    
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => downloadImage(image.url, `original-${index + 1}.jpg`)}
+                    >
+                      <Download className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  {image.enhanced && (
+                    <div className="space-y-2">
+                      <div className="relative">
+                        <img
+                          src={image.enhanced}
+                          alt={`Enhanced ${index + 1}`}
+                          className="w-full h-48 object-cover rounded-lg border-2 border-green-500"
+                        />
+                        <div className="absolute bottom-2 left-2">
+                          <span className="bg-green-500 text-white px-2 py-1 rounded text-xs">
+                            AI Enhanced
+                          </span>
+                        </div>
+                      </div>
+                      <Button
+                        variant="outline"
+                        onClick={() => downloadImage(image.enhanced!, `enhanced-${index + 1}.jpg`)}
+                        className="w-full"
+                      >
+                        <Download className="mr-2 h-4 w-4" />
+                        Download Enhanced
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
