@@ -4,6 +4,7 @@ import { Upload, Image as ImageIcon, X, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import ImageTransform from "./ImageTransform";
 
 interface UploadedImage {
   url: string;
@@ -159,6 +160,8 @@ const ImageUpload = () => {
           </CardContent>
         </Card>
       )}
+
+      <ImageTransform uploadedImages={uploadedImages} />
     </div>
   );
 };
