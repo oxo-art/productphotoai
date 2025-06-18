@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -89,24 +90,6 @@ const ImageUpload = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-6">
-      {/* AI Generation Section */}
-      <Card>
-        <CardContent className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Generate with AI</h3>
-          <div className="space-y-4">
-            <Textarea
-              placeholder="Describe the image you want to generate..."
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              className="min-h-[100px]"
-            />
-            <Button onClick={handleGenerate} className="w-full">
-              Generate Image
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Upload Section */}
       <Card>
         <CardContent className="p-6">
@@ -178,6 +161,24 @@ const ImageUpload = () => {
               />
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Prompt Section */}
+      <Card>
+        <CardContent className="p-6">
+          <h3 className="text-lg font-semibold mb-4">Prompt</h3>
+          <div className="space-y-4">
+            <Textarea
+              placeholder="Describe the image you want to generate..."
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              className="min-h-[100px]"
+            />
+            <Button onClick={handleGenerate} className="w-full">
+              Generate Image
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </div>
