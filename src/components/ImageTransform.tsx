@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -87,6 +88,8 @@ const ImageTransform = ({ uploadedImages }: ImageTransformProps) => {
     );
   }
 
+  const isButtonDisabled = isTransforming || !selectedImage || !customPrompt.trim();
+
   return (
     <Card>
       <CardHeader>
@@ -137,23 +140,35 @@ const ImageTransform = ({ uploadedImages }: ImageTransformProps) => {
           />
         </div>
 
-        <Button 
-          onClick={handleTransform}
-          disabled={isTransforming || !selectedImage || !customPrompt.trim()}
-          className="w-full"
-        >
-          {isTransforming ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Transforming...
-            </>
-          ) : (
-            <>
-              <Wand2 className="mr-2 h-4 w-4" />
-              Transform Image
-            </>
+        <div className="w-full">
+          <Button 
+            onClick={handleTransform}
+            disabled={isButtonDisabled}
+            className="w-full h-12 text-base font-medium"
+            size="lg"
+          >
+            {isTransforming ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Transforming...
+              </>
+            ) : (
+              <>
+                <Wand2 className="mr-2 h-4 w-4" />
+                Transform Image
+              </>
+            )}
+          </Button>
+          {isButtonDisabled && !isTransforming && (
+            <p className="text-sm text-muted-foreground mt-2 text-center">
+              {!selectedImage && !customPrompt.trim() 
+                ? "Please select an image and enter a prompt" 
+                : !selectedImage 
+                ? "Please select an image" 
+                : "Please enter a prompt"}
+            </p>
           )}
-        </Button>
+        </div>
 
         {transformedImage && (
           <div className="space-y-4">
