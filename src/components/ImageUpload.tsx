@@ -1,6 +1,5 @@
-
 import { useState, useRef } from "react";
-import { Upload, Image as ImageIcon, X, Download } from "lucide-react";
+import { Upload, Image as ImageIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
@@ -119,16 +118,6 @@ const ImageUpload = () => {
             </div>
           ) : (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold flex items-center">
-                  <ImageIcon className="mr-2 h-5 w-5" />
-                  Uploaded Images ({uploadedImages.length})
-                </h3>
-                <Button onClick={openFileDialog} variant="outline">
-                  Add More Images
-                </Button>
-              </div>
-              
               <div className="space-y-6">
                 {uploadedImages.map((image, index) => (
                   <div key={index} className="space-y-4">
@@ -150,11 +139,10 @@ const ImageUpload = () => {
                     
                     <Button
                       variant="outline"
-                      onClick={() => downloadImage(image.url, `image-${index + 1}.jpg`)}
+                      onClick={openFileDialog}
                       className="w-full"
                     >
-                      <Download className="mr-2 h-4 w-4" />
-                      Download
+                      Choose another image
                     </Button>
                   </div>
                 ))}
