@@ -4,7 +4,6 @@ import { Upload, Image as ImageIcon, X, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import ImageTransform from "./ImageTransform";
 
 interface UploadedImage {
   url: string;
@@ -127,22 +126,22 @@ const ImageUpload = () => {
               <ImageIcon className="mr-2 h-5 w-5" />
               Uploaded Images ({uploadedImages.length})
             </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="space-y-6">
               {uploadedImages.map((image, index) => (
                 <div key={index} className="space-y-4">
                   <div className="relative group">
                     <img
                       src={image.url}
                       alt={`Uploaded ${index + 1}`}
-                      className="w-full h-48 object-cover rounded-lg border"
+                      className="w-full h-auto object-contain rounded-lg border"
                     />
                     <Button
                       variant="destructive"
                       size="icon"
-                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-6 w-6"
+                      className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
                       onClick={() => removeImage(index)}
                     >
-                      <X className="h-3 w-3" />
+                      <X className="h-4 w-4" />
                     </Button>
                   </div>
                   
@@ -160,8 +159,6 @@ const ImageUpload = () => {
           </CardContent>
         </Card>
       )}
-
-      <ImageTransform uploadedImages={uploadedImages} />
     </div>
   );
 };
