@@ -48,33 +48,31 @@ serve(async (req) => {
       )
     }
 
-    console.log("Generating image with Flux model")
+    console.log("Generating image with Flux Kontext Pro")
     console.log("Prompt:", body.prompt)
     console.log("Input image type:", typeof body.input_image)
 
-    // Use Flux Schnell model which is available and works well for image-to-image
-    const output = await replicate.run(
-      "black-forest-labs/flux-schnell",
-      {
-        input: {
-          prompt: body.prompt,
-          image: body.input_image,
-          go_fast: true,
-          megapixels: "1",
-          num_outputs: 1,
-          aspect_ratio: "1:1",
-          output_format: "png",
-          output_quality: 80,
-          num_inference_steps: 4
-        }
-      }
-    )
+    // Use Flux Kontext Pro model with the exact input structure you specified
+    const input = {
+      prompt: body.prompt,
+      input_image: body.input_image,
+      aspect_ratio: body.aspect_ratio || "match_input_image",
+      output_format: body.output_format || "png",
+      safety_tolerance: body.safety_tolerance || 2
+    };
+
+    const output = await replicate.run("black-forest-labs/flux-kontext-pro", { input });
 
     console.log("Generation successful, output:", output)
     
-    // The output from Flux Schnell is an array of URLs
+    // Handle the output - it should be a single URL or array of URLs
     if (Array.isArray(output) && output.length > 0) {
       return new Response(JSON.stringify({ output: output[0] }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200,
+      })
+    } else if (typeof output === 'string') {
+      return new Response(JSON.stringify({ output: output }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 200,
       })
@@ -83,7 +81,7 @@ serve(async (req) => {
     }
 
   } catch (error) {
-    console.error("Error in flux generation function:", error)
+    console.error("Error in flux-kontext-pro function:", error)
     return new Response(JSON.stringify({ error: error.message }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500,
