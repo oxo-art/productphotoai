@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -326,18 +325,18 @@ const ImageUpload = () => {
                     }}
                   />
                   <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button
-                      variant="outline"
-                      size="icon"
-                      className="h-8 w-8 bg-white/80 hover:bg-white"
+                    <button
+                      className="h-10 w-10 rounded-lg bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-[2px] hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:shadow-xl"
                       onClick={() => downloadImage(image.url, index)}
                     >
-                      <Download className="h-4 w-4" />
-                    </Button>
+                      <div className="h-full w-full rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white/80 transition-colors">
+                        <Download className="h-4 w-4 text-gray-700" />
+                      </div>
+                    </button>
                     <Button
                       variant="destructive"
                       size="icon"
-                      className="h-8 w-8"
+                      className="h-10 w-10 shadow-lg"
                       onClick={() => setGeneratedImages(prev => prev.filter((_, i) => i !== index))}
                     >
                       <X className="h-4 w-4" />
