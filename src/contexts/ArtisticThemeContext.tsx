@@ -5,7 +5,7 @@ import { ArtisticTheme, artisticThemes } from '@/config/themes';
 interface ArtisticThemeContextType {
   currentTheme: ArtisticTheme;
   setTheme: (theme: ArtisticTheme) => void;
-  getThemeStyle: (element: keyof typeof artisticThemes.artDeco) => string;
+  getThemeStyle: (element: keyof typeof artisticThemes.artDeco) => any;
   getAllThemes: () => Array<{ key: ArtisticTheme; name: string }>;
 }
 
@@ -31,7 +31,7 @@ export const ArtisticThemeProvider: React.FC<ArtisticThemeProviderProps> = ({ ch
   };
 
   const getThemeStyle = (element: keyof typeof artisticThemes.artDeco) => {
-    return artisticThemes[currentTheme][element] as string;
+    return artisticThemes[currentTheme][element];
   };
 
   const getAllThemes = () => {

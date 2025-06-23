@@ -5,7 +5,7 @@ import { GlassTheme, glassThemes } from '@/config/themes';
 interface GlassThemeContextType {
   currentTheme: GlassTheme;
   setTheme: (theme: GlassTheme) => void;
-  getThemeStyle: (element: keyof typeof glassThemes.default) => string;
+  getThemeStyle: (element: keyof typeof glassThemes.default) => any;
   getAllThemes: () => Array<{ key: GlassTheme; name: string }>;
 }
 
@@ -31,7 +31,7 @@ export const GlassThemeProvider: React.FC<GlassThemeProviderProps> = ({ children
   };
 
   const getThemeStyle = (element: keyof typeof glassThemes.default) => {
-    return glassThemes[currentTheme][element] as string;
+    return glassThemes[currentTheme][element];
   };
 
   const getAllThemes = () => {
