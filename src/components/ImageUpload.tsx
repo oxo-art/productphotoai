@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -24,7 +23,6 @@ const promptSuggestions = [
   "Turn this into a ghibli art",
   "Make it look like a vintage photograph",
   "Transform into a futuristic cyberpunk style",
-  "Convert to a beautiful oil painting",
   "Add dramatic lighting and shadows",
   "Make it look like a comic book illustration"
 ];
