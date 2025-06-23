@@ -20,7 +20,7 @@ interface GeneratedImage {
 }
 
 const promptSuggestions = [
-  "Turn this into a ghibli art",
+  "Turn this image into a ghibli style art",
   "Make it look like a vintage photograph",
   "Transform into a futuristic cyberpunk style",
   "Add dramatic lighting and shadows",
