@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Upload, Image as ImageIcon, X, Loader2, Download } from "lucide-react";
+import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,6 +17,15 @@ interface GeneratedImage {
   width: number;
   height: number;
 }
+
+const promptSuggestions = [
+  "Turn this into a watercolor painting",
+  "Make it look like a vintage photograph",
+  "Transform into a futuristic cyberpunk style",
+  "Convert to a beautiful oil painting",
+  "Add dramatic lighting and shadows",
+  "Make it look like a comic book illustration"
+];
 
 const ImageUpload = () => {
   const [dragActive, setDragActive] = useState(false);
@@ -54,7 +63,7 @@ const ImageUpload = () => {
   const handleFiles = (files: File[]) => {
     if (files.length === 0) return;
     
-    const file = files[0]; // Only take the first file
+    const file = files[0];
     
     if (!file.type.startsWith('image/')) {
       toast({
@@ -69,7 +78,6 @@ const ImageUpload = () => {
     reader.onload = (e) => {
       const result = e.target?.result as string;
       
-      // Create an image element to get dimensions
       const img = new Image();
       img.onload = () => {
         setUploadedImage({ 
@@ -159,7 +167,6 @@ const ImageUpload = () => {
         throw new Error("No data received from the service");
       }
 
-      // Handle specific API errors
       if (data.error) {
         if (data.error.includes("Monthly spend limit")) {
           toast({
@@ -172,12 +179,10 @@ const ImageUpload = () => {
         throw new Error(data.error);
       }
 
-      // Handle the response - data.output should be a single URL string
       if (data.output && typeof data.output === 'string') {
         const generatedImageUrl = data.output;
         console.log("Generated image URL:", generatedImageUrl);
         
-        // Create a new image to get the actual dimensions
         const img = new Image();
         img.onload = () => {
           setGeneratedImages(prev => [...prev, {
@@ -187,7 +192,6 @@ const ImageUpload = () => {
           }]);
         };
         img.onerror = () => {
-          // If image fails to load for dimensions, still add it with input dimensions
           setGeneratedImages(prev => [...prev, {
             url: generatedImageUrl,
             width: uploadedImage.width || 1024,
@@ -216,30 +220,48 @@ const ImageUpload = () => {
     }
   };
 
+  const addPromptSuggestion = (suggestion: string) => {
+    setPrompt(suggestion);
+  };
+
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-6">
+    <div className="w-full max-w-4xl mx-auto space-y-8">
       {/* Upload Section */}
-      <Card>
-        <CardContent className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Upload image</h3>
+      <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
+        <CardContent className="p-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500/20 to-purple-500/20">
+              <Upload className="w-5 h-5 text-white" />
+            </div>
+            <h3 className="text-xl font-semibold text-white">Upload Your Image</h3>
+          </div>
+          
           {!uploadedImage ? (
             <div
-              className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${
+              className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 ${
                 dragActive 
-                  ? "border-primary bg-primary/5" 
-                  : "border-muted-foreground/25 hover:border-primary/50"
+                  ? "border-blue-400 bg-blue-500/10 scale-105" 
+                  : "border-white/30 hover:border-white/50 hover:bg-white/5"
               }`}
               onDragEnter={handleDrag}
               onDragLeave={handleDrag}
               onDragOver={handleDrag}
               onDrop={handleDrop}
             >
-              <Upload className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">Upload Image</h3>
-              <p className="text-muted-foreground mb-4">
-                Drag and drop your image here, or click to browse
+              <div className="relative">
+                <Upload className="mx-auto h-16 w-16 text-white/60 mb-6" />
+                <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                  <Sparkles className="w-3 h-3 text-white" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-semibold mb-4 text-white">Drop your image here</h3>
+              <p className="text-white/70 mb-6 text-lg">
+                Drag and drop your image, or click to browse
               </p>
-              <Button onClick={openFileDialog}>
+              <Button 
+                onClick={openFileDialog}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
+              >
                 Choose File
               </Button>
               <input
@@ -251,33 +273,35 @@ const ImageUpload = () => {
               />
             </div>
           ) : (
-            <div className="space-y-4">
-              <div className="relative group">
+            <div className="space-y-6">
+              <div className="relative group overflow-hidden rounded-xl">
                 <img
                   src={uploadedImage.url}
                   alt="Uploaded image"
-                  className="w-full h-auto object-contain rounded-lg border"
+                  className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg"
                   style={{
                     maxWidth: `${uploadedImage.width}px`,
                     maxHeight: `${uploadedImage.height}px`
                   }}
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <Button
                   variant="destructive"
                   size="icon"
-                  className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
+                  className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-10 w-10 bg-red-500/80 hover:bg-red-500"
                   onClick={removeImage}
                 >
-                  <X className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={openFileDialog}
-                  className="w-full mt-2"
-                >
-                  Choose another image
+                  <X className="h-5 w-5" />
                 </Button>
               </div>
+              
+              <Button
+                variant="outline"
+                onClick={openFileDialog}
+                className="w-full border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300"
+              >
+                Choose another image
+              </Button>
               
               <input
                 ref={fileInputRef}
@@ -292,28 +316,54 @@ const ImageUpload = () => {
       </Card>
 
       {/* Prompt Section */}
-      <Card>
-        <CardContent className="p-6">
-          <h3 className="text-lg font-semibold mb-4">Prompt</h3>
-          <div className="space-y-4">
+      <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
+        <CardContent className="p-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 rounded-lg bg-gradient-to-r from-purple-500/20 to-pink-500/20">
+              <Lightbulb className="w-5 h-5 text-white" />
+            </div>
+            <h3 className="text-xl font-semibold text-white">Describe Your Vision</h3>
+          </div>
+          
+          <div className="space-y-6">
             <Textarea
-              placeholder="Describe how you want to transform the image..."
+              placeholder="Describe how you want to transform your image... Be creative and detailed!"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className="min-h-[100px]"
+              className="min-h-[120px] bg-white/5 border-white/20 text-white placeholder:text-white/50 focus:border-white/40 focus:bg-white/10 resize-none rounded-xl"
             />
+            
+            {/* Prompt Suggestions */}
+            <div className="space-y-3">
+              <p className="text-white/70 text-sm font-medium">Quick suggestions:</p>
+              <div className="flex flex-wrap gap-2">
+                {promptSuggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => addPromptSuggestion(suggestion)}
+                    className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 rounded-lg text-white/80 hover:text-white text-sm transition-all duration-200 hover:scale-105"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
             <Button 
               onClick={handleGenerate} 
-              className="w-full"
+              className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105"
               disabled={isGenerating || !uploadedImage}
             >
               {isGenerating ? (
                 <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generating...
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Creating Magic...
                 </>
               ) : (
-                "Generate Image"
+                <>
+                  <Sparkles className="mr-2 h-5 w-5" />
+                  Generate Transformation
+                </>
               )}
             </Button>
           </div>
@@ -322,37 +372,44 @@ const ImageUpload = () => {
 
       {/* Output Section */}
       {generatedImages.length > 0 && (
-        <Card>
-          <CardContent className="p-6">
-            <h3 className="text-lg font-semibold mb-4">Generated Images</h3>
-            <div className="grid gap-4">
+        <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
+          <CardContent className="p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 rounded-lg bg-gradient-to-r from-green-500/20 to-blue-500/20">
+                <ImageIcon className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-xl font-semibold text-white">Your Transformed Images</h3>
+            </div>
+            
+            <div className="grid gap-6">
               {generatedImages.map((image, index) => (
-                <div key={index} className="relative group">
+                <div key={index} className="relative group overflow-hidden rounded-xl">
                   <img
                     src={image.url}
                     alt={`Generated ${index + 1}`}
-                    className="w-full h-auto object-contain rounded-lg border"
+                    className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg"
                     style={{
                       maxWidth: `${image.width}px`,
                       maxHeight: `${image.height}px`
                     }}
                   />
-                  <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute top-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <button
-                      className="h-10 w-10 rounded-lg bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-[2px] hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:shadow-xl"
+                      className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-[2px] hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110"
                       onClick={() => downloadImage(image.url, index)}
                     >
-                      <div className="h-full w-full rounded-lg bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white/80 transition-colors">
-                        <Download className="h-4 w-4 text-gray-700" />
+                      <div className="h-full w-full rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white/80 transition-colors">
+                        <Download className="h-5 w-5 text-gray-700" />
                       </div>
                     </button>
                     <Button
                       variant="destructive"
                       size="icon"
-                      className="h-10 w-10 shadow-lg"
+                      className="h-12 w-12 shadow-lg bg-red-500/80 hover:bg-red-500 hover:scale-110 transition-all duration-200"
                       onClick={() => setGeneratedImages(prev => prev.filter((_, i) => i !== index))}
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-5 w-5" />
                     </Button>
                   </div>
                 </div>
