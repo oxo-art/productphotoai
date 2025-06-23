@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { useGradientTheme } from "@/contexts/GradientThemeContext";
 import { supabase } from "@/integrations/supabase/client";
 
 interface UploadedImage {
@@ -28,6 +29,7 @@ const promptSuggestions = [
 ];
 
 const ImageUpload = () => {
+  const { getGradient } = useGradientTheme();
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
   const [prompt, setPrompt] = useState("");
@@ -227,10 +229,10 @@ const ImageUpload = () => {
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8">
       {/* Upload Section */}
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
+      <Card className={`bg-gradient-to-br ${getGradient('card')} backdrop-blur-lg border-white/20 shadow-2xl transition-all duration-1000`}>
         <CardContent className="p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 rounded-lg bg-gradient-to-r from-blue-500/20 to-purple-500/20">
+            <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} transition-all duration-1000`}>
               <Upload className="w-5 h-5 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-white">Upload Your Image</h3>
@@ -250,7 +252,7 @@ const ImageUpload = () => {
             >
               <div className="relative">
                 <Upload className="mx-auto h-16 w-16 text-white/60 mb-6" />
-                <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                <div className={`absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r ${getGradient('button')} rounded-full flex items-center justify-center transition-all duration-1000`}>
                   <Sparkles className="w-3 h-3 text-white" />
                 </div>
               </div>
@@ -260,7 +262,7 @@ const ImageUpload = () => {
               </p>
               <Button 
                 onClick={openFileDialog}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
+                className={`bg-gradient-to-r ${getGradient('button')} hover:${getGradient('buttonHover')} text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105`}
               >
                 Choose File
               </Button>
@@ -316,10 +318,10 @@ const ImageUpload = () => {
       </Card>
 
       {/* Prompt Section */}
-      <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
+      <Card className={`bg-gradient-to-br ${getGradient('card')} backdrop-blur-lg border-white/20 shadow-2xl transition-all duration-1000`}>
         <CardContent className="p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 rounded-lg bg-gradient-to-r from-purple-500/20 to-pink-500/20">
+            <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} transition-all duration-1000`}>
               <Lightbulb className="w-5 h-5 text-white" />
             </div>
             <h3 className="text-xl font-semibold text-white">Describe Your Vision</h3>
@@ -351,7 +353,7 @@ const ImageUpload = () => {
             
             <Button 
               onClick={handleGenerate} 
-              className="w-full bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white py-4 text-lg font-semibold rounded-xl shadow-lg hover:shadow-purple-500/25 transition-all duration-300 hover:scale-105"
+              className={`w-full bg-gradient-to-r ${getGradient('button')} hover:${getGradient('buttonHover')} text-white py-4 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105`}
               disabled={isGenerating || !uploadedImage}
             >
               {isGenerating ? (
@@ -372,10 +374,10 @@ const ImageUpload = () => {
 
       {/* Output Section */}
       {generatedImages.length > 0 && (
-        <Card className="bg-white/10 backdrop-blur-lg border-white/20 shadow-2xl">
+        <Card className={`bg-gradient-to-br ${getGradient('card')} backdrop-blur-lg border-white/20 shadow-2xl transition-all duration-1000`}>
           <CardContent className="p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 rounded-lg bg-gradient-to-r from-green-500/20 to-blue-500/20">
+              <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} transition-all duration-1000`}>
                 <ImageIcon className="w-5 h-5 text-white" />
               </div>
               <h3 className="text-xl font-semibold text-white">Your Transformed Images</h3>
@@ -396,7 +398,7 @@ const ImageUpload = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute top-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <button
-                      className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 p-[2px] hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110"
+                      className={`h-12 w-12 rounded-xl bg-gradient-to-br ${getGradient('button')} p-[2px] hover:${getGradient('buttonHover')} transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110`}
                       onClick={() => downloadImage(image.url, index)}
                     >
                       <div className="h-full w-full rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white/80 transition-colors">

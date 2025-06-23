@@ -1,6 +1,7 @@
 
 import { Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import GradientThemeSelector from "@/components/GradientThemeSelector";
 import {
   Sheet,
   SheetContent,
@@ -53,16 +54,19 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="hidden md:flex items-center space-x-8">
-          <a href="/" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
-            Home
-          </a>
-          <a href="#" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
-            Gallery
-          </a>
-          <a href="#" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
-            Settings
-          </a>
+        <div className="flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-8">
+            <a href="/" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
+              Home
+            </a>
+            <a href="#" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
+              Gallery
+            </a>
+            <a href="#" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
+              Settings
+            </a>
+          </div>
+          <GradientThemeSelector />
         </div>
       </div>
     </nav>
