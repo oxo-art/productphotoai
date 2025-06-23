@@ -5,6 +5,7 @@ import { useGlassTheme } from "@/contexts/GlassThemeContext";
 
 const GlassHeroSection = () => {
   const { getThemeStyle } = useGlassTheme();
+  const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
 
   const scrollToUpload = () => {
     const uploadSection = document.querySelector('main');
@@ -19,12 +20,12 @@ const GlassHeroSection = () => {
       <div className="absolute bottom-10 right-10 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       
       <div className="relative max-w-4xl mx-auto text-center">
-        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${getThemeStyle('card')} ${getThemeStyle('text').secondary} mb-8`}>
+        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-8`}>
           <Sparkles className="w-4 h-4" />
           <span className="text-sm font-medium">Powered by Flux Kontext Pro AI</span>
         </div>
         
-        <h1 className={`text-5xl md:text-7xl font-bold ${getThemeStyle('text').primary} mb-6 leading-tight`}>
+        <h1 className={`text-5xl md:text-7xl font-bold ${textStyles.primary} mb-6 leading-tight`}>
           Transform Your
           <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
             {" "}Images{" "}
@@ -32,24 +33,24 @@ const GlassHeroSection = () => {
           with AI
         </h1>
         
-        <p className={`text-xl ${getThemeStyle('text').secondary} mb-12 max-w-2xl mx-auto leading-relaxed`}>
+        <p className={`text-xl ${textStyles.secondary} mb-12 max-w-2xl mx-auto leading-relaxed`}>
           Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
         </p>
         
         <div className="flex flex-wrap justify-center gap-6 mb-12">
-          <div className={`flex items-center gap-3 ${getThemeStyle('text').muted}`}>
+          <div className={`flex items-center gap-3 ${textStyles.muted}`}>
             <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
               <Zap className="w-5 h-5" />
             </div>
             <span>Lightning Fast</span>
           </div>
-          <div className={`flex items-center gap-3 ${getThemeStyle('text').muted}`}>
+          <div className={`flex items-center gap-3 ${textStyles.muted}`}>
             <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
               <Palette className="w-5 h-5" />
             </div>
             <span>Professional Quality</span>
           </div>
-          <div className={`flex items-center gap-3 ${getThemeStyle('text').muted}`}>
+          <div className={`flex items-center gap-3 ${textStyles.muted}`}>
             <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
               <Sparkles className="w-5 h-5" />
             </div>

@@ -1,12 +1,14 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { GlassTheme, glassThemes } from '@/config/themes';
+import React, { createContext, useContext, ReactNode } from 'react';
+
+interface TextStyles {
+  primary: string;
+  secondary: string;
+  muted: string;
+}
 
 interface GlassThemeContextType {
-  currentTheme: GlassTheme;
-  setTheme: (theme: GlassTheme) => void;
-  getThemeStyle: (element: keyof typeof glassThemes.default) => string;
-  getAllThemes: () => Array<{ key: GlassTheme; name: string }>;
+  getThemeStyle: (element: string) => string | TextStyles;
 }
 
 const GlassThemeContext = createContext<GlassThemeContextType | undefined>(undefined);
@@ -24,32 +26,28 @@ interface GlassThemeProviderProps {
 }
 
 export const GlassThemeProvider: React.FC<GlassThemeProviderProps> = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState<GlassTheme>('default');
-
-  const setTheme = (theme: GlassTheme) => {
-    setCurrentTheme(theme);
-  };
-
-  const getThemeStyle = (element: keyof typeof glassThemes.default) => {
-    return glassThemes[currentTheme][element] as string;
-  };
-
-  const getAllThemes = () => {
-    return Object.entries(glassThemes).map(([key, value]) => ({
-      key: key as GlassTheme,
-      name: value.name
-    }));
+  const getThemeStyle = (element: string): string | TextStyles => {
+    const styles: Record<string, string | TextStyles> = {
+      background: 'from-blue-900 via-purple-900 to-indigo-900',
+      navbar: 'bg-white/10 backdrop-blur-md border-white/20',
+      card: 'bg-white/10 backdrop-blur-md border border-white/20',
+      button: 'bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20',
+      buttonPrimary: 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700',
+      input: 'bg-white/10 backdrop-blur-md border border-white/20 focus:border-white/40',
+      popover: 'bg-black/80 backdrop-blur-md',
+      shadow: 'shadow-2xl shadow-black/50',
+      text: {
+        primary: 'text-white',
+        secondary: 'text-white/70',
+        muted: 'text-white/60'
+      }
+    };
+    
+    return styles[element] || '';
   };
 
   return (
-    <GlassThemeContext.Provider
-      value={{
-        currentTheme,
-        setTheme,
-        getThemeStyle,
-        getAllThemes
-      }}
-    >
+    <GlassThemeContext.Provider value={{ getThemeStyle }}>
       {children}
     </GlassThemeContext.Provider>
   );
