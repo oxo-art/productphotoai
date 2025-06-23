@@ -1,12 +1,8 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { GlassTheme, glassThemes } from '@/config/themes';
+import React, { createContext, useContext, ReactNode } from 'react';
 
 interface GlassThemeContextType {
-  currentTheme: GlassTheme;
-  setTheme: (theme: GlassTheme) => void;
-  getThemeStyle: (element: keyof typeof glassThemes.default) => string;
-  getAllThemes: () => Array<{ key: GlassTheme; name: string }>;
+  getThemeStyle: (element: string) => string | { primary: string; secondary: string; muted: string };
 }
 
 const GlassThemeContext = createContext<GlassThemeContextType | undefined>(undefined);
@@ -23,33 +19,34 @@ interface GlassThemeProviderProps {
   children: ReactNode;
 }
 
+// Fixed glass theme with proper text styles
+const glassTheme = {
+  background: 'from-blue-900/20 via-purple-900/20 to-pink-900/20',
+  navbar: 'bg-white/5 backdrop-blur-xl',
+  card: 'bg-white/10 backdrop-blur-xl border border-white/20',
+  cardHover: 'bg-white/20 backdrop-blur-xl',
+  button: 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20',
+  buttonPrimary: 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700',
+  input: 'bg-white/10 backdrop-blur-sm border border-white/20 focus:border-white/40',
+  popover: 'bg-black/80 backdrop-blur-xl border border-white/20',
+  shadow: 'shadow-2xl shadow-black/20',
+  text: {
+    primary: 'text-white',
+    secondary: 'text-white/80',
+    muted: 'text-white/60'
+  }
+};
+
 export const GlassThemeProvider: React.FC<GlassThemeProviderProps> = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState<GlassTheme>('default');
-
-  const setTheme = (theme: GlassTheme) => {
-    setCurrentTheme(theme);
-  };
-
-  const getThemeStyle = (element: keyof typeof glassThemes.default) => {
-    return glassThemes[currentTheme][element] as string;
-  };
-
-  const getAllThemes = () => {
-    return Object.entries(glassThemes).map(([key, value]) => ({
-      key: key as GlassTheme,
-      name: value.name
-    }));
+  const getThemeStyle = (element: string) => {
+    if (element === 'text') {
+      return glassTheme.text;
+    }
+    return glassTheme[element as keyof typeof glassTheme] as string;
   };
 
   return (
-    <GlassThemeContext.Provider
-      value={{
-        currentTheme,
-        setTheme,
-        getThemeStyle,
-        getAllThemes
-      }}
-    >
+    <GlassThemeContext.Provider value={{ getThemeStyle }}>
       {children}
     </GlassThemeContext.Provider>
   );

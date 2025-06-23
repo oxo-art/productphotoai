@@ -30,6 +30,7 @@ const promptSuggestions = [
 
 const GlassImageUpload = () => {
   const { getThemeStyle } = useGlassTheme();
+  const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
   const [prompt, setPrompt] = useState("");
@@ -233,9 +234,9 @@ const GlassImageUpload = () => {
         <CardContent className="p-8">
           <div className="flex items-center gap-3 mb-6">
             <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-              <Upload className={`w-5 h-5 ${getThemeStyle('text').primary}`} />
+              <Upload className={`w-5 h-5 ${textStyles.primary}`} />
             </div>
-            <h3 className={`text-xl font-semibold ${getThemeStyle('text').primary}`}>Upload Your Image</h3>
+            <h3 className={`text-xl font-semibold ${textStyles.primary}`}>Upload Your Image</h3>
           </div>
           
           {!uploadedImage ? (
@@ -251,13 +252,13 @@ const GlassImageUpload = () => {
               onDrop={handleDrop}
             >
               <div className="relative">
-                <Upload className={`mx-auto h-16 w-16 ${getThemeStyle('text').muted} mb-6`} />
+                <Upload className={`mx-auto h-16 w-16 ${textStyles.muted} mb-6`} />
                 <div className={`absolute -top-2 -right-2 w-6 h-6 ${getThemeStyle('buttonPrimary')} rounded-full flex items-center justify-center`}>
                   <Sparkles className="w-3 h-3 text-white" />
                 </div>
               </div>
-              <h3 className={`text-2xl font-semibold mb-4 ${getThemeStyle('text').primary}`}>Drop your image here</h3>
-              <p className={`${getThemeStyle('text').secondary} mb-6 text-lg`}>
+              <h3 className={`text-2xl font-semibold mb-4 ${textStyles.primary}`}>Drop your image here</h3>
+              <p className={`${textStyles.secondary} mb-6 text-lg`}>
                 Drag and drop your image, or click to browse
               </p>
               <Button 
@@ -300,7 +301,7 @@ const GlassImageUpload = () => {
               <Button
                 variant="outline"
                 onClick={openFileDialog}
-                className={`w-full border-white/30 ${getThemeStyle('text').primary} hover:bg-white/10 hover:border-white/50 transition-all duration-300`}
+                className={`w-full border-white/30 ${textStyles.primary} hover:bg-white/10 hover:border-white/50 transition-all duration-300`}
               >
                 Choose another image
               </Button>
@@ -322,9 +323,9 @@ const GlassImageUpload = () => {
         <CardContent className="p-8">
           <div className="flex items-center gap-3 mb-6">
             <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-              <Lightbulb className={`w-5 h-5 ${getThemeStyle('text').primary}`} />
+              <Lightbulb className={`w-5 h-5 ${textStyles.primary}`} />
             </div>
-            <h3 className={`text-xl font-semibold ${getThemeStyle('text').primary}`}>Describe Your Vision</h3>
+            <h3 className={`text-xl font-semibold ${textStyles.primary}`}>Describe Your Vision</h3>
           </div>
           
           <div className="space-y-6">
@@ -332,18 +333,18 @@ const GlassImageUpload = () => {
               placeholder="Describe how you want to transform your image..."
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className={`min-h-[120px] ${getThemeStyle('input')} ${getThemeStyle('text').primary} placeholder:text-white/50 resize-none rounded-xl`}
+              className={`min-h-[120px] ${getThemeStyle('input')} ${textStyles.primary} placeholder:text-white/50 resize-none rounded-xl`}
             />
             
             {/* Prompt Suggestions */}
             <div className="space-y-3">
-              <p className={`${getThemeStyle('text').secondary} text-sm font-medium`}>Quick suggestions:</p>
+              <p className={`${textStyles.secondary} text-sm font-medium`}>Quick suggestions:</p>
               <div className="flex flex-wrap gap-2">
                 {promptSuggestions.map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => addPromptSuggestion(suggestion)}
-                    className={`px-4 py-2 ${getThemeStyle('button')} ${getThemeStyle('text').secondary} hover:${getThemeStyle('text').primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg`}
+                    className={`px-4 py-2 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg`}
                   >
                     {suggestion}
                   </button>
@@ -378,9 +379,9 @@ const GlassImageUpload = () => {
           <CardContent className="p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-                <ImageIcon className={`w-5 h-5 ${getThemeStyle('text').primary}`} />
+                <ImageIcon className={`w-5 h-5 ${textStyles.primary}`} />
               </div>
-              <h3 className={`text-xl font-semibold ${getThemeStyle('text').primary}`}>Your Transformed Images</h3>
+              <h3 className={`text-xl font-semibold ${textStyles.primary}`}>Your Transformed Images</h3>
             </div>
             
             <div className="grid gap-6">
