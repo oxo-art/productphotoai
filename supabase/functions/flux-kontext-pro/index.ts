@@ -42,13 +42,14 @@ serve(async (req) => {
     console.log("Generating image with Flux Kontext Pro")
     console.log("Prompt:", body.prompt)
     
-    // Extract base64 data from data URL if present
+    // Ensure the input_image is in the correct data URI format
     let imageData = body.input_image;
-    if (imageData.includes('data:image')) {
-      imageData = imageData.split(',')[1];
-      console.log("Extracted base64 data from data URL, length:", imageData.length)
+    if (!imageData.startsWith('data:image')) {
+      // If it's raw base64, add the data URI prefix
+      imageData = `data:image/jpeg;base64,${imageData}`;
+      console.log("Added data URI prefix to base64 data")
     } else {
-      console.log("Input image data length:", imageData.length)
+      console.log("Input image already in data URI format")
     }
 
     // Use Flux Kontext Pro model with proper input structure
@@ -60,7 +61,7 @@ serve(async (req) => {
       safety_tolerance: body.safety_tolerance || 2
     };
 
-    console.log("Calling Replicate with input:", { ...input, input_image: `[base64 data - ${imageData.length} chars]` })
+    console.log("Calling Replicate with input:", { ...input, input_image: `[data URI - ${imageData.length} chars]` })
 
     const output = await replicate.run("black-forest-labs/flux-kontext-pro", { input });
 
