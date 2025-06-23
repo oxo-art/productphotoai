@@ -1,7 +1,7 @@
-
 import { Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { glassTheme } from "@/config/glassTheme";
+import { useGradientTheme } from "@/contexts/GradientThemeContext";
+import GradientThemeSelector from "@/components/GradientThemeSelector";
 import {
   Sheet,
   SheetContent,
@@ -12,32 +12,35 @@ import {
 } from "@/components/ui/sheet";
 
 const Navbar = () => {
+  const { getThemeClasses } = useGradientTheme();
+  const theme = getThemeClasses();
+
   return (
-    <nav className={`border-b border-white/10 ${glassTheme.navbar} px-4 py-4`}>
+    <nav className="border-b border-white/10 bg-white/10 backdrop-blur-xl px-4 py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className={`md:hidden ${glassTheme.text.primary} hover:bg-white/10`}>
+              <Button variant="ghost" size="icon" className="text-white hover:bg-white/10 transition-all duration-300">
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left" className={`${glassTheme.popover} border-white/10`}>
+            <SheetContent side="left" className="bg-white/10 backdrop-blur-xl border-white/10">
               <SheetHeader>
-                <SheetTitle className={glassTheme.text.primary}>Navigation</SheetTitle>
-                <SheetDescription className={glassTheme.text.secondary}>
+                <SheetTitle className="text-white">Navigation</SheetTitle>
+                <SheetDescription className="text-white/80">
                   Navigate through the application
                 </SheetDescription>
               </SheetHeader>
               <div className="mt-6 space-y-4">
-                <a href="/" className={`block px-4 py-3 text-sm ${glassTheme.text.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                <a href="/" className="block px-4 py-3 text-sm text-white hover:bg-white/10 rounded-lg transition-colors">
                   Home
                 </a>
-                <a href="#" className={`block px-4 py-3 text-sm ${glassTheme.text.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                <a href="#" className="block px-4 py-3 text-sm text-white hover:bg-white/10 rounded-lg transition-colors">
                   Gallery
                 </a>
-                <a href="#" className={`block px-4 py-3 text-sm ${glassTheme.text.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                <a href="#" className="block px-4 py-3 text-sm text-white hover:bg-white/10 rounded-lg transition-colors">
                   Settings
                 </a>
               </div>
@@ -45,10 +48,10 @@ const Navbar = () => {
           </Sheet>
           
           <div className="flex items-center gap-2">
-            <div className={`p-2 ${glassTheme.buttonPrimary} rounded-lg`}>
+            <div className={`p-2 bg-gradient-to-r ${theme.button} rounded-lg`}>
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <h1 className={`text-xl font-bold ${glassTheme.text.primary}`}>
+            <h1 className="text-xl font-bold text-white">
               ImageAI Pro
             </h1>
           </div>
@@ -56,16 +59,17 @@ const Navbar = () => {
 
         <div className="flex items-center space-x-4">
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/" className={`text-sm font-medium ${glassTheme.text.secondary} hover:${glassTheme.text.primary} transition-colors`}>
+            <a href="/" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
               Home
             </a>
-            <a href="#" className={`text-sm font-medium ${glassTheme.text.secondary} hover:${glassTheme.text.primary} transition-colors`}>
+            <a href="#" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
               Gallery
             </a>
-            <a href="#" className={`text-sm font-medium ${glassTheme.text.secondary} hover:${glassTheme.text.primary} transition-colors`}>
+            <a href="#" className="text-sm font-medium text-white/80 hover:text-white transition-colors">
               Settings
             </a>
           </div>
+          <GradientThemeSelector />
         </div>
       </div>
     </nav>

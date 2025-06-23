@@ -1,11 +1,10 @@
-
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { glassTheme } from "@/config/glassTheme";
+import { useGradientTheme } from "@/contexts/GradientThemeContext";
 import { supabase } from "@/integrations/supabase/client";
 
 interface UploadedImage {
@@ -29,6 +28,9 @@ const promptSuggestions = [
 ];
 
 const ImageUpload = () => {
+  const { getThemeClasses } = useGradientTheme();
+  const theme = getThemeClasses();
+  
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
   const [prompt, setPrompt] = useState("");
@@ -228,13 +230,13 @@ const ImageUpload = () => {
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8">
       {/* Upload Section */}
-      <Card className={`${glassTheme.card} ${glassTheme.shadow} transition-all duration-1000`}>
+      <Card className="bg-white/10 backdrop-blur-xl border-white/20 shadow-2xl shadow-black/20 transition-all duration-1000">
         <CardContent className="p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className={`p-2 rounded-lg ${glassTheme.card}`}>
-              <Upload className={`w-5 h-5 ${glassTheme.text.primary}`} />
+            <div className="p-2 rounded-lg bg-white/10 backdrop-blur-xl border-white/20">
+              <Upload className="w-5 h-5 text-white" />
             </div>
-            <h3 className={`text-xl font-semibold ${glassTheme.text.primary}`}>Upload Your Image</h3>
+            <h3 className="text-xl font-semibold text-white">Upload Your Image</h3>
           </div>
           
           {!uploadedImage ? (
@@ -250,18 +252,18 @@ const ImageUpload = () => {
               onDrop={handleDrop}
             >
               <div className="relative">
-                <Upload className={`mx-auto h-16 w-16 ${glassTheme.text.muted} mb-6`} />
-                <div className={`absolute -top-2 -right-2 w-6 h-6 ${glassTheme.buttonPrimary} rounded-full flex items-center justify-center`}>
+                <Upload className="mx-auto h-16 w-16 text-white/60 mb-6" />
+                <div className={`absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r ${theme.button} rounded-full flex items-center justify-center`}>
                   <Sparkles className="w-3 h-3 text-white" />
                 </div>
               </div>
-              <h3 className={`text-2xl font-semibold mb-4 ${glassTheme.text.primary}`}>Drop your image here</h3>
-              <p className={`${glassTheme.text.secondary} mb-6 text-lg`}>
+              <h3 className="text-2xl font-semibold mb-4 text-white">Drop your image here</h3>
+              <p className="text-white/80 mb-6 text-lg">
                 Drag and drop your image, or click to browse
               </p>
               <Button 
                 onClick={openFileDialog}
-                className={`${glassTheme.buttonPrimary} text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105`}
+                className={`bg-gradient-to-r ${theme.button} hover:${theme.buttonHover} text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 border-0`}
               >
                 Choose File
               </Button>
@@ -299,7 +301,7 @@ const ImageUpload = () => {
               <Button
                 variant="outline"
                 onClick={openFileDialog}
-                className={`w-full border-white/30 ${glassTheme.text.primary} hover:bg-white/10 hover:border-white/50 transition-all duration-300`}
+                className="w-full border-white/30 text-white hover:bg-white/10 hover:border-white/50 transition-all duration-300"
               >
                 Choose another image
               </Button>
@@ -317,13 +319,13 @@ const ImageUpload = () => {
       </Card>
 
       {/* Prompt Section */}
-      <Card className={`${glassTheme.card} ${glassTheme.shadow} transition-all duration-1000`}>
+      <Card className="bg-white/10 backdrop-blur-xl border-white/20 shadow-2xl shadow-black/20 transition-all duration-1000">
         <CardContent className="p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className={`p-2 rounded-lg ${glassTheme.card}`}>
-              <Lightbulb className={`w-5 h-5 ${glassTheme.text.primary}`} />
+            <div className="p-2 rounded-lg bg-white/10 backdrop-blur-xl border-white/20">
+              <Lightbulb className="w-5 h-5 text-white" />
             </div>
-            <h3 className={`text-xl font-semibold ${glassTheme.text.primary}`}>Describe Your Vision</h3>
+            <h3 className="text-xl font-semibold text-white">Describe Your Vision</h3>
           </div>
           
           <div className="space-y-6">
@@ -331,18 +333,18 @@ const ImageUpload = () => {
               placeholder="Describe how you want to transform your image..."
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              className={`min-h-[120px] ${glassTheme.input} ${glassTheme.text.primary} placeholder:text-white/50 resize-none rounded-xl`}
+              className="min-h-[120px] bg-white/10 backdrop-blur-md border-white/20 focus:border-white/40 focus:bg-white/15 text-white placeholder:text-white/50 resize-none rounded-xl"
             />
             
             {/* Prompt Suggestions */}
             <div className="space-y-3">
-              <p className={`${glassTheme.text.secondary} text-sm font-medium`}>Quick suggestions:</p>
+              <p className="text-white/80 text-sm font-medium">Quick suggestions:</p>
               <div className="flex flex-wrap gap-2">
                 {promptSuggestions.map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => addPromptSuggestion(suggestion)}
-                    className={`px-4 py-2 ${glassTheme.button} ${glassTheme.text.secondary} hover:${glassTheme.text.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg`}
+                    className="px-4 py-2 bg-white/20 backdrop-blur-md border-white/30 hover:bg-white/30 text-white/80 hover:text-white text-sm transition-all duration-200 hover:scale-105 rounded-lg"
                   >
                     {suggestion}
                   </button>
@@ -352,7 +354,7 @@ const ImageUpload = () => {
             
             <Button 
               onClick={handleGenerate} 
-              className={`w-full ${glassTheme.buttonPrimary} text-white py-4 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105`}
+              className={`w-full bg-gradient-to-r ${theme.button} hover:${theme.buttonHover} text-white py-4 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105 border-0`}
               disabled={isGenerating || !uploadedImage}
             >
               {isGenerating ? (
@@ -373,13 +375,13 @@ const ImageUpload = () => {
 
       {/* Output Section */}
       {generatedImages.length > 0 && (
-        <Card className={`${glassTheme.card} ${glassTheme.shadow} transition-all duration-1000`}>
+        <Card className="bg-white/10 backdrop-blur-xl border-white/20 shadow-2xl shadow-black/20 transition-all duration-1000">
           <CardContent className="p-8">
             <div className="flex items-center gap-3 mb-6">
-              <div className={`p-2 rounded-lg ${glassTheme.card}`}>
-                <ImageIcon className={`w-5 h-5 ${glassTheme.text.primary}`} />
+              <div className="p-2 rounded-lg bg-white/10 backdrop-blur-xl border-white/20">
+                <ImageIcon className="w-5 h-5 text-white" />
               </div>
-              <h3 className={`text-xl font-semibold ${glassTheme.text.primary}`}>Your Transformed Images</h3>
+              <h3 className="text-xl font-semibold text-white">Your Transformed Images</h3>
             </div>
             
             <div className="grid gap-6">
@@ -397,7 +399,7 @@ const ImageUpload = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute top-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <button
-                      className={`h-12 w-12 rounded-xl ${glassTheme.buttonPrimary} p-[2px] transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110`}
+                      className={`h-12 w-12 rounded-xl bg-gradient-to-r ${theme.button} p-[2px] transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110`}
                       onClick={() => downloadImage(image.url, index)}
                     >
                       <div className="h-full w-full rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white/80 transition-colors">
