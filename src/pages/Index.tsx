@@ -1,68 +1,59 @@
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Sparkles, Palette, Brush } from "lucide-react";
+import { useGradientTheme } from "@/contexts/GradientThemeContext";
+import { useUnifiedTheme } from "@/contexts/UnifiedThemeContext";
 import Navbar from "@/components/Navbar";
 import ImageUpload from "@/components/ImageUpload";
 import HeroSection from "@/components/HeroSection";
 import GlassIndex from "@/pages/GlassIndex";
 import ArtisticIndex from "@/pages/ArtisticIndex";
-import { useGradientTheme } from "@/contexts/GradientThemeContext";
-
-type ThemeMode = 'gradient' | 'glass' | 'artistic';
+import ThemeTransitionWrapper from "@/components/ThemeTransitionWrapper";
+import EnhancedThemeSelector from "@/components/EnhancedThemeSelector";
 
 const Index = () => {
   const { getGradient } = useGradientTheme();
-  const [themeMode, setThemeMode] = useState<ThemeMode>('gradient');
+  const { themeMode, cycleThemeMode, getThemeIcon, getNextThemeName } = useUnifiedTheme();
 
   if (themeMode === 'glass') {
-    return <GlassIndex />;
+    return (
+      <ThemeTransitionWrapper>
+        <GlassIndex />
+      </ThemeTransitionWrapper>
+    );
   }
 
   if (themeMode === 'artistic') {
-    return <ArtisticIndex />;
+    return (
+      <ThemeTransitionWrapper>
+        <ArtisticIndex />
+      </ThemeTransitionWrapper>
+    );
   }
 
-  const cycleTheme = () => {
-    setThemeMode(current => {
-      if (current === 'gradient') return 'glass';
-      if (current === 'glass') return 'artistic';
-      return 'gradient';
-    });
-  };
-
-  const getThemeIcon = () => {
-    if (themeMode === 'gradient') return <Sparkles className="w-4 h-4 mr-2" />;
-    if (themeMode === 'glass') return <Palette className="w-4 h-4 mr-2" />;
-    return <Brush className="w-4 h-4 mr-2" />;
-  };
-
-  const getNextThemeName = () => {
-    if (themeMode === 'gradient') return 'Glass';
-    if (themeMode === 'glass') return 'Artistic';
-    return 'Gradient';
-  };
-
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${getGradient('background')} transition-all duration-1000`}>
-      {/* Theme Mode Toggle */}
-      <div className="fixed top-4 right-4 z-50">
-        <Button
-          onClick={cycleTheme}
-          className="bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-300"
-          size="sm"
-        >
-          {getThemeIcon()}
-          {getNextThemeName()}
-        </Button>
-      </div>
+    <ThemeTransitionWrapper>
+      <div className={`min-h-screen bg-gradient-to-br ${getGradient('background')} transition-all duration-1000`}>
+        {/* Enhanced Theme Controls */}
+        <div className="fixed top-4 right-4 z-50 flex gap-3">
+          {/* Quick Theme Mode Toggle */}
+          <button
+            onClick={cycleThemeMode}
+            className="bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-300 px-4 py-2 rounded-lg flex items-center gap-2 text-sm font-medium"
+          >
+            {getThemeIcon()}
+            Switch to {getNextThemeName()}
+          </button>
+          
+          {/* Enhanced Theme Selector */}
+          <EnhancedThemeSelector />
+        </div>
 
-      <Navbar />
-      <HeroSection />
-      <main className="container mx-auto px-4 py-8">
-        <ImageUpload />
-      </main>
-    </div>
+        <Navbar />
+        <HeroSection />
+        <main className="container mx-auto px-4 py-8">
+          <ImageUpload />
+        </main>
+      </div>
+    </ThemeTransitionWrapper>
   );
 };
 
