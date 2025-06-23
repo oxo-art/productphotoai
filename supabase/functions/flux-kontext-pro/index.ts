@@ -25,7 +25,7 @@ serve(async (req) => {
     })
 
     const body = await req.json()
-    console.log("Received request body:", body)
+    console.log("Received request body keys:", Object.keys(body))
 
     // Validate required fields
     if (!body.prompt || !body.input_image) {
@@ -41,18 +41,26 @@ serve(async (req) => {
 
     console.log("Generating image with Flux Kontext Pro")
     console.log("Prompt:", body.prompt)
-    console.log("Input image received, length:", body.input_image.length)
+    
+    // Extract base64 data from data URL if present
+    let imageData = body.input_image;
+    if (imageData.includes('data:image')) {
+      imageData = imageData.split(',')[1];
+      console.log("Extracted base64 data from data URL, length:", imageData.length)
+    } else {
+      console.log("Input image data length:", imageData.length)
+    }
 
     // Use Flux Kontext Pro model with proper input structure
     const input = {
       prompt: body.prompt,
-      input_image: body.input_image,
+      input_image: imageData,
       aspect_ratio: body.aspect_ratio || "match_input_image",
       output_format: body.output_format || "png",
       safety_tolerance: body.safety_tolerance || 2
     };
 
-    console.log("Calling Replicate with input:", { ...input, input_image: "[base64 data]" })
+    console.log("Calling Replicate with input:", { ...input, input_image: `[base64 data - ${imageData.length} chars]` })
 
     const output = await replicate.run("black-forest-labs/flux-kontext-pro", { input });
 
@@ -80,6 +88,18 @@ serve(async (req) => {
 
   } catch (error) {
     console.error("Error in flux-kontext-pro function:", error)
+    
+    // Handle specific Replicate API errors
+    if (error.message && error.message.includes('402')) {
+      return new Response(JSON.stringify({ 
+        error: "Monthly spend limit reached on Replicate account. Please check your billing settings at https://replicate.com/account/billing#limits",
+        details: "Payment Required - API quota exceeded"
+      }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 402,
+      })
+    }
+    
     return new Response(JSON.stringify({ 
       error: error.message || "An unexpected error occurred",
       details: error.toString()

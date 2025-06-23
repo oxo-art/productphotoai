@@ -136,7 +136,7 @@ const ImageUpload = () => {
     try {
       console.log("Starting image generation with Flux Kontext Pro");
       console.log("Prompt:", prompt.trim());
-      console.log("Input image URL:", uploadedImage.url);
+      console.log("Input image URL type:", typeof uploadedImage.url);
       
       const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
         body: {
@@ -157,6 +157,19 @@ const ImageUpload = () => {
 
       if (!data) {
         throw new Error("No data received from the service");
+      }
+
+      // Handle specific API errors
+      if (data.error) {
+        if (data.error.includes("Monthly spend limit")) {
+          toast({
+            title: "API Limit Reached",
+            description: "The Replicate account has reached its monthly spending limit. Please check the billing settings or try again later.",
+            variant: "destructive"
+          });
+          return;
+        }
+        throw new Error(data.error);
       }
 
       // Handle the response - data.output should be a single URL string
