@@ -25,12 +25,9 @@ const Index = () => {
 
   const cycleTheme = () => {
     setThemeMode(current => {
-      switch (current) {
-        case 'gradient': return 'glass';
-        case 'glass': return 'artistic';
-        case 'artistic': return 'gradient';
-        default: return 'gradient';
-      }
+      if (current === 'gradient') return 'glass';
+      if (current === 'glass') return 'artistic';
+      return 'gradient';
     });
   };
 
