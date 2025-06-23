@@ -32,19 +32,15 @@ const Index = () => {
   };
 
   const getThemeIcon = () => {
-    switch (themeMode) {
-      case 'gradient': return <Sparkles className="w-4 h-4 mr-2" />;
-      case 'glass': return <Palette className="w-4 h-4 mr-2" />;
-      case 'artistic': return <Brush className="w-4 h-4 mr-2" />;
-    }
+    if (themeMode === 'gradient') return <Sparkles className="w-4 h-4 mr-2" />;
+    if (themeMode === 'glass') return <Palette className="w-4 h-4 mr-2" />;
+    return <Brush className="w-4 h-4 mr-2" />;
   };
 
   const getNextThemeName = () => {
-    switch (themeMode) {
-      case 'gradient': return 'Glass';
-      case 'glass': return 'Artistic';
-      case 'artistic': return 'Gradient';
-    }
+    if (themeMode === 'gradient') return 'Glass';
+    if (themeMode === 'glass') return 'Artistic';
+    return 'Gradient';
   };
 
   return (
