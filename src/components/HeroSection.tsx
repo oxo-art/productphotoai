@@ -1,70 +1,66 @@
 
-import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useGradientTheme } from "@/contexts/GradientThemeContext";
+import { ArrowRight, Sparkles, Zap } from "lucide-react";
+import { glassTheme } from "@/config/glassTheme";
 
 const HeroSection = () => {
-  const { getGradient } = useGradientTheme();
-
-  const scrollToUpload = () => {
-    const uploadSection = document.querySelector('main');
-    uploadSection?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
-    <section className="relative overflow-hidden py-20 px-4">
-      {/* Background decorative elements */}
-      <div className={`absolute inset-0 bg-gradient-to-r ${getGradient('hero')} blur-3xl transition-all duration-1000`}></div>
-      <div className={`absolute top-10 left-10 w-72 h-72 bg-gradient-to-r ${getGradient('decorative')[0]} rounded-full blur-3xl animate-pulse`}></div>
-      <div className={`absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-r ${getGradient('decorative')[1]} rounded-full blur-3xl animate-pulse delay-1000`}></div>
+    <section className="relative py-20 px-4 overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 via-purple-500/10 to-pink-500/10 blur-3xl" />
+      <div className="absolute top-20 left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute bottom-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000" />
       
-      <div className="relative max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 mb-8">
-          <Sparkles className="w-4 h-4" />
-          <span className="text-sm font-medium">Powered by Flux Kontext Pro AI</span>
+      <div className="relative max-w-6xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 bg-white/10 backdrop-blur-md border border-white/20 rounded-full">
+          <Sparkles className="w-4 h-4 text-blue-400" />
+          <span className={`text-sm ${glassTheme.text.secondary}`}>Powered by Advanced AI</span>
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-          Transform Your
-          <span className={`bg-gradient-to-r ${getGradient('accent')} bg-clip-text text-transparent transition-all duration-1000`}>
-            {" "}Images{" "}
+        <h1 className={`text-5xl md:text-7xl font-bold mb-6 ${glassTheme.text.primary} leading-tight`}>
+          Transform Your Images with{" "}
+          <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+            AI Magic
           </span>
-          with AI
         </h1>
         
-        <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto leading-relaxed">
-          Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
+        <p className={`text-xl md:text-2xl mb-12 max-w-3xl mx-auto leading-relaxed ${glassTheme.text.secondary}`}>
+          Upload any image and watch our advanced AI transform it into stunning artwork. 
+          From style transfers to creative enhancements, the possibilities are endless.
         </p>
         
-        <div className="flex flex-wrap justify-center gap-6 mb-12">
-          <div className="flex items-center gap-3 text-white/60">
-            <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
-              <Zap className="w-5 h-5" />
-            </div>
-            <span>Lightning Fast</span>
-          </div>
-          <div className="flex items-center gap-3 text-white/60">
-            <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
-              <Palette className="w-5 h-5" />
-            </div>
-            <span>Professional Quality</span>
-          </div>
-          <div className="flex items-center gap-3 text-white/60">
-            <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <span>AI Powered</span>
-          </div>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+          <Button 
+            size="lg" 
+            className={`${glassTheme.buttonPrimary} text-white px-8 py-4 text-lg font-semibold rounded-xl ${glassTheme.shadow} transition-all duration-300 hover:scale-105 group`}
+          >
+            <Zap className="w-5 h-5 mr-2 group-hover:animate-pulse" />
+            Start Creating
+            <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
+          </Button>
+          
+          <Button 
+            variant="outline" 
+            size="lg"
+            className={`${glassTheme.button} ${glassTheme.text.primary} border-white/30 hover:border-white/50 px-8 py-4 text-lg font-semibold rounded-xl transition-all duration-300 hover:scale-105`}
+          >
+            Learn More
+          </Button>
         </div>
         
-        <Button 
-          onClick={scrollToUpload}
-          size="lg" 
-          className={`bg-gradient-to-r ${getGradient('button')} hover:${getGradient('buttonHover')} text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105`}
-        >
-          Start Creating
-          <Sparkles className="ml-2 w-5 h-5" />
-        </Button>
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { icon: Sparkles, title: "AI-Powered", desc: "Advanced algorithms for stunning results" },
+            { icon: Zap, title: "Lightning Fast", desc: "Process images in seconds, not minutes" },
+            { icon: ArrowRight, title: "Easy to Use", desc: "Simple drag-and-drop interface" }
+          ].map((feature, index) => (
+            <div key={index} className={`p-6 ${glassTheme.card} rounded-xl ${glassTheme.shadow} hover:${glassTheme.cardHover} transition-all duration-300`}>
+              <feature.icon className={`w-8 h-8 ${glassTheme.text.primary} mb-4 mx-auto`} />
+              <h3 className={`text-lg font-semibold mb-2 ${glassTheme.text.primary}`}>{feature.title}</h3>
+              <p className={glassTheme.text.secondary}>{feature.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
