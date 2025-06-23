@@ -2,6 +2,7 @@
 import { Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
+import GlassThemeSelector from "@/components/GlassThemeSelector";
 import {
   Sheet,
   SheetContent,
@@ -69,6 +70,7 @@ const GlassNavbar = () => {
               Settings
             </a>
           </div>
+          <GlassThemeSelector />
         </div>
       </div>
     </nav>

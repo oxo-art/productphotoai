@@ -1,5 +1,6 @@
 
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useState } from 'react';
+import { glassThemes, GlassTheme } from '@/config/themes';
 
 interface TextStyles {
   primary: string;
@@ -8,6 +9,8 @@ interface TextStyles {
 }
 
 interface GlassThemeContextType {
+  currentTheme: GlassTheme;
+  setTheme: (theme: GlassTheme) => void;
   getThemeStyle: (element: string) => string | TextStyles;
 }
 
@@ -26,28 +29,19 @@ interface GlassThemeProviderProps {
 }
 
 export const GlassThemeProvider: React.FC<GlassThemeProviderProps> = ({ children }) => {
+  const [currentTheme, setCurrentTheme] = useState<GlassTheme>('default');
+
+  const setTheme = (theme: GlassTheme) => {
+    setCurrentTheme(theme);
+  };
+
   const getThemeStyle = (element: string): string | TextStyles => {
-    const styles: Record<string, string | TextStyles> = {
-      background: 'from-blue-900 via-purple-900 to-indigo-900',
-      navbar: 'bg-white/10 backdrop-blur-md border-white/20',
-      card: 'bg-white/10 backdrop-blur-md border border-white/20',
-      button: 'bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20',
-      buttonPrimary: 'bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700',
-      input: 'bg-white/10 backdrop-blur-md border border-white/20 focus:border-white/40',
-      popover: 'bg-black/80 backdrop-blur-md',
-      shadow: 'shadow-2xl shadow-black/50',
-      text: {
-        primary: 'text-white',
-        secondary: 'text-white/70',
-        muted: 'text-white/60'
-      }
-    };
-    
-    return styles[element] || '';
+    const theme = glassThemes[currentTheme];
+    return theme[element as keyof typeof theme] || '';
   };
 
   return (
-    <GlassThemeContext.Provider value={{ getThemeStyle }}>
+    <GlassThemeContext.Provider value={{ currentTheme, setTheme, getThemeStyle }}>
       {children}
     </GlassThemeContext.Provider>
   );
