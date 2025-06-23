@@ -33,7 +33,7 @@ const HeroSection = () => {
         </h1>
         
         <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto leading-relaxed">
-          Upload any image and describe how you want it transformed. Our advanced AI will reimagine your vision with stunning, professional results.
+          Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
         </p>
         
         <div className="flex flex-wrap justify-center gap-6 mb-12">
