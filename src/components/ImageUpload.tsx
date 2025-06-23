@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -329,7 +330,7 @@ const ImageUpload = () => {
           
           <div className="space-y-6">
             <Textarea
-              placeholder="Describe how you want to transform your image... Be creative and detailed!"
+              placeholder="Describe how you want to transform your image..."
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               className="min-h-[120px] bg-white/5 border-white/20 text-white placeholder:text-white/50 focus:border-white/40 focus:bg-white/10 resize-none rounded-xl"
