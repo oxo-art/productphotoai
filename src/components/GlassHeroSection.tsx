@@ -21,13 +21,13 @@ const GlassHeroSection = () => {
       
       <div className="relative max-w-4xl mx-auto text-center">
         <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-8`}>
-          <Sparkles className="w-4 h-4 bg-gradient-to-r from-lime-300 via-green-300 to-lime-200 bg-clip-text text-transparent" />
+          <Sparkles className="w-4 h-4 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
           <span className="text-sm font-medium">Powered by Flux Kontext Pro AI</span>
         </div>
         
         <h1 className={`text-5xl md:text-7xl font-bold ${textStyles.primary} mb-6 leading-tight`}>
           <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>Transform Your</span>
-          <span className="bg-gradient-to-r from-pink-300 via-pink-200 to-pink-100 bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 2px rgba(236, 72, 153, 0.3))' }}>
+          <span className="bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 2px rgba(251, 146, 60, 0.3))' }}>
             {" "}Images{" "}
           </span>
           <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>with AI</span>
@@ -43,19 +43,19 @@ const GlassHeroSection = () => {
           <div className="flex flex-wrap justify-center gap-6">
             <div className="flex items-center gap-3 text-white/80">
               <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-                <Zap className="w-5 h-5 bg-gradient-to-r from-lime-300 via-green-300 to-lime-200 bg-clip-text text-transparent" />
+                <Zap className="w-5 h-5 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Lightning Fast</span>
             </div>
             <div className="flex items-center gap-3 text-white/80">
               <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-                <Palette className="w-5 h-5 bg-gradient-to-r from-lime-300 via-green-300 to-lime-200 bg-clip-text text-transparent" />
+                <Palette className="w-5 h-5 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Professional Quality</span>
             </div>
             <div className="flex items-center gap-3 text-white/80">
               <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-                <Sparkles className="w-5 h-5 bg-gradient-to-r from-lime-300 via-green-300 to-lime-200 bg-clip-text text-transparent" />
+                <Sparkles className="w-5 h-5 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
             </div>
@@ -68,7 +68,7 @@ const GlassHeroSection = () => {
           className={`${getThemeStyle('buttonPrimary')} text-white px-8 py-6 text-lg font-semibold rounded-xl ${getThemeStyle('shadow')} hover:scale-105 transition-all duration-300`}
         >
           Start Creating
-          <Sparkles className="ml-2 w-5 h-5 bg-gradient-to-r from-lime-300 via-green-300 to-lime-200 bg-clip-text text-transparent" />
+          <Sparkles className="ml-2 w-5 h-5 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
         </Button>
       </div>
     </section>
