@@ -298,9 +298,8 @@ const GlassImageUpload = () => {
               </div>
               
               <Button
-                variant="outline"
                 onClick={openFileDialog}
-                className={`w-full border-white/30 ${textStyles.primary} hover:bg-white/10 hover:border-white/50 transition-all duration-300`}
+                className={`w-full ${getThemeStyle('button')} ${textStyles.primary} hover:bg-white/20 transition-all duration-300 border border-white/30 backdrop-blur-md`}
               >
                 Choose another image
               </Button>
