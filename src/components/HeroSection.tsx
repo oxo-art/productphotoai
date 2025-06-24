@@ -1,4 +1,5 @@
 
+
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
@@ -26,7 +27,7 @@ const HeroSection = () => {
         
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
           <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>Transform Your</span>
-          <span className="bg-gradient-to-r from-orange-500 via-red-500 to-orange-600 bg-clip-text text-transparent transition-all duration-1000" style={{ filter: 'drop-shadow(0 0 2px rgba(255, 69, 0, 0.3))' }}>
+          <span className="bg-gradient-to-r from-rose-300 via-pink-300 to-rose-200 bg-clip-text text-transparent transition-all duration-1000" style={{ filter: 'drop-shadow(0 0 2px rgba(244, 114, 182, 0.3))' }}>
             {" "}Images{" "}
           </span>
           <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>with AI</span>
@@ -75,3 +76,4 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
+
