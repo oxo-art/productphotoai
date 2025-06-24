@@ -20,13 +20,13 @@ const HeroSection = () => {
       
       <div className="relative max-w-4xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 mb-8">
-          <Sparkles className="w-4 h-4 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
+          <Sparkles className="w-4 h-4" />
           <span className="text-sm font-medium">Powered by Flux Kontext Pro AI</span>
         </div>
         
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
           <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>Transform Your</span>
-          <span className="bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent transition-all duration-1000" style={{ filter: 'drop-shadow(0 0 2px rgba(251, 146, 60, 0.3))' }}>
+          <span className="bg-gradient-to-r from-rose-300 via-pink-300 to-rose-200 bg-clip-text text-transparent transition-all duration-1000" style={{ filter: 'drop-shadow(0 0 2px rgba(244, 63, 94, 0.3))' }}>
             {" "}Images{" "}
           </span>
           <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>with AI</span>
@@ -42,19 +42,19 @@ const HeroSection = () => {
           <div className="flex flex-wrap justify-center gap-6">
             <div className="flex items-center gap-3 text-white/80">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
-                <Zap className="w-5 h-5 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
+                <Zap className="w-5 h-5" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Lightning Fast</span>
             </div>
             <div className="flex items-center gap-3 text-white/80">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
-                <Palette className="w-5 h-5 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
+                <Palette className="w-5 h-5" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Professional Quality</span>
             </div>
             <div className="flex items-center gap-3 text-white/80">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
-                <Sparkles className="w-5 h-5 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
+                <Sparkles className="w-5 h-5" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
             </div>
@@ -67,7 +67,7 @@ const HeroSection = () => {
           className={`bg-gradient-to-r ${getGradient('button')} hover:${getGradient('buttonHover')} text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105`}
         >
           Start Creating
-          <Sparkles className="ml-2 w-5 h-5 bg-gradient-to-r from-orange-300 via-yellow-300 to-orange-200 bg-clip-text text-transparent" />
+          <Sparkles className="ml-2 w-5 h-5" />
         </Button>
       </div>
     </section>
