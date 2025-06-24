@@ -27,7 +27,7 @@ const GlassHeroSection = () => {
         
         <h1 className={`text-5xl md:text-7xl font-bold ${textStyles.primary} mb-6 leading-tight`}>
           Transform Your
-          <span className="bg-gradient-to-r from-cyan-300 via-cyan-200 to-cyan-100 bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 2px rgba(6, 182, 212, 0.3))' }}>
+          <span className="bg-gradient-to-r from-lime-300 via-lime-200 to-lime-100 bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 2px rgba(132, 204, 22, 0.3))' }}>
             {" "}Images{" "}
           </span>
           with AI
