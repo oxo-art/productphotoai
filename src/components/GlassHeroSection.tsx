@@ -33,28 +33,32 @@ const GlassHeroSection = () => {
           <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>with AI</span>
         </h1>
         
-        <p className={`text-xl ${textStyles.secondary} mb-12 max-w-2xl mx-auto leading-relaxed`} style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)' }}>
-          Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
-        </p>
+        <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 mb-12 mx-auto max-w-3xl">
+          <p className={`text-xl ${textStyles.secondary} leading-relaxed`} style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)' }}>
+            Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
+          </p>
+        </div>
         
-        <div className="flex flex-wrap justify-center gap-6 mb-12">
-          <div className={`flex items-center gap-3 ${textStyles.muted}`}>
-            <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-              <Zap className="w-5 h-5" />
+        <div className="bg-black/15 backdrop-blur-sm rounded-2xl p-6 mb-12 mx-auto max-w-4xl">
+          <div className="flex flex-wrap justify-center gap-6">
+            <div className={`flex items-center gap-3 ${textStyles.muted}`}>
+              <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
+                <Zap className="w-5 h-5" />
+              </div>
+              <span>Lightning Fast</span>
             </div>
-            <span>Lightning Fast</span>
-          </div>
-          <div className={`flex items-center gap-3 ${textStyles.muted}`}>
-            <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-              <Palette className="w-5 h-5" />
+            <div className={`flex items-center gap-3 ${textStyles.muted}`}>
+              <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
+                <Palette className="w-5 h-5" />
+              </div>
+              <span>Professional Quality</span>
             </div>
-            <span>Professional Quality</span>
-          </div>
-          <div className={`flex items-center gap-3 ${textStyles.muted}`}>
-            <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-              <Sparkles className="w-5 h-5" />
+            <div className={`flex items-center gap-3 ${textStyles.muted}`}>
+              <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <span>AI Powered</span>
             </div>
-            <span>AI Powered</span>
           </div>
         </div>
         
