@@ -33,26 +33,26 @@ const HeroSection = () => {
         </h1>
         
         <div className="mb-12 mx-auto max-w-3xl">
-          <p className="text-xl text-white/70 leading-relaxed" style={{ textShadow: '0 3px 10px rgba(0, 0, 0, 0.6), 0 1px 6px rgba(0, 0, 0, 0.4)' }}>
+          <p className="text-xl text-white/90 leading-relaxed" style={{ textShadow: '0 3px 10px rgba(0, 0, 0, 0.6), 0 1px 6px rgba(0, 0, 0, 0.4)' }}>
             Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
           </p>
         </div>
         
         <div className="mb-12 mx-auto max-w-4xl">
           <div className="flex flex-wrap justify-center gap-6">
-            <div className="flex items-center gap-3 text-white/60">
+            <div className="flex items-center gap-3 text-white/80">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
                 <Zap className="w-5 h-5" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Lightning Fast</span>
             </div>
-            <div className="flex items-center gap-3 text-white/60">
+            <div className="flex items-center gap-3 text-white/80">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
                 <Palette className="w-5 h-5" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Professional Quality</span>
             </div>
-            <div className="flex items-center gap-3 text-white/60">
+            <div className="flex items-center gap-3 text-white/80">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
                 <Sparkles className="w-5 h-5" />
               </div>
