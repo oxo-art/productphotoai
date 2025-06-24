@@ -1,3 +1,4 @@
+
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
@@ -26,7 +27,7 @@ const GlassHeroSection = () => {
         
         <h1 className={`text-5xl md:text-7xl font-bold ${textStyles.primary} mb-6 leading-tight`} style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
           Transform Your
-          <span className={`bg-gradient-to-r ${getThemeStyle('heroTextGradient')} bg-clip-text text-transparent`} style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+          <span className={`bg-gradient-to-r ${getThemeStyle('heroTextGradient')} bg-clip-text text-transparent`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1)' }}>
             {" "}Images{" "}
           </span>
           with AI
