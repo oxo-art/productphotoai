@@ -26,11 +26,11 @@ const GlassHeroSection = () => {
         </div>
         
         <h1 className={`text-5xl md:text-7xl font-bold ${textStyles.primary} mb-6 leading-tight`}>
-          <span className="bg-black/20 backdrop-blur-sm px-4 py-2 rounded-lg">Transform Your</span>
+          <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>Transform Your</span>
           <span className="bg-gradient-to-r from-lime-300 via-lime-200 to-lime-100 bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 2px rgba(132, 204, 22, 0.3))' }}>
             {" "}Images{" "}
           </span>
-          <span className="bg-black/20 backdrop-blur-sm px-4 py-2 rounded-lg">with AI</span>
+          <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>with AI</span>
         </h1>
         
         <p className={`text-xl ${textStyles.secondary} mb-12 max-w-2xl mx-auto leading-relaxed`} style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)' }}>
