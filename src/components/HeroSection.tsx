@@ -33,7 +33,7 @@ const HeroSection = () => {
         </h1>
         
         <div className="mb-12 mx-auto max-w-3xl">
-          <p className="text-xl text-white/90 leading-relaxed" style={{ textShadow: '0 3px 10px rgba(0, 0, 0, 0.6), 0 1px 6px rgba(0, 0, 0, 0.4)' }}>
+          <p className="text-xl text-white/90 leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
             Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
           </p>
         </div>
