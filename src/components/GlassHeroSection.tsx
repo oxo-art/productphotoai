@@ -33,13 +33,13 @@ const GlassHeroSection = () => {
           <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>with AI</span>
         </h1>
         
-        <div className="bg-black/20 backdrop-blur-sm rounded-2xl p-6 mb-12 mx-auto max-w-3xl">
+        <div className="mb-12 mx-auto max-w-3xl">
           <p className={`text-xl ${textStyles.secondary} leading-relaxed`} style={{ textShadow: '0 3px 10px rgba(0, 0, 0, 0.6), 0 1px 6px rgba(0, 0, 0, 0.4)' }}>
             Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
           </p>
         </div>
         
-        <div className="bg-black/15 backdrop-blur-sm rounded-2xl p-6 mb-12 mx-auto max-w-4xl">
+        <div className="mb-12 mx-auto max-w-4xl">
           <div className="flex flex-wrap justify-center gap-6">
             <div className={`flex items-center gap-3 ${textStyles.muted}`}>
               <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>

@@ -32,13 +32,13 @@ const HeroSection = () => {
           <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>with AI</span>
         </h1>
         
-        <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-12 mx-auto max-w-3xl">
+        <div className="mb-12 mx-auto max-w-3xl">
           <p className="text-xl text-white/70 leading-relaxed" style={{ textShadow: '0 3px 10px rgba(0, 0, 0, 0.6), 0 1px 6px rgba(0, 0, 0, 0.4)' }}>
             Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
           </p>
         </div>
         
-        <div className="bg-black/25 backdrop-blur-sm rounded-2xl p-6 mb-12 mx-auto max-w-4xl">
+        <div className="mb-12 mx-auto max-w-4xl">
           <div className="flex flex-wrap justify-center gap-6">
             <div className="flex items-center gap-3 text-white/60">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
@@ -54,7 +54,7 @@ const HeroSection = () => {
             </div>
             <div className="flex items-center gap-3 text-white/60">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
-                <Palette className="w-5 h-5" />
+                <Sparkles className="w-5 h-5" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
             </div>
