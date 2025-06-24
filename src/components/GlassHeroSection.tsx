@@ -25,9 +25,9 @@ const GlassHeroSection = () => {
           <span className="text-sm font-medium">Powered by Flux Kontext Pro AI</span>
         </div>
         
-        <h1 className={`text-5xl md:text-7xl font-bold ${textStyles.primary} mb-6 leading-tight`} style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+        <h1 className={`text-5xl md:text-7xl font-bold ${textStyles.primary} mb-6 leading-tight`}>
           Transform Your
-          <span className="bg-gradient-to-r from-cyan-300 via-cyan-200 to-cyan-100 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-cyan-300 via-cyan-200 to-cyan-100 bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 2px rgba(6, 182, 212, 0.3))' }}>
             {" "}Images{" "}
           </span>
           with AI
