@@ -262,7 +262,7 @@ const GlassImageUpload = () => {
               </p>
               <Button 
                 onClick={openFileDialog}
-                className={`${getThemeStyle('buttonPrimary')} text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105`}
+                className={`${getThemeStyle('buttonPrimary')} text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-md`}
               >
                 Choose File
               </Button>

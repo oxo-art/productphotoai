@@ -261,7 +261,7 @@ const ImageUpload = () => {
               </p>
               <Button 
                 onClick={openFileDialog}
-                className={`bg-gradient-to-r ${getGradient('button')} hover:${getGradient('buttonHover')} text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105`}
+                className={`bg-gradient-to-r ${getGradient('button')} hover:${getGradient('buttonHover')} text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-md`}
               >
                 Choose File
               </Button>
