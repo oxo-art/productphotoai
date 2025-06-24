@@ -1,4 +1,3 @@
-
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
@@ -24,15 +23,15 @@ const HeroSection = () => {
           <span className="text-sm font-medium">Powered by Flux Kontext Pro AI</span>
         </div>
         
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight" style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
           Transform Your
-          <span className={`bg-gradient-to-r ${getGradient('accent')} bg-clip-text text-transparent transition-all duration-1000`}>
+          <span className={`bg-gradient-to-r ${getGradient('accent')} bg-clip-text text-transparent transition-all duration-1000`} style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
             {" "}Images{" "}
           </span>
           with AI
         </h1>
         
-        <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-xl text-white/70 mb-12 max-w-2xl mx-auto leading-relaxed" style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)' }}>
           Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
         </p>
         
