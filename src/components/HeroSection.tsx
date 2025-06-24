@@ -26,7 +26,7 @@ const HeroSection = () => {
         
         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight" style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
           Transform Your
-          <span className={`bg-gradient-to-r ${getGradient('accent')} bg-clip-text text-transparent transition-all duration-1000`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+          <span className={`bg-gradient-to-r ${getGradient('accent')} bg-clip-text text-transparent transition-all duration-1000`} style={{ textShadow: '0 1px 4px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05)' }}>
             {" "}Images{" "}
           </span>
           with AI

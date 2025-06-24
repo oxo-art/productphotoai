@@ -338,12 +338,12 @@ const GlassImageUpload = () => {
             {/* Prompt Suggestions */}
             <div className="space-y-3">
               <p className={`${textStyles.secondary} text-sm font-medium`}>Quick suggestions:</p>
-              <div className="flex flex-wrap gap-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {promptSuggestions.map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => addPromptSuggestion(suggestion)}
-                    className={`px-4 py-2 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg`}
+                    className={`px-4 py-3 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg text-left border border-white/20 hover:border-white/30`}
                   >
                     {suggestion}
                   </button>
