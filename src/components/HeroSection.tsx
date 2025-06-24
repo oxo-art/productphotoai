@@ -33,7 +33,7 @@ const HeroSection = () => {
         </h1>
         
         <div className="bg-black/30 backdrop-blur-sm rounded-2xl p-6 mb-12 mx-auto max-w-3xl">
-          <p className="text-xl text-white/70 leading-relaxed" style={{ textShadow: '0 2px 10px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2)' }}>
+          <p className="text-xl text-white/70 leading-relaxed" style={{ textShadow: '0 3px 10px rgba(0, 0, 0, 0.6), 0 1px 6px rgba(0, 0, 0, 0.4)' }}>
             Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
           </p>
         </div>
@@ -44,19 +44,19 @@ const HeroSection = () => {
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
                 <Zap className="w-5 h-5" />
               </div>
-              <span>Lightning Fast</span>
+              <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Lightning Fast</span>
             </div>
             <div className="flex items-center gap-3 text-white/60">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
                 <Palette className="w-5 h-5" />
               </div>
-              <span>Professional Quality</span>
+              <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Professional Quality</span>
             </div>
             <div className="flex items-center gap-3 text-white/60">
               <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
                 <Palette className="w-5 h-5" />
               </div>
-              <span>AI Powered</span>
+              <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
             </div>
           </div>
         </div>
