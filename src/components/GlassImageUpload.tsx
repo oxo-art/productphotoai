@@ -334,22 +334,6 @@ const GlassImageUpload = () => {
               className={`min-h-[120px] ${getThemeStyle('input')} ${textStyles.primary} placeholder:text-white/50 resize-none rounded-xl`}
             />
             
-            {/* Prompt Suggestions */}
-            <div className="space-y-3">
-              <p className={`${textStyles.secondary} text-sm font-medium`}>Quick suggestions:</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {promptSuggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => addPromptSuggestion(suggestion)}
-                    className={`px-4 py-3 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg text-left border border-white/20 hover:border-white/30`}
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
             <Button 
               onClick={handleGenerate} 
               className={`w-full ${getThemeStyle('buttonPrimary')} text-white py-4 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105`}
@@ -367,6 +351,22 @@ const GlassImageUpload = () => {
                 </>
               )}
             </Button>
+            
+            {/* Prompt Suggestions */}
+            <div className="space-y-3">
+              <p className={`${textStyles.secondary} text-sm font-medium`}>Quick suggestions:</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {promptSuggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => addPromptSuggestion(suggestion)}
+                    className={`px-4 py-3 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg text-left border border-white/20 hover:border-white/30`}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

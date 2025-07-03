@@ -334,22 +334,6 @@ const ImageUpload = () => {
               className="min-h-[120px] bg-white/5 border-white/20 text-white placeholder:text-white/50 focus:border-white/40 focus:bg-white/10 resize-none rounded-xl"
             />
             
-            {/* Prompt Suggestions */}
-            <div className="space-y-3">
-              <p className="text-white/70 text-sm font-medium">Quick suggestions:</p>
-              <div className="flex flex-wrap gap-2">
-                {promptSuggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => addPromptSuggestion(suggestion)}
-                    className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 rounded-lg text-white/80 hover:text-white text-sm transition-all duration-200 hover:scale-105"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
-            </div>
-            
             <Button 
               onClick={handleGenerate} 
               className={`w-full bg-gradient-to-r ${getGradient('button')} hover:${getGradient('buttonHover')} text-white py-4 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105`}
@@ -367,6 +351,22 @@ const ImageUpload = () => {
                 </>
               )}
             </Button>
+            
+            {/* Prompt Suggestions */}
+            <div className="space-y-3">
+              <p className="text-white/70 text-sm font-medium">Quick suggestions:</p>
+              <div className="flex flex-wrap gap-2">
+                {promptSuggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    onClick={() => addPromptSuggestion(suggestion)}
+                    className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 rounded-lg text-white/80 hover:text-white text-sm transition-all duration-200 hover:scale-105"
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
