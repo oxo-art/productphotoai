@@ -39,7 +39,7 @@ serve(async (req) => {
       )
     }
 
-    console.log("Generating image with Flux Kontext Pro")
+    console.log("Generating image with Flux Kontext Dev")
     console.log("Prompt:", body.prompt)
     
     // Ensure the input_image is in the correct data URI format
@@ -52,22 +52,25 @@ serve(async (req) => {
       console.log("Input image already in data URI format")
     }
 
-    // Use Flux Kontext Pro model with proper input structure
+    // Use Flux Kontext Dev model with proper input structure
     const input = {
       prompt: body.prompt,
       input_image: imageData,
+      go_fast: body.go_fast || true,
+      guidance: body.guidance || 2.5,
       aspect_ratio: body.aspect_ratio || "match_input_image",
-      output_format: body.output_format || "png",
-      safety_tolerance: body.safety_tolerance || 2
+      output_format: body.output_format || "jpg",
+      output_quality: body.output_quality || 80,
+      num_inference_steps: body.num_inference_steps || 30
     };
 
     console.log("Calling Replicate with input:", { ...input, input_image: `[data URI - ${imageData.length} chars]` })
 
-    const output = await replicate.run("black-forest-labs/flux-kontext-pro", { input });
+    const output = await replicate.run("black-forest-labs/flux-kontext-dev", { input });
 
     console.log("Replicate response received:", typeof output, Array.isArray(output))
     
-    // Handle different output formats from Flux Kontext Pro
+    // Handle different output formats from Flux Kontext Dev
     let imageUrl;
     if (Array.isArray(output) && output.length > 0) {
       imageUrl = output[0];
@@ -88,7 +91,7 @@ serve(async (req) => {
     })
 
   } catch (error) {
-    console.error("Error in flux-kontext-pro function:", error)
+    console.error("Error in flux-kontext-dev function:", error)
     
     // Handle specific Replicate API errors
     if (error.message && error.message.includes('402')) {

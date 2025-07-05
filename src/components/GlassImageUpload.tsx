@@ -144,7 +144,7 @@ const GlassImageUpload = () => {
     setIsGenerating(true);
     
     try {
-      console.log("Starting image generation with Flux Kontext Pro");
+      console.log("Starting image generation with Flux Kontext Dev");
       console.log("Prompt:", prompt.trim());
       console.log("Input image URL type:", typeof uploadedImage.url);
       
@@ -152,9 +152,12 @@ const GlassImageUpload = () => {
         body: {
           prompt: prompt.trim(),
           input_image: uploadedImage.url,
+          go_fast: true,
+          guidance: 2.5,
           aspect_ratio: "match_input_image",
-          output_format: "png",
-          safety_tolerance: 2
+          output_format: "jpg",
+          output_quality: 80,
+          num_inference_steps: 30
         }
       });
 
@@ -204,7 +207,7 @@ const GlassImageUpload = () => {
 
         toast({
           title: "Image generated successfully",
-          description: "Your image has been generated with Flux Kontext Pro",
+          description: "Your image has been generated with Flux Kontext Dev",
         });
       } else {
         console.error("Unexpected response format:", data);
