@@ -57,9 +57,12 @@ serve(async (req) => {
 
     console.log("Generation successful")
     
+    // Ensure output is always an array for consistent frontend handling
+    const outputArray = Array.isArray(output) ? output : [output];
+    
     return new Response(JSON.stringify({ 
       success: true,
-      output: output,
+      output: outputArray,
       message: "Image generated successfully with Flux Kontext Dev"
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
