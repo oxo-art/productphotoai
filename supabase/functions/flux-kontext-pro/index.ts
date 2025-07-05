@@ -1,5 +1,6 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import Replicate from "https://esm.sh/replicate@0.25.2"
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,6 +15,15 @@ serve(async (req) => {
   }
 
   try {
+    const REPLICATE_API_KEY = Deno.env.get('REPLICATE_API_KEY')
+    if (!REPLICATE_API_KEY) {
+      throw new Error('REPLICATE_API_KEY is not set')
+    }
+
+    const replicate = new Replicate({
+      auth: REPLICATE_API_KEY,
+    })
+
     const body = await req.json()
     console.log("Received request body keys:", Object.keys(body))
 
@@ -29,13 +39,28 @@ serve(async (req) => {
       )
     }
 
-    console.log("AI model functionality has been removed")
+    console.log("Generating image with Flux Kontext Dev")
     console.log("Prompt:", body.prompt)
     
-    // Return a message indicating AI functionality has been removed
+    const input = {
+      prompt: body.prompt,
+      go_fast: true,
+      guidance: 2.5,
+      input_image: body.input_image,
+      aspect_ratio: "match_input_image", 
+      output_format: "jpg",
+      output_quality: 80,
+      num_inference_steps: 30
+    };
+
+    const output = await replicate.run("black-forest-labs/flux-kontext-dev", { input });
+
+    console.log("Generation successful")
+    
     return new Response(JSON.stringify({ 
-      error: "AI image generation functionality has been removed from this application",
-      message: "The Flux Kontext Pro model has been removed. No image generation will occur."
+      success: true,
+      output: output,
+      message: "Image generated successfully with Flux Kontext Dev"
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,

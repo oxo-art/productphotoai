@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface UploadedImage {
   url: string;
@@ -107,11 +109,16 @@ const GlassImageUpload = () => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `generated-image-${index + 1}.png`;
+      link.download = `generated-image-${index + 1}.jpg`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Download successful",
+        description: "Image downloaded successfully",
+      });
     } catch (error) {
       toast({
         title: "Download failed",
@@ -140,12 +147,56 @@ const GlassImageUpload = () => {
       return;
     }
 
-    // Show message that AI functionality has been removed
-    toast({
-      title: "AI functionality removed",
-      description: "The AI image generation feature has been removed from this application",
-      variant: "destructive"
-    });
+    setIsGenerating(true);
+
+    try {
+      console.log("Calling Flux Kontext Dev function...");
+      
+      const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
+        body: {
+          prompt: prompt,
+          input_image: uploadedImage.url
+        }
+      });
+
+      if (error) {
+        console.error("Supabase function error:", error);
+        throw new Error(error.message || "Failed to generate image");
+      }
+
+      console.log("Function response:", data);
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      if (data.output && Array.isArray(data.output) && data.output.length > 0) {
+        const newImages = data.output.map((url: string) => ({
+          url,
+          width: uploadedImage.width || 1024,
+          height: uploadedImage.height || 1024
+        }));
+        
+        setGeneratedImages(prev => [...prev, ...newImages]);
+        
+        toast({
+          title: "Success!",
+          description: "Your image has been transformed successfully!",
+        });
+      } else {
+        throw new Error("No images were generated");
+      }
+
+    } catch (error: any) {
+      console.error("Generation error:", error);
+      toast({
+        title: "Generation failed",
+        description: error.message || "Failed to generate image. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const addPromptSuggestion = (suggestion: string) => {
