@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
-import { supabase } from "@/integrations/supabase/client";
 
 interface UploadedImage {
   url: string;
@@ -21,7 +20,7 @@ interface GeneratedImage {
 
 const promptSuggestions = [
   "Turn this image into a ghibli style art",
-  "Make it look like a vintage photograph",
+  "Make it look like a vintage photograph", 
   "Transform into a futuristic cyberpunk style",
   "Add dramatic lighting and shadows",
   "Make it look like a comic book illustration"
@@ -140,88 +139,12 @@ const ImageUpload = () => {
       return;
     }
 
-    setIsGenerating(true);
-    
-    try {
-      console.log("Starting image generation with Flux Kontext Dev");
-      console.log("Prompt:", prompt.trim());
-      console.log("Input image URL type:", typeof uploadedImage.url);
-      
-      const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
-        body: {
-          prompt: prompt.trim(),
-          input_image: uploadedImage.url,
-          go_fast: true,
-          guidance: 2.5,
-          aspect_ratio: "match_input_image",
-          output_format: "jpg",
-          output_quality: 80,
-          num_inference_steps: 30
-        }
-      });
-
-      console.log("Supabase response:", { data, error });
-
-      if (error) {
-        console.error("Supabase function error:", error);
-        throw new Error(error.message || "Failed to generate image");
-      }
-
-      if (!data) {
-        throw new Error("No data received from the service");
-      }
-
-      if (data.error) {
-        if (data.error.includes("Monthly spend limit")) {
-          toast({
-            title: "API Limit Reached",
-            description: "The Replicate account has reached its monthly spending limit. Please check the billing settings or try again later.",
-            variant: "destructive"
-          });
-          return;
-        }
-        throw new Error(data.error);
-      }
-
-      if (data.output && typeof data.output === 'string') {
-        const generatedImageUrl = data.output;
-        console.log("Generated image URL:", generatedImageUrl);
-        
-        const img = new Image();
-        img.onload = () => {
-          setGeneratedImages(prev => [...prev, {
-            url: generatedImageUrl,
-            width: uploadedImage.width || img.width || 1024,
-            height: uploadedImage.height || img.height || 1024
-          }]);
-        };
-        img.onerror = () => {
-          setGeneratedImages(prev => [...prev, {
-            url: generatedImageUrl,
-            width: uploadedImage.width || 1024,
-            height: uploadedImage.height || 1024
-          }]);
-        };
-        img.src = generatedImageUrl;
-
-        toast({
-          title: "Image generated successfully",
-          description: "Your image has been generated with Flux Kontext Dev",
-        });
-      } else {
-        console.error("Unexpected response format:", data);
-        throw new Error("Invalid response format from AI service");
-      }
-    } catch (error) {
-      console.error("Generation error:", error);
-      toast({
-        title: "Generation failed",
-        description: error instanceof Error ? error.message : "Failed to generate image",
-        variant: "destructive"
-      });
-    } finally {
-      setIsGenerating(false);
-    }
+    // Show message that AI functionality has been removed
+    toast({
+      title: "AI functionality removed",
+      description: "The AI image generation feature has been removed from this application",
+      variant: "destructive"
+    });
   };
 
   const addPromptSuggestion = (suggestion: string) => {
