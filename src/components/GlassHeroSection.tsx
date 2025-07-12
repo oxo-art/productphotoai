@@ -1,4 +1,3 @@
-
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
@@ -22,7 +21,7 @@ const GlassHeroSection = () => {
       <div className="relative max-w-4xl mx-auto text-center">
         <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-8`}>
           <Sparkles className="w-4 h-4" />
-          <span className="text-sm font-medium">Powered by Flux Kontext Pro AI</span>
+          <span className="text-sm font-medium">Image editing powered by AI</span>
         </div>
         
         <h1 className={`text-5xl md:text-7xl font-bold ${textStyles.primary} mb-6 leading-tight`}>
