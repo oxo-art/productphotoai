@@ -21,6 +21,7 @@ export default {
       fontFamily: {
         'gochi': ['Gochi Hand', 'cursive'],
         'boldonse': ['Boldonse', 'sans-serif'],
+        'tenor': ['Tenor Sans', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
