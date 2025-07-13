@@ -1,3 +1,4 @@
+
 import { Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import GradientThemeSelector from "@/components/GradientThemeSelector";
@@ -47,7 +48,7 @@ const Navbar = () => {
             <div className="p-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent font-russo" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent font-righteous" style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}>
               Decorspaceai
             </h1>
           </div>

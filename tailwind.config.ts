@@ -23,6 +23,7 @@ export default {
         'boldonse': ['Boldonse', 'sans-serif'],
         'tenor': ['Tenor Sans', 'sans-serif'],
         'russo': ['Russo One', 'sans-serif'],
+        'righteous': ['Righteous', 'cursive'],
       },
       colors: {
         border: "hsl(var(--border))",
