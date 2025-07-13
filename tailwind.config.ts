@@ -22,6 +22,7 @@ export default {
         'gochi': ['Gochi Hand', 'cursive'],
         'boldonse': ['Boldonse', 'sans-serif'],
         'tenor': ['Tenor Sans', 'sans-serif'],
+        'russo': ['Russo One', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",

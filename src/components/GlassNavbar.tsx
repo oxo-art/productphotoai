@@ -1,4 +1,3 @@
-
 import { Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
@@ -52,7 +51,7 @@ const GlassNavbar = () => {
             <div className={`p-2 ${getThemeStyle('buttonPrimary')} rounded-lg`}>
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <h1 className={`text-xl font-bold ${textStyles.primary} font-tenor`} style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}>
+            <h1 className={`text-xl font-bold ${textStyles.primary} font-russo`} style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.3)' }}>
               Decorspaceai
             </h1>
           </div>
