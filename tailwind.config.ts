@@ -24,6 +24,7 @@ export default {
         'tenor': ['Tenor Sans', 'sans-serif'],
         'russo': ['Russo One', 'sans-serif'],
         'righteous': ['Righteous', 'cursive'],
+        'cascadia': ['Cascadia Code', 'monospace'],
       },
       colors: {
         border: "hsl(var(--border))",
