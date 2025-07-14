@@ -52,7 +52,7 @@ const GlassNavbar = () => {
             <div className={`p-2 ${getThemeStyle('buttonPrimary')} rounded-lg`}>
               <Sparkles className="w-5 h-5 text-white" />
             </div>
-            <h1 className={`text-3xl font-bold ${textStyles.primary} font-austria`} style={{ textShadow: '0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3)' }}>
+            <h1 className={`text-3xl font-bold ${textStyles.primary} font-ramlony`} style={{ textShadow: '0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3)' }}>
               Decorspaceai
             </h1>
           </div>

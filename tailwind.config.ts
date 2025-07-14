@@ -26,6 +26,7 @@ export default {
         'righteous': ['Righteous', 'cursive'],
         'cascadia': ['Cascadia Code', 'monospace'],
         'austria': ['Austria Ink', 'cursive'],
+        'ramlony': ['Raleway', 'sans-serif'],
       },
       colors: {
         border: "hsl(var(--border))",
