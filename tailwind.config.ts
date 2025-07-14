@@ -25,6 +25,7 @@ export default {
         'russo': ['Russo One', 'sans-serif'],
         'righteous': ['Righteous', 'cursive'],
         'cascadia': ['Cascadia Code', 'monospace'],
+        'austria': ['Austria Ink', 'cursive'],
       },
       colors: {
         border: "hsl(var(--border))",
