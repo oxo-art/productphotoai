@@ -15,7 +15,6 @@ const GlassThemeSelector = () => {
 
   const themes: { key: GlassTheme; name: string; gradient: string }[] = [
     { key: 'default', name: 'Glass Default', gradient: 'from-blue-500 to-purple-600' },
-    { key: 'grayscale', name: 'Glass Grayscale', gradient: 'from-gray-500 to-teal-600' },
     { key: 'ocean', name: 'Glass Ocean', gradient: 'from-blue-500 to-cyan-600' },
     { key: 'sunset', name: 'Glass Sunset', gradient: 'from-orange-500 to-red-600' },
     { key: 'forest', name: 'Glass Forest', gradient: 'from-green-500 to-emerald-600' }

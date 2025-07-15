@@ -1,3 +1,4 @@
+
 export const gradientThemes = {
   cosmic: {
     name: "Cosmic",
@@ -11,20 +12,6 @@ export const gradientThemes = {
     decorative: [
       "from-blue-500/20 to-transparent",
       "from-purple-500/20 to-transparent"
-    ]
-  },
-  grayscale: {
-    name: "Grayscale Turquoise",
-    background: "from-gray-800 via-slate-700 to-teal-700",
-    hero: "from-gray-500/10 via-slate-500/10 to-teal-500/10",
-    card: "from-white/10 to-white/5",
-    button: "from-gray-500 to-teal-600",
-    buttonHover: "from-gray-600 to-teal-700",
-    accent: "from-gray-400 via-slate-400 to-teal-400",
-    glow: "from-gray-500/20 to-teal-500/20",
-    decorative: [
-      "from-gray-500/20 to-transparent",
-      "from-teal-500/20 to-transparent"
     ]
   },
   sunset: {
