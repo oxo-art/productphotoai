@@ -1,4 +1,3 @@
-
 export const glassThemes = {
   default: {
     name: "Glass Default",
@@ -12,6 +11,24 @@ export const glassThemes = {
     popover: "bg-white/10 backdrop-blur-xl border-white/20 shadow-[0_8px_32px_0_rgba(31,38,135,0.4)] border",
     shadow: "shadow-[0_20px_50px_0_rgba(0,0,0,0.3)]",
     heroTextGradient: "from-blue-400 via-purple-400 to-pink-400",
+    text: {
+      primary: "text-white",
+      secondary: "text-white/80",
+      muted: "text-white/60"
+    }
+  },
+  grayscale: {
+    name: "Glass Grayscale",
+    background: "from-gray-800/95 via-slate-700/90 to-teal-700/95",
+    card: "bg-white/10 backdrop-blur-xl border-white/20 shadow-[0_8px_32px_0_rgba(107,114,128,0.37)] border",
+    cardHover: "bg-white/15 backdrop-blur-xl border-white/30 shadow-[0_8px_32px_0_rgba(107,114,128,0.5)] border",
+    button: "bg-white/20 backdrop-blur-md border-white/30 hover:bg-white/30 shadow-[0_4px_16px_0_rgba(107,114,128,0.3)] border",
+    buttonPrimary: "bg-gradient-to-r from-gray-600/90 to-teal-700/90 backdrop-blur-md border border-teal-400/80 hover:from-gray-700/95 hover:to-teal-800/95 shadow-[0_8px_24px_0_rgba(0,0,0,0.4)]",
+    input: "bg-white/10 backdrop-blur-md border-white/20 focus:border-white/40 focus:bg-white/15 shadow-[inset_0_2px_8px_0_rgba(107,114,128,0.2)] border",
+    navbar: "bg-white/10 backdrop-blur-xl border-white/10 shadow-[0_4px_24px_0_rgba(107,114,128,0.2)] border-b",
+    popover: "bg-white/10 backdrop-blur-xl border-white/20 shadow-[0_8px_32px_0_rgba(107,114,128,0.4)] border",
+    shadow: "shadow-[0_20px_50px_0_rgba(107,114,128,0.3)]",
+    heroTextGradient: "from-gray-400 via-slate-400 to-teal-400",
     text: {
       primary: "text-white",
       secondary: "text-white/80",

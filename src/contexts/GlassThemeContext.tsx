@@ -29,7 +29,7 @@ interface GlassThemeProviderProps {
 }
 
 export const GlassThemeProvider: React.FC<GlassThemeProviderProps> = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState<GlassTheme>('ocean');
+  const [currentTheme, setCurrentTheme] = useState<GlassTheme>('grayscale');
 
   const setTheme = (theme: GlassTheme) => {
     setCurrentTheme(theme);
