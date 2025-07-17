@@ -1,56 +1,73 @@
-
+import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Upload } from "lucide-react";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
-import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const HeroSection = () => {
   const { getGradient } = useGradientTheme();
 
+  const scrollToUpload = () => {
+    const uploadSection = document.querySelector('main');
+    uploadSection?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 py-20">
-      <div className="max-w-6xl mx-auto text-center">
-        <div className="space-y-8">
-          <div className="space-y-4">
-            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-              Transform Your Space with
-              <span className={`block bg-gradient-to-r ${getGradient('accent')} bg-clip-text text-transparent`}>
-                AI Magic
-              </span>
-            </h1>
-            <p className="text-xl md:text-2xl text-white/80 max-w-3xl mx-auto">
-              Upload your room photo and watch AI transform it into stunning interior designs
-            </p>
-          </div>
-
-          {/* Before/After Slider Section */}
-          <div className="py-12">
-            <BeforeAfterSlider 
-              beforeImage="/lovable-uploads/cf6de1f5-513d-44e4-9893-9a778f1a0e20.png"
-              afterImage="/lovable-uploads/003dde29-6184-448e-b261-a9f9aa0150fe.png"
-              beforeLabel="Before"
-              afterLabel="After"
-            />
-          </div>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button 
-              size="lg" 
-              className="bg-white/10 backdrop-blur-md border border-white/20 text-white hover:bg-white/20 transition-all duration-300 text-lg px-8 py-4 group"
-            >
-              <Upload className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
-              Start Creating
-            </Button>
-            <Button 
-              variant="outline" 
-              size="lg"
-              className="border-white/20 text-white hover:bg-white/10 backdrop-blur-md transition-all duration-300 text-lg px-8 py-4"
-            >
-              <Sparkles className="mr-2 h-5 w-5" />
-              See Examples
-            </Button>
+    <section className="relative overflow-hidden py-20 px-4">
+      {/* Background decorative elements */}
+      <div className={`absolute inset-0 bg-gradient-to-r ${getGradient('hero')} blur-3xl transition-all duration-1000`}></div>
+      <div className={`absolute top-10 left-10 w-72 h-72 bg-gradient-to-r ${getGradient('decorative')[0]} rounded-full blur-3xl animate-pulse`}></div>
+      <div className={`absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-r ${getGradient('decorative')[1]} rounded-full blur-3xl animate-pulse delay-1000`}></div>
+      
+      <div className="relative max-w-4xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 mb-8">
+          <Sparkles className="w-4 h-4" />
+          <span className="text-sm font-medium">Image editing powered by AI</span>
+        </div>
+        
+        <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
+          <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>Transform Your</span>
+          <span className="bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent transition-all duration-1000" style={{ filter: 'drop-shadow(0 0 2px rgba(234, 179, 8, 0.3))' }}>
+            {" "}Images{" "}
+          </span>
+          <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>with AI</span>
+        </h1>
+        
+        <div className="mb-12 mx-auto max-w-3xl">
+          <p className="text-xl text-white/90 leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+            Upload any image and describe how you want it to be transformed. Our advanced AI will reimagine your vision with stunning & professional results.
+          </p>
+        </div>
+        
+        <div className="mb-12 mx-auto max-w-4xl">
+          <div className="flex flex-wrap justify-center gap-6">
+            <div className="flex items-center gap-3 text-white/80">
+              <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
+                <Zap className="w-5 h-5" />
+              </div>
+              <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Lightning Fast</span>
+            </div>
+            <div className="flex items-center gap-3 text-white/80">
+              <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
+                <Palette className="w-5 h-5" />
+              </div>
+              <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>Professional Quality</span>
+            </div>
+            <div className="flex items-center gap-3 text-white/80">
+              <div className={`p-2 rounded-lg bg-gradient-to-r ${getGradient('glow')} backdrop-blur-sm transition-all duration-1000`}>
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
+            </div>
           </div>
         </div>
+        
+        <Button 
+          onClick={scrollToUpload}
+          size="lg" 
+          className={`bg-gradient-to-r ${getGradient('button')} hover:${getGradient('buttonHover')} text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105`}
+        >
+          Start Creating
+          <Sparkles className="ml-2 w-5 h-5" />
+        </Button>
       </div>
     </section>
   );
