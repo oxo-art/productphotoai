@@ -82,7 +82,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               draggable={false}
               style={{ 
                 objectPosition: 'center center',
-                transform: 'scale(0.9)',
+                transform: 'scale(1.05)',
                 transformOrigin: 'center center'
               }}
             />
