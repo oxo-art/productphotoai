@@ -75,9 +75,14 @@ const GlassHeroSection = () => {
         {/* Prompt Example Section */}
         <div className="mb-8 max-w-2xl mx-auto">
           <div className={`${getThemeStyle('card')} rounded-2xl p-6 ${getThemeStyle('shadow')}`}>
-            <p className="text-lg leading-relaxed bg-gradient-to-r from-yellow-400 via-orange-400 to-yellow-300 bg-clip-text text-transparent font-medium">
-              "Change the background, place this product near a lake, place 2-3 half open avocados on the right and left side of this product."
-            </p>
+            <div className="text-left">
+              <h3 className="text-lg font-semibold bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent mb-3">
+                Prompt:
+              </h3>
+              <p className="text-lg leading-relaxed bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent font-medium">
+                Change the background, place this product near a lake, place 2-3 half open avocados on the right and left side of this product.
+              </p>
+            </div>
           </div>
         </div>
         
