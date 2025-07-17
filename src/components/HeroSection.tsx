@@ -65,8 +65,8 @@ const HeroSection = () => {
         {/* Before/After Slider */}
         <div className="mb-12">
           <BeforeAfterSlider 
-            beforeImage="/lovable-uploads/906faf93-70af-40f1-b724-cdac16877fa8.png"
-            afterImage="/lovable-uploads/62894b6c-ed3a-4cb7-9115-31633c4f763f.png"
+            beforeImage="/lovable-uploads/ef3e7221-6597-4506-930f-c3a273ef6843.png"
+            afterImage="/lovable-uploads/da5596a9-4bb5-4bef-9602-d8d229432eac.png"
             className="backdrop-blur-sm"
           />
         </div>

@@ -81,9 +81,12 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               className="w-full h-full object-cover"
               draggable={false}
             />
-            <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
-              Before
-            </div>
+            {/* Before tag - disappears when slider is at 0% (fully before) */}
+            {sliderPosition > 5 && (
+              <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
+                Before
+              </div>
+            )}
           </div>
           
           {/* After Image */}
@@ -99,6 +102,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               className="w-full h-full object-cover"
               draggable={false}
             />
+            {/* After tag - always visible */}
             <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
               After
             </div>
