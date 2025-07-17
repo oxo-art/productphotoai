@@ -1,6 +1,8 @@
+
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
+import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const GlassHeroSection = () => {
   const { getThemeStyle } = useGlassTheme();
@@ -59,6 +61,15 @@ const GlassHeroSection = () => {
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
             </div>
           </div>
+        </div>
+        
+        {/* Before/After Slider */}
+        <div className="mb-12">
+          <BeforeAfterSlider 
+            beforeImage="/lovable-uploads/906faf93-70af-40f1-b724-cdac16877fa8.png"
+            afterImage="/lovable-uploads/62894b6c-ed3a-4cb7-9115-31633c4f763f.png"
+            className="backdrop-blur-sm"
+          />
         </div>
         
         <Button 
