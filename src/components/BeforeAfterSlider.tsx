@@ -22,6 +22,11 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
     e.preventDefault();
   }, []);
 
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    setIsDragging(true);
+    e.preventDefault();
+  }, []);
+
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging || !containerRef.current) return;
     
@@ -113,7 +118,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               transform: 'translateX(-50%) translateY(-50%)' 
             }}
             onMouseDown={handleMouseDown}
-            onTouchStart={handleMouseDown}
+            onTouchStart={handleTouchStart}
           >
             <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
           </div>
