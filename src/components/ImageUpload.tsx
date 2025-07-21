@@ -7,19 +7,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
-import { supabase } from "@/integrations/supabase/client";
-
-interface UploadedImage {
-  url: string;
-  width?: number;
-  height?: number;
-}
-
-interface GeneratedImage {
-  url: string;
-  width: number;
-  height: number;
-}
+import { aspectRatios } from "@/config/aspectRatios";
+import { UploadedImage, GeneratedImage } from "@/types/imageGeneration";
+import { useImageGeneration } from "@/hooks/useImageGeneration";
+import { processImageFile, downloadImage } from "@/utils/fileHandling";
 
 const promptSuggestions = [
   "Turn this image into a ghibli style art",
@@ -29,21 +20,6 @@ const promptSuggestions = [
   "Make it look like a comic book illustration"
 ];
 
-const aspectRatios = [
-  { label: "Match Input Image", value: "match_input_image", width: null, height: null },
-  { label: "1:1", value: "1:1", width: 1024, height: 1024 },
-  { label: "16:9", value: "16:9", width: 1024, height: 576 },
-  { label: "21:9", value: "21:9", width: 1024, height: 437 },
-  { label: "3:2", value: "3:2", width: 1024, height: 683 },
-  { label: "2:3", value: "2:3", width: 683, height: 1024 },
-  { label: "4:5", value: "4:5", width: 819, height: 1024 },
-  { label: "5:4", value: "5:4", width: 1024, height: 819 },
-  { label: "3:4", value: "3:4", width: 768, height: 1024 },
-  { label: "4:3", value: "4:3", width: 1024, height: 768 },
-  { label: "9:16", value: "9:16", width: 576, height: 1024 },
-  { label: "9:21", value: "9:21", width: 437, height: 1024 }
-];
-
 const ImageUpload = () => {
   const { getGradient } = useGradientTheme();
   const [dragActive, setDragActive] = useState(false);
@@ -51,9 +27,9 @@ const ImageUpload = () => {
   const [prompt, setPrompt] = useState("");
   const [selectedAspectRatio, setSelectedAspectRatio] = useState("match_input_image");
   const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([]);
-  const [isGenerating, setIsGenerating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+  const { generateImage, isGenerating } = useImageGeneration();
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -79,35 +55,21 @@ const ImageUpload = () => {
     handleFiles(files);
   };
 
-  const handleFiles = (files: File[]) => {
+  const handleFiles = async (files: File[]) => {
     if (files.length === 0) return;
     
     const file = files[0];
     
-    if (!file.type.startsWith('image/')) {
+    try {
+      const uploadedImage = await processImageFile(file);
+      setUploadedImage(uploadedImage);
+    } catch (error) {
       toast({
         title: "Invalid file",
-        description: "Only image files are allowed",
+        description: error instanceof Error ? error.message : "Failed to process image",
         variant: "destructive"
       });
-      return;
     }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result as string;
-      
-      const img = new Image();
-      img.onload = () => {
-        setUploadedImage({ 
-          url: result,
-          width: img.width,
-          height: img.height
-        });
-      };
-      img.src = result;
-    };
-    reader.readAsDataURL(file);
   };
 
   const removeImage = () => {
@@ -118,19 +80,9 @@ const ImageUpload = () => {
     fileInputRef.current?.click();
   };
 
-  const downloadImage = async (imageUrl: string, index: number) => {
+  const handleDownloadImage = async (imageUrl: string, index: number) => {
     try {
-      const response = await fetch(imageUrl);
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `generated-image-${index + 1}.jpg`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
-      
+      await downloadImage(imageUrl, `generated-image-${index + 1}.jpg`);
       toast({
         title: "Download successful",
         description: "Image downloaded successfully",
@@ -145,98 +97,11 @@ const ImageUpload = () => {
   };
 
   const handleGenerate = async () => {
-    if (!prompt.trim()) {
-      toast({
-        title: "Prompt required",
-        description: "Please enter a prompt to generate an image",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    if (!uploadedImage) {
-      toast({
-        title: "Image required",
-        description: "Please upload an image first",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setIsGenerating(true);
-
-    try {
-      console.log("Calling Flux Kontext Dev function...");
-      console.log("Selected aspect ratio:", selectedAspectRatio);
-      
-      const selectedRatio = aspectRatios.find(ratio => ratio.value === selectedAspectRatio);
-      console.log("Found ratio config:", selectedRatio);
-      
-      // Calculate output dimensions based on selected aspect ratio
-      let outputWidth: number;
-      let outputHeight: number;
-      
-      if (selectedAspectRatio === "match_input_image") {
-        outputWidth = uploadedImage.width || 1024;
-        outputHeight = uploadedImage.height || 1024;
-        console.log("Using input image dimensions:", outputWidth, "x", outputHeight);
-      } else {
-        outputWidth = selectedRatio?.width || 1024;
-        outputHeight = selectedRatio?.height || 1024;
-        console.log("Using aspect ratio dimensions:", outputWidth, "x", outputHeight);
-      }
-      
-      const requestBody = {
-        prompt: prompt,
-        input_image: uploadedImage.url,
-        aspect_ratio: selectedAspectRatio,
-        width: outputWidth,
-        height: outputHeight
-      };
-      
-      console.log("Request body:", requestBody);
-      
-      const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
-        body: requestBody
-      });
-
-      if (error) {
-        console.error("Supabase function error:", error);
-        throw new Error(error.message || "Failed to generate image");
-      }
-
-      console.log("Function response:", data);
-
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      if (data.output && Array.isArray(data.output) && data.output.length > 0) {
-        const newImages = data.output.map((url: string) => ({
-          url,
-          width: outputWidth,
-          height: outputHeight
-        }));
-        
-        setGeneratedImages(prev => [...prev, ...newImages]);
-        
-        toast({
-          title: "Success!",
-          description: "Your image has been transformed successfully!",
-        });
-      } else {
-        throw new Error("No images were generated");
-      }
-
-    } catch (error: any) {
-      console.error("Generation error:", error);
-      toast({
-        title: "Generation failed",
-        description: error.message || "Failed to generate image. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsGenerating(false);
+    if (!uploadedImage) return;
+    
+    const newImages = await generateImage(prompt, uploadedImage, selectedAspectRatio);
+    if (newImages.length > 0) {
+      setGeneratedImages(prev => [...prev, ...newImages]);
     }
   };
 
@@ -438,7 +303,7 @@ const ImageUpload = () => {
                   <div className="absolute top-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <button
                       className={`h-12 w-12 rounded-xl bg-gradient-to-br ${getGradient('button')} p-[2px] hover:${getGradient('buttonHover')} transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110`}
-                      onClick={() => downloadImage(image.url, index)}
+                      onClick={() => handleDownloadImage(image.url, index)}
                     >
                       <div className="h-full w-full rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white/80 transition-colors">
                         <Download className="h-5 w-5 text-gray-700" />
