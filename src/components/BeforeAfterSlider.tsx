@@ -151,7 +151,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           step={1}
           className="w-full"
         />
-        <div className="flex justify-between text-sm text-white/70 mt-2">
+        <div className="flex justify-between text-sm text-white mt-2">
           <span>Before</span>
           <span>After</span>
         </div>
