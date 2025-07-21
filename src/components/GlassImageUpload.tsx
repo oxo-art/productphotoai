@@ -31,12 +31,17 @@ const promptSuggestions = [
 
 const aspectRatios = [
   { label: "Square (1:1)", value: "1:1", width: 1024, height: 1024 },
-  { label: "Portrait (3:4)", value: "3:4", width: 768, height: 1024 },
-  { label: "Portrait (9:16)", value: "9:16", width: 576, height: 1024 },
-  { label: "Landscape (4:3)", value: "4:3", width: 1024, height: 768 },
   { label: "Landscape (16:9)", value: "16:9", width: 1024, height: 576 },
   { label: "Ultra Wide (21:9)", value: "21:9", width: 1024, height: 437 },
-  { label: "Cinematic (2.35:1)", value: "2.35:1", width: 1024, height: 435 }
+  { label: "Portrait (3:2)", value: "3:2", width: 1024, height: 683 },
+  { label: "Portrait (2:3)", value: "2:3", width: 683, height: 1024 },
+  { label: "Portrait (4:5)", value: "4:5", width: 819, height: 1024 },
+  { label: "Landscape (5:4)", value: "5:4", width: 1024, height: 819 },
+  { label: "Portrait (3:4)", value: "3:4", width: 768, height: 1024 },
+  { label: "Landscape (4:3)", value: "4:3", width: 1024, height: 768 },
+  { label: "Portrait (9:16)", value: "9:16", width: 576, height: 1024 },
+  { label: "Ultra Tall (9:21)", value: "9:21", width: 437, height: 1024 },
+  { label: "Match Input Image", value: "match_input_image", width: null, height: null }
 ];
 
 const GlassImageUpload = () => {
@@ -166,12 +171,20 @@ const GlassImageUpload = () => {
       
       const selectedRatio = aspectRatios.find(ratio => ratio.value === selectedAspectRatio);
       
+      // Use input image dimensions for match_input_image option
+      const outputWidth = selectedRatio?.value === "match_input_image" 
+        ? uploadedImage.width || 1024 
+        : selectedRatio?.width || 1024;
+      const outputHeight = selectedRatio?.value === "match_input_image" 
+        ? uploadedImage.height || 1024 
+        : selectedRatio?.height || 1024;
+      
       const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
         body: {
           prompt: prompt,
           input_image: uploadedImage.url,
-          width: selectedRatio?.width || 1024,
-          height: selectedRatio?.height || 1024
+          width: outputWidth,
+          height: outputHeight
         }
       });
 
@@ -189,8 +202,8 @@ const GlassImageUpload = () => {
       if (data.output && Array.isArray(data.output) && data.output.length > 0) {
         const newImages = data.output.map((url: string) => ({
           url,
-          width: selectedRatio?.width || uploadedImage.width || 1024,
-          height: selectedRatio?.height || uploadedImage.height || 1024
+          width: outputWidth,
+          height: outputHeight
         }));
         
         setGeneratedImages(prev => [...prev, ...newImages]);
@@ -322,7 +335,7 @@ const GlassImageUpload = () => {
           <div className="space-y-6">
             {/* Aspect Ratio Selector */}
             <div className="space-y-3">
-              <label className={`${textStyles.secondary} text-sm font-medium`}>Output Aspect Ratio</label>
+              <label className={`${textStyles.secondary} text-sm font-medium`}>Aspect Ratio</label>
               <Select value={selectedAspectRatio} onValueChange={setSelectedAspectRatio}>
                 <SelectTrigger className={`${getThemeStyle('input')} ${textStyles.primary} focus:border-white/40 focus:bg-white/10`}>
                   <SelectValue placeholder="Select aspect ratio" />
