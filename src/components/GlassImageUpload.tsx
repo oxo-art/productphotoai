@@ -4,6 +4,7 @@ import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb }
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,12 +29,23 @@ const promptSuggestions = [
   "Make it look like a comic book illustration"
 ];
 
+const aspectRatios = [
+  { label: "Square (1:1)", value: "1:1", width: 1024, height: 1024 },
+  { label: "Portrait (3:4)", value: "3:4", width: 768, height: 1024 },
+  { label: "Portrait (9:16)", value: "9:16", width: 576, height: 1024 },
+  { label: "Landscape (4:3)", value: "4:3", width: 1024, height: 768 },
+  { label: "Landscape (16:9)", value: "16:9", width: 1024, height: 576 },
+  { label: "Ultra Wide (21:9)", value: "21:9", width: 1024, height: 437 },
+  { label: "Cinematic (2.35:1)", value: "2.35:1", width: 1024, height: 435 }
+];
+
 const GlassImageUpload = () => {
   const { getThemeStyle } = useGlassTheme();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
   const [prompt, setPrompt] = useState("");
+  const [selectedAspectRatio, setSelectedAspectRatio] = useState("1:1");
   const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -152,10 +164,14 @@ const GlassImageUpload = () => {
     try {
       console.log("Calling Flux Kontext Dev function...");
       
+      const selectedRatio = aspectRatios.find(ratio => ratio.value === selectedAspectRatio);
+      
       const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
         body: {
           prompt: prompt,
-          input_image: uploadedImage.url
+          input_image: uploadedImage.url,
+          width: selectedRatio?.width || 1024,
+          height: selectedRatio?.height || 1024
         }
       });
 
@@ -173,8 +189,8 @@ const GlassImageUpload = () => {
       if (data.output && Array.isArray(data.output) && data.output.length > 0) {
         const newImages = data.output.map((url: string) => ({
           url,
-          width: uploadedImage.width || 1024,
-          height: uploadedImage.height || 1024
+          width: selectedRatio?.width || uploadedImage.width || 1024,
+          height: selectedRatio?.height || uploadedImage.height || 1024
         }));
         
         setGeneratedImages(prev => [...prev, ...newImages]);
@@ -304,6 +320,27 @@ const GlassImageUpload = () => {
           </div>
           
           <div className="space-y-6">
+            {/* Aspect Ratio Selector */}
+            <div className="space-y-3">
+              <label className={`${textStyles.secondary} text-sm font-medium`}>Output Aspect Ratio</label>
+              <Select value={selectedAspectRatio} onValueChange={setSelectedAspectRatio}>
+                <SelectTrigger className={`${getThemeStyle('input')} ${textStyles.primary} focus:border-white/40 focus:bg-white/10`}>
+                  <SelectValue placeholder="Select aspect ratio" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-900/95 backdrop-blur-lg border-white/20">
+                  {aspectRatios.map((ratio) => (
+                    <SelectItem 
+                      key={ratio.value} 
+                      value={ratio.value}
+                      className="text-white hover:bg-white/10 focus:bg-white/10"
+                    >
+                      {ratio.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
             <Textarea
               placeholder="Describe how you want to transform your image..."
               value={prompt}
