@@ -66,8 +66,8 @@ const GlassHeroSection = () => {
         {/* Before/After Slider */}
         <div className="mb-12">
           <BeforeAfterSlider 
-            beforeImage="/lovable-uploads/d6fd886d-d52b-4751-ad84-adc91764cf83.png"
-            afterImage="/lovable-uploads/da5596a9-4bb5-4bef-9602-d8d229432eac.png"
+            beforeImage="/lovable-uploads/7fb2e9b2-46e5-45eb-b070-4066d9dea6c4.png"
+            afterImage="/lovable-uploads/c7e7f6fa-3b68-4ee6-92e8-af145b8cb704.png"
             className="backdrop-blur-sm"
           />
         </div>

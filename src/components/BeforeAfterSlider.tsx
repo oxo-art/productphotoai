@@ -67,7 +67,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
   return (
     <div className={`relative max-w-md mx-auto ${className}`}>
-      <AspectRatio ratio={9/16}>
+      <AspectRatio ratio={4/3}>
         <div 
           ref={containerRef}
           className="relative w-full h-full overflow-hidden rounded-xl shadow-2xl cursor-grab active:cursor-grabbing"
