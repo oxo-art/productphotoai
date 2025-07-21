@@ -1,3 +1,4 @@
+
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
@@ -64,7 +65,7 @@ const HeroSection = () => {
         {/* Before/After Slider */}
         <div className="mb-12">
           <BeforeAfterSlider 
-            beforeImage="/lovable-uploads/9c354548-0486-432b-987c-3f0ad4368138.png"
+            beforeImage="/lovable-uploads/3baa4fb7-eacf-4c34-b77e-eb8e80bccf5f.png"
             afterImage="/lovable-uploads/c7e7f6fa-3b68-4ee6-92e8-af145b8cb704.png"
             className="backdrop-blur-sm"
           />
