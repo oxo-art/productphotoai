@@ -41,17 +41,25 @@ serve(async (req) => {
 
     console.log("Generating image with Flux Kontext Dev")
     console.log("Prompt:", body.prompt)
+    console.log("Aspect ratio:", body.aspect_ratio)
+    console.log("Width:", body.width)
+    console.log("Height:", body.height)
+    
+    // Use the aspect_ratio from the request, defaulting to "match_input_image"
+    const aspectRatio = body.aspect_ratio || "match_input_image";
     
     const input = {
       prompt: body.prompt,
       go_fast: true,
       guidance: 2.5,
       input_image: body.input_image,
-      aspect_ratio: "match_input_image", 
+      aspect_ratio: aspectRatio,
       output_format: "jpg",
       output_quality: 80,
       num_inference_steps: 30
     };
+
+    console.log("Final input to Replicate:", input);
 
     const output = await replicate.run("black-forest-labs/flux-kontext-dev", { input });
 

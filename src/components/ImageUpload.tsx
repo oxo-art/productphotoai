@@ -166,24 +166,37 @@ const ImageUpload = () => {
 
     try {
       console.log("Calling Flux Kontext Dev function...");
+      console.log("Selected aspect ratio:", selectedAspectRatio);
       
       const selectedRatio = aspectRatios.find(ratio => ratio.value === selectedAspectRatio);
+      console.log("Found ratio config:", selectedRatio);
       
-      // Use input image dimensions for match_input_image option
-      const outputWidth = selectedRatio?.value === "match_input_image" 
-        ? uploadedImage.width || 1024 
-        : selectedRatio?.width || 1024;
-      const outputHeight = selectedRatio?.value === "match_input_image" 
-        ? uploadedImage.height || 1024 
-        : selectedRatio?.height || 1024;
+      // Calculate output dimensions based on selected aspect ratio
+      let outputWidth: number;
+      let outputHeight: number;
+      
+      if (selectedAspectRatio === "match_input_image") {
+        outputWidth = uploadedImage.width || 1024;
+        outputHeight = uploadedImage.height || 1024;
+        console.log("Using input image dimensions:", outputWidth, "x", outputHeight);
+      } else {
+        outputWidth = selectedRatio?.width || 1024;
+        outputHeight = selectedRatio?.height || 1024;
+        console.log("Using aspect ratio dimensions:", outputWidth, "x", outputHeight);
+      }
+      
+      const requestBody = {
+        prompt: prompt,
+        input_image: uploadedImage.url,
+        aspect_ratio: selectedAspectRatio,
+        width: outputWidth,
+        height: outputHeight
+      };
+      
+      console.log("Request body:", requestBody);
       
       const { data, error } = await supabase.functions.invoke('flux-kontext-pro', {
-        body: {
-          prompt: prompt,
-          input_image: uploadedImage.url,
-          width: outputWidth,
-          height: outputHeight
-        }
+        body: requestBody
       });
 
       if (error) {
