@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useCallback } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
+import { Slider } from '@/components/ui/slider';
 
 interface BeforeAfterSliderProps {
   beforeImage: string;
@@ -17,61 +18,67 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const updateSliderPosition = useCallback((clientX: number) => {
+    if (!containerRef.current) return;
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = clientX - rect.left;
+    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
+    setSliderPosition(percentage);
+  }, []);
+
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     setIsDragging(true);
+    updateSliderPosition(e.clientX);
     e.preventDefault();
-  }, []);
+  }, [updateSliderPosition]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     setIsDragging(true);
+    updateSliderPosition(e.touches[0].clientX);
     e.preventDefault();
-  }, []);
+  }, [updateSliderPosition]);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(percentage);
-  }, [isDragging]);
+    if (!isDragging) return;
+    updateSliderPosition(e.clientX);
+  }, [isDragging, updateSliderPosition]);
 
-  const handleMouseUp = useCallback(() => {
+  const handleTouchMove = useCallback((e: TouchEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    updateSliderPosition(e.touches[0].clientX);
+  }, [isDragging, updateSliderPosition]);
+
+  const handleEnd = useCallback(() => {
     setIsDragging(false);
   }, []);
 
-  const handleTouchMove = useCallback((e: TouchEvent) => {
-    if (!isDragging || !containerRef.current) return;
-    
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = e.touches[0].clientX - rect.left;
-    const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-    setSliderPosition(percentage);
-  }, [isDragging]);
-
   React.useEffect(() => {
     if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove);
-      document.addEventListener('touchend', handleMouseUp);
+      document.addEventListener('mousemove', handleMouseMove, { passive: false });
+      document.addEventListener('mouseup', handleEnd);
+      document.addEventListener('touchmove', handleTouchMove, { passive: false });
+      document.addEventListener('touchend', handleEnd);
       
       return () => {
         document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
+        document.removeEventListener('mouseup', handleEnd);
         document.removeEventListener('touchmove', handleTouchMove);
-        document.removeEventListener('touchend', handleMouseUp);
+        document.removeEventListener('touchend', handleEnd);
       };
     }
-  }, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove]);
+  }, [isDragging, handleMouseMove, handleTouchMove, handleEnd]);
 
   return (
     <div className={`relative max-w-md mx-auto ${className}`}>
       <AspectRatio ratio={4/3}>
         <div 
           ref={containerRef}
-          className="relative w-full h-full overflow-hidden rounded-xl shadow-2xl cursor-grab active:cursor-grabbing"
-          style={{ userSelect: 'none' }}
+          className="relative w-full h-full overflow-hidden rounded-2xl shadow-2xl cursor-grab active:cursor-grabbing select-none"
+          onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
+          style={{ touchAction: 'none' }}
         >
           {/* Before Image */}
           <div className="absolute inset-0">
@@ -80,15 +87,10 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               alt="Before" 
               className="w-full h-full object-cover object-center"
               draggable={false}
-              style={{ 
-                objectPosition: 'center center',
-                transform: 'scale(1.05)',
-                transformOrigin: 'center center'
-              }}
             />
-            {/* Before tag - disappears when slider is at 5% or less */}
-            {sliderPosition > 5 && (
-              <div className="absolute top-4 left-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
+            {/* Before tag */}
+            {sliderPosition > 10 && (
+              <div className="absolute top-4 left-4 bg-black/80 text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm transition-opacity duration-300">
                 Before
               </div>
             )}
@@ -96,7 +98,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           
           {/* After Image */}
           <div 
-            className="absolute inset-0"
+            className="absolute inset-0 transition-all duration-100 ease-out"
             style={{
               clipPath: `polygon(${sliderPosition}% 0%, 100% 0%, 100% 100%, ${sliderPosition}% 100%)`
             }}
@@ -106,38 +108,54 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               alt="After" 
               className="w-full h-full object-cover object-center"
               draggable={false}
-              style={{ 
-                objectPosition: 'center center',
-                transform: 'scale(1.05)',
-                transformOrigin: 'center center'
-              }}
             />
-            {/* After tag - always visible */}
-            <div className="absolute top-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm">
+            {/* After tag */}
+            <div className="absolute top-4 right-4 bg-black/80 text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm">
               After
             </div>
           </div>
           
-          {/* Slider Line */}
+          {/* Modern Slider Line */}
           <div 
-            className="absolute top-0 bottom-0 w-1 bg-white shadow-lg"
-            style={{ left: `${sliderPosition}%`, transform: 'translateX(-50%)' }}
-          />
-          
-          {/* Slider Handle */}
-          <div 
-            className="absolute top-1/2 w-8 h-8 bg-white rounded-full shadow-lg border-2 border-gray-300 cursor-grab active:cursor-grabbing flex items-center justify-center"
+            className="absolute top-0 bottom-0 w-0.5 bg-white shadow-xl transition-all duration-100 ease-out"
             style={{ 
               left: `${sliderPosition}%`, 
-              transform: 'translateX(-50%) translateY(-50%)' 
+              transform: 'translateX(-50%)',
+              boxShadow: '0 0 20px rgba(255, 255, 255, 0.5)'
             }}
-            onMouseDown={handleMouseDown}
-            onTouchStart={handleTouchStart}
+          />
+          
+          {/* Modern Slider Handle */}
+          <div 
+            className="absolute top-1/2 w-12 h-12 bg-white rounded-full shadow-xl border-4 border-white/20 cursor-grab active:cursor-grabbing flex items-center justify-center backdrop-blur-sm transition-all duration-100 ease-out hover:scale-110"
+            style={{ 
+              left: `${sliderPosition}%`, 
+              transform: 'translateX(-50%) translateY(-50%)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+            }}
           >
-            <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+            <div className="flex space-x-1">
+              <div className="w-1 h-6 bg-gray-400 rounded-full"></div>
+              <div className="w-1 h-6 bg-gray-400 rounded-full"></div>
+            </div>
           </div>
         </div>
       </AspectRatio>
+      
+      {/* Modern Slider Control */}
+      <div className="mt-6 px-2">
+        <Slider
+          value={[sliderPosition]}
+          onValueChange={(value) => setSliderPosition(value[0])}
+          max={100}
+          step={1}
+          className="w-full"
+        />
+        <div className="flex justify-between text-sm text-white/70 mt-2">
+          <span>Before</span>
+          <span>After</span>
+        </div>
+      </div>
     </div>
   );
 };
