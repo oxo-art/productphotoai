@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -30,17 +31,17 @@ const promptSuggestions = [
 
 const aspectRatios = [
   { label: "Match Input Image", value: "match_input_image", width: null, height: null },
-  { label: "Square (1:1)", value: "1:1", width: 1024, height: 1024 },
-  { label: "Landscape (16:9)", value: "16:9", width: 1024, height: 576 },
-  { label: "Ultra Wide (21:9)", value: "21:9", width: 1024, height: 437 },
-  { label: "Portrait (3:2)", value: "3:2", width: 1024, height: 683 },
-  { label: "Portrait (2:3)", value: "2:3", width: 683, height: 1024 },
-  { label: "Portrait (4:5)", value: "4:5", width: 819, height: 1024 },
-  { label: "Landscape (5:4)", value: "5:4", width: 1024, height: 819 },
-  { label: "Portrait (3:4)", value: "3:4", width: 768, height: 1024 },
-  { label: "Landscape (4:3)", value: "4:3", width: 1024, height: 768 },
-  { label: "Portrait (9:16)", value: "9:16", width: 576, height: 1024 },
-  { label: "Ultra Tall (9:21)", value: "9:21", width: 437, height: 1024 }
+  { label: "1:1", value: "1:1", width: 1024, height: 1024 },
+  { label: "16:9", value: "16:9", width: 1024, height: 576 },
+  { label: "21:9", value: "21:9", width: 1024, height: 437 },
+  { label: "3:2", value: "3:2", width: 1024, height: 683 },
+  { label: "2:3", value: "2:3", width: 683, height: 1024 },
+  { label: "4:5", value: "4:5", width: 819, height: 1024 },
+  { label: "5:4", value: "5:4", width: 1024, height: 819 },
+  { label: "3:4", value: "3:4", width: 768, height: 1024 },
+  { label: "4:3", value: "4:3", width: 1024, height: 768 },
+  { label: "9:16", value: "9:16", width: 576, height: 1024 },
+  { label: "9:21", value: "9:21", width: 437, height: 1024 }
 ];
 
 const GlassImageUpload = () => {
