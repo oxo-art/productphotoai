@@ -1,4 +1,3 @@
-
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
@@ -65,7 +64,7 @@ const HeroSection = () => {
         {/* Before/After Slider */}
         <div className="mb-12">
           <BeforeAfterSlider 
-            beforeImage="/lovable-uploads/f3d62645-ae07-4772-acaa-9f92b6fb7ee3.png"
+            beforeImage="/lovable-uploads/9c354548-0486-432b-987c-3f0ad4368138.png"
             afterImage="/lovable-uploads/c7e7f6fa-3b68-4ee6-92e8-af145b8cb704.png"
             className="backdrop-blur-sm"
           />
@@ -75,10 +74,10 @@ const HeroSection = () => {
         <div className="mb-8 max-w-2xl mx-auto">
           <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.3)]">
             <div className="text-left">
-              <h3 className="text-lg font-semibold bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent mb-3">
+              <h3 className="text-lg font-semibold text-white mb-3">
                 Prompt:
               </h3>
-              <p className="text-lg leading-relaxed bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent font-medium">
+              <p className="text-lg leading-relaxed text-white font-medium">
                 Change the background, place this product near a lake, place 2-3 half open avocados on the right and left side of this product.
               </p>
             </div>
