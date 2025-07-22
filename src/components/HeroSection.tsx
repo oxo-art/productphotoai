@@ -1,15 +1,16 @@
 
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
 import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const HeroSection = () => {
   const { getGradient } = useGradientTheme();
+  const navigate = useNavigate();
 
-  const scrollToUpload = () => {
-    const uploadSection = document.querySelector('main');
-    uploadSection?.scrollIntoView({ behavior: 'smooth' });
+  const handleStartCreating = () => {
+    navigate("/create");
   };
 
   return (
@@ -86,7 +87,7 @@ const HeroSection = () => {
         </div>
         
         <Button 
-          onClick={scrollToUpload}
+          onClick={handleStartCreating}
           size="lg" 
           className={`bg-gradient-to-r ${getGradient('button')} hover:${getGradient('buttonHover')} text-white px-8 py-6 text-lg font-semibold rounded-xl shadow-2xl hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105`}
         >

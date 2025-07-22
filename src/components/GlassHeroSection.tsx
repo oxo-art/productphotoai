@@ -1,16 +1,17 @@
 
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const GlassHeroSection = () => {
   const { getThemeStyle } = useGlassTheme();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
+  const navigate = useNavigate();
 
-  const scrollToUpload = () => {
-    const uploadSection = document.querySelector('main');
-    uploadSection?.scrollIntoView({ behavior: 'smooth' });
+  const handleStartCreating = () => {
+    navigate("/create");
   };
 
   return (
@@ -87,7 +88,7 @@ const GlassHeroSection = () => {
         </div>
         
         <Button 
-          onClick={scrollToUpload}
+          onClick={handleStartCreating}
           size="lg" 
           className={`${getThemeStyle('buttonPrimary')} text-white px-8 py-6 text-lg font-semibold rounded-xl ${getThemeStyle('shadow')} hover:scale-105 transition-all duration-300`}
         >
