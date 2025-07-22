@@ -3,15 +3,11 @@ import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import BeforeAfterSlider from "./BeforeAfterSlider";
+import { Link } from "react-router-dom";
 
 const GlassHeroSection = () => {
   const { getThemeStyle } = useGlassTheme();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
-
-  const scrollToUpload = () => {
-    const uploadSection = document.querySelector('main');
-    uploadSection?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   return (
     <section className="relative overflow-hidden py-20 px-4">
@@ -86,14 +82,15 @@ const GlassHeroSection = () => {
           </div>
         </div>
         
-        <Button 
-          onClick={scrollToUpload}
-          size="lg" 
-          className={`${getThemeStyle('buttonPrimary')} text-white px-8 py-6 text-lg font-semibold rounded-xl ${getThemeStyle('shadow')} hover:scale-105 transition-all duration-300`}
-        >
-          Start Creating
-          <Sparkles className="ml-2 w-5 h-5" />
-        </Button>
+        <Link to="/design">
+          <Button 
+            size="lg" 
+            className={`${getThemeStyle('buttonPrimary')} text-white px-8 py-6 text-lg font-semibold rounded-xl ${getThemeStyle('shadow')} hover:scale-105 transition-all duration-300`}
+          >
+            Start Creating
+            <Sparkles className="ml-2 w-5 h-5" />
+          </Button>
+        </Link>
       </div>
     </section>
   );

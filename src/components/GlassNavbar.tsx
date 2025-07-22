@@ -3,6 +3,7 @@ import { Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import GlassThemeSelector from "@/components/GlassThemeSelector";
+import { Link } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
@@ -35,9 +36,12 @@ const GlassNavbar = () => {
                 </SheetDescription>
               </SheetHeader>
               <div className="mt-6 space-y-4">
-                <a href="/" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                <Link to="/" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
                   Home
-                </a>
+                </Link>
+                <Link to="/design" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                  Design Tool
+                </Link>
                 <a href="#" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
                   Gallery
                 </a>
@@ -52,16 +56,21 @@ const GlassNavbar = () => {
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           
-          <h1 className={`text-3xl font-bold ${textStyles.primary} font-ramlony`} style={{ textShadow: '0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3)' }}>
-            Decorspaceai
-          </h1>
+          <Link to="/">
+            <h1 className={`text-3xl font-bold ${textStyles.primary} font-ramlony cursor-pointer`} style={{ textShadow: '0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3)' }}>
+              Decorspaceai
+            </h1>
+          </Link>
         </div>
 
         <div className="flex items-center space-x-4">
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
+            <Link to="/" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
               Home
-            </a>
+            </Link>
+            <Link to="/design" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
+              Design Tool
+            </Link>
             <a href="#" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
               Gallery
             </a>
