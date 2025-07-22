@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Palette } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
+import ImageUpload from "@/components/ImageUpload";
 import HeroSection from "@/components/HeroSection";
 import GlassIndex from "@/pages/GlassIndex";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
@@ -11,7 +11,6 @@ import { useGradientTheme } from "@/contexts/GradientThemeContext";
 const Index = () => {
   const { getGradient } = useGradientTheme();
   const [isGlassMode, setIsGlassMode] = useState(false);
-  const navigate = useNavigate();
 
   if (isGlassMode) {
     return <GlassIndex />;
@@ -33,6 +32,9 @@ const Index = () => {
 
       <Navbar />
       <HeroSection />
+      <main className="container mx-auto px-4 py-8">
+        <ImageUpload />
+      </main>
     </div>
   );
 };
