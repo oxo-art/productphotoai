@@ -1,3 +1,4 @@
+
 export const gradientThemes = {
   cosmic: {
     name: "Cosmic",
@@ -180,21 +181,6 @@ export const gradientThemes = {
       "from-blue-500/20 to-transparent",
       "from-teal-500/20 to-transparent"
     ]
-  },
-  navy: {
-    name: "Navy",
-    background: "from-slate-800 via-blue-900 to-slate-700",
-    hero: "from-blue-800/10 via-slate-500/10 to-gray-500/10",
-    card: "from-white/10 to-white/5",
-    button: "from-blue-800 to-slate-600",
-    buttonHover: "from-blue-900 to-slate-700",
-    accent: "from-blue-600 via-slate-500 to-gray-400",
-    glow: "from-blue-800/20 to-slate-500/20",
-    decorative: [
-      "from-blue-800/20 to-transparent",
-      "from-slate-500/20 to-transparent"
-    ],
-    section: "from-blue-900 via-slate-700 to-gray-600"
   }
 } as const;
 
