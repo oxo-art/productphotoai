@@ -5,6 +5,7 @@ import { Sparkles, Palette } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import ImageUpload from "@/components/ImageUpload";
 import HeroSection from "@/components/HeroSection";
+import NewSection from "@/components/NewSection";
 import GlassIndex from "@/pages/GlassIndex";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
 
@@ -32,6 +33,7 @@ const Index = () => {
 
       <Navbar />
       <HeroSection />
+      <NewSection />
       <main className="container mx-auto px-4 py-8">
         <ImageUpload />
       </main>
