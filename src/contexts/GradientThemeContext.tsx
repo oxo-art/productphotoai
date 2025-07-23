@@ -24,7 +24,7 @@ interface GradientThemeProviderProps {
 }
 
 export const GradientThemeProvider: React.FC<GradientThemeProviderProps> = ({ children }) => {
-  const [currentTheme, setCurrentTheme] = useState<GradientTheme>('cosmic');
+  const [currentTheme, setCurrentTheme] = useState<GradientTheme>('skyline');
 
   const setTheme = (theme: GradientTheme) => {
     setCurrentTheme(theme);
