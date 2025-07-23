@@ -1,18 +1,4 @@
 export const gradientThemes = {
-  skyline: {
-    name: "Skyline",
-    background: "from-blue-600 via-blue-500 to-cyan-400",
-    hero: "from-blue-500/10 via-cyan-500/10 to-teal-500/10",
-    card: "from-white/10 to-white/5",
-    button: "from-blue-500 to-cyan-400",
-    buttonHover: "from-blue-600 to-cyan-500",
-    accent: "from-blue-400 via-cyan-400 to-teal-400",
-    glow: "from-blue-500/20 to-cyan-500/20",
-    decorative: [
-      "from-blue-500/20 to-transparent",
-      "from-cyan-500/20 to-transparent"
-    ]
-  },
   cosmic: {
     name: "Cosmic",
     background: "from-slate-900 via-purple-900 to-slate-900",
