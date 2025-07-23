@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Palette } from "lucide-react";
@@ -7,6 +6,7 @@ import ImageUpload from "@/components/ImageUpload";
 import HeroSection from "@/components/HeroSection";
 import GlassIndex from "@/pages/GlassIndex";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
+import NavySection from "@/components/NavySection";
 
 const Index = () => {
   const { getGradient } = useGradientTheme();
@@ -32,6 +32,7 @@ const Index = () => {
 
       <Navbar />
       <HeroSection />
+      <NavySection />
       <main className="container mx-auto px-4 py-8">
         <ImageUpload />
       </main>
