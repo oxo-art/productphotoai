@@ -1,10 +1,10 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sparkles, Palette } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import ImageUpload from "@/components/ImageUpload";
 import HeroSection from "@/components/HeroSection";
+import FeaturesSection from "@/components/FeaturesSection";
 import GlassIndex from "@/pages/GlassIndex";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
 
@@ -32,6 +32,12 @@ const Index = () => {
 
       <Navbar />
       <HeroSection />
+      
+      {/* Add small gap between sections */}
+      <div className="py-8"></div>
+      
+      <FeaturesSection />
+      
       <main className="container mx-auto px-4 py-8">
         <ImageUpload />
       </main>
