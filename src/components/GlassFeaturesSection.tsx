@@ -1,5 +1,5 @@
 
-import { Zap, Shield, Sparkles, Users, Award, Rocket } from "lucide-react";
+import { Zap, Shield, Award, Rocket } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 
 const GlassFeaturesSection = () => {
@@ -16,16 +16,6 @@ const GlassFeaturesSection = () => {
       icon: Shield,
       title: "Enterprise Security",
       description: "Your images are processed with bank-level security. We never store your data and all processing happens in secure environments."
-    },
-    {
-      icon: Sparkles,
-      title: "AI-Powered Magic",
-      description: "Our cutting-edge AI understands context and creates stunning results that exceed human capabilities."
-    },
-    {
-      icon: Users,
-      title: "Trusted by Professionals",
-      description: "Over 100,000+ designers and marketers trust our platform for their most important projects."
     },
     {
       icon: Award,
@@ -50,7 +40,7 @@ const GlassFeaturesSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-6`}>
-            <Sparkles className="w-4 h-4" />
+            <Rocket className="w-4 h-4" />
             <span className="text-sm font-medium">Why Choose Our Platform</span>
           </div>
           
@@ -69,7 +59,7 @@ const GlassFeaturesSection = () => {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
           {features.map((feature, index) => (
             <div
               key={index}
