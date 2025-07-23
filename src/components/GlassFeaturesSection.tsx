@@ -1,5 +1,5 @@
 
-import { Zap, Shield, Sparkles, Users, Award, Rocket } from "lucide-react";
+import { Users, Award, Rocket } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 
 const GlassFeaturesSection = () => {
@@ -7,21 +7,6 @@ const GlassFeaturesSection = () => {
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
 
   const features = [
-    {
-      icon: Zap,
-      title: "Lightning Fast Processing",
-      description: "Advanced AI algorithms process your images in seconds, not minutes. Experience the fastest transformation speeds in the industry."
-    },
-    {
-      icon: Shield,
-      title: "Enterprise Security",
-      description: "Your images are processed with bank-level security. We never store your data and all processing happens in secure environments."
-    },
-    {
-      icon: Sparkles,
-      title: "AI-Powered Magic",
-      description: "Our cutting-edge AI understands context and creates stunning results that exceed human capabilities."
-    },
     {
       icon: Users,
       title: "Trusted by Professionals",
@@ -50,7 +35,7 @@ const GlassFeaturesSection = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-6`}>
-            <Sparkles className="w-4 h-4" />
+            <Rocket className="w-4 h-4" />
             <span className="text-sm font-medium">Why Choose Our Platform</span>
           </div>
           
