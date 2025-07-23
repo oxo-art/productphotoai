@@ -33,8 +33,11 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       
+      {/* Visual separator between sections */}
+      <div className="h-24"></div>
+      
       {/* Features Section */}
-      <section className="relative overflow-hidden py-20 px-4 mt-16">
+      <section className="relative overflow-hidden py-20 px-4">
         {/* Background decorative elements */}
         <div className={`absolute inset-0 bg-gradient-to-r ${getGradient('hero')} opacity-20 blur-3xl transition-all duration-1000`}></div>
         <div className={`absolute top-10 left-10 w-72 h-72 bg-gradient-to-r ${getGradient('decorative')[0]} opacity-30 rounded-full blur-3xl animate-pulse`}></div>
@@ -61,7 +64,10 @@ const Index = () => {
         </div>
       </section>
       
-      <main className="container mx-auto px-4 py-8 mt-16">
+      {/* Visual separator between sections */}
+      <div className="h-24"></div>
+      
+      <main className="container mx-auto px-4 py-8">
         <ImageUpload />
       </main>
     </div>
