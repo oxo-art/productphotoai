@@ -79,42 +79,6 @@ const GlassFeaturesSection = () => {
             </div>
           ))}
         </div>
-
-        {/* Stats Section */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center">
-            <div className={`text-4xl md:text-5xl font-bold ${textStyles.primary} mb-2`} style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5)' }}>
-              <span className="bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent">
-                100K+
-              </span>
-            </div>
-            <p className={`${textStyles.secondary} text-lg`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
-              Happy Users
-            </p>
-          </div>
-          
-          <div className="text-center">
-            <div className={`text-4xl md:text-5xl font-bold ${textStyles.primary} mb-2`} style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5)' }}>
-              <span className="bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent">
-                5M+
-              </span>
-            </div>
-            <p className={`${textStyles.secondary} text-lg`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
-              Images Transformed
-            </p>
-          </div>
-          
-          <div className="text-center">
-            <div className={`text-4xl md:text-5xl font-bold ${textStyles.primary} mb-2`} style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5)' }}>
-              <span className="bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent">
-                99.9%
-              </span>
-            </div>
-            <p className={`${textStyles.secondary} text-lg`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
-              Uptime
-            </p>
-          </div>
-        </div>
       </div>
     </section>
   );
