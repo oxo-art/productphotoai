@@ -95,6 +95,19 @@ const GlassFeaturesSection = () => {
                   <useCase.icon className="w-6 h-6 text-white" />
                 </div>
                 
+                {/* Move title and description before slider for Product Photography */}
+                {useCase.hasSlider && (
+                  <>
+                    <h3 className={`text-xl font-semibold ${textStyles.primary} mb-4`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                      {useCase.title}
+                    </h3>
+                    
+                    <p className={`${textStyles.secondary} leading-relaxed mb-6`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
+                      {useCase.description}
+                    </p>
+                  </>
+                )}
+                
                 {/* Add expanded slider for Product Photography card */}
                 {useCase.hasSlider && (
                   <div className="mb-6">
@@ -118,13 +131,18 @@ const GlassFeaturesSection = () => {
                   </div>
                 )}
                 
-                <h3 className={`text-xl font-semibold ${textStyles.primary} mb-4`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
-                  {useCase.title}
-                </h3>
-                
-                <p className={`${textStyles.secondary} leading-relaxed`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
-                  {useCase.description}
-                </p>
+                {/* Show title and description for non-slider cards */}
+                {!useCase.hasSlider && (
+                  <>
+                    <h3 className={`text-xl font-semibold ${textStyles.primary} mb-4`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                      {useCase.title}
+                    </h3>
+                    
+                    <p className={`${textStyles.secondary} leading-relaxed`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
+                      {useCase.description}
+                    </p>
+                  </>
+                )}
               </div>
             ))}
           </div>
