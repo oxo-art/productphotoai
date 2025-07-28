@@ -1,10 +1,33 @@
 
-import { Zap, Shield, Award, Rocket } from "lucide-react";
+import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 
 const GlassFeaturesSection = () => {
   const { getThemeStyle } = useGlassTheme();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
+
+  const useCases = [
+    {
+      icon: Camera,
+      title: "Product Photography",
+      description: "Transform product shots with professional backgrounds and enhanced lighting for e-commerce excellence."
+    },
+    {
+      icon: Palette,
+      title: "Creative Design",
+      description: "Reimagine artwork and designs with AI-powered style transfers and artistic transformations."
+    },
+    {
+      icon: Wand2,
+      title: "Content Creation",
+      description: "Generate eye-catching visuals for social media, marketing campaigns, and digital content."
+    },
+    {
+      icon: Image,
+      title: "Photo Restoration",
+      description: "Restore old photographs and enhance image quality with advanced AI algorithms."
+    }
+  ];
 
   const features = [
     {
@@ -37,6 +60,51 @@ const GlassFeaturesSection = () => {
       <div className="absolute bottom-20 right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse delay-1500"></div>
       
       <div className="relative max-w-7xl mx-auto">
+        {/* Image Editing Use Case Section */}
+        <div className="mb-24">
+          <div className="text-center mb-16">
+            <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-6`}>
+              <Image className="w-4 h-4" />
+              <span className="text-sm font-medium">Image Editing Use Case</span>
+            </div>
+            
+            <h2 className={`text-4xl md:text-5xl font-bold ${textStyles.primary} mb-6 leading-tight`}>
+              <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                Perfect for{" "}
+              </span>
+              <span className="bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 2px rgba(234, 179, 8, 0.3))' }}>
+                Every Project
+              </span>
+            </h2>
+            
+            <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+              From professional product photography to creative content creation, our AI handles every image editing challenge with precision and style.
+            </p>
+          </div>
+
+          {/* Use Cases Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+            {useCases.map((useCase, index) => (
+              <div
+                key={index}
+                className={`${getThemeStyle('card')} rounded-2xl p-8 ${getThemeStyle('shadow')} hover:${getThemeStyle('cardHover')} transition-all duration-300 group`}
+              >
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${getThemeStyle('buttonPrimary')} mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <useCase.icon className="w-6 h-6 text-white" />
+                </div>
+                
+                <h3 className={`text-xl font-semibold ${textStyles.primary} mb-4`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                  {useCase.title}
+                </h3>
+                
+                <p className={`${textStyles.secondary} leading-relaxed`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
+                  {useCase.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-6`}>
