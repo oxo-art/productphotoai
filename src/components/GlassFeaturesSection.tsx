@@ -1,6 +1,7 @@
 
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
+import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const GlassFeaturesSection = () => {
   const { getThemeStyle } = useGlassTheme();
@@ -80,6 +81,26 @@ const GlassFeaturesSection = () => {
             <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               From professional product photography to creative content creation, our AI handles every image editing challenge with precision and style.
             </p>
+          </div>
+
+          {/* Before/After Slider Demo */}
+          <div className="mb-16">
+            <div className={`${getThemeStyle('card')} rounded-3xl p-8 ${getThemeStyle('shadow')} max-w-2xl mx-auto`}>
+              <div className="text-center mb-8">
+                <h3 className={`text-2xl font-semibold ${textStyles.primary} mb-4`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                  See the Magic in Action
+                </h3>
+                <p className={`${textStyles.secondary} text-lg`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
+                  Transform a simple white can into a vibrant strawberry juice product with AI-powered creativity
+                </p>
+              </div>
+              
+              <BeforeAfterSlider
+                beforeImage="/lovable-uploads/7878e2e5-8899-4e0c-9955-327d0918b06a.png"
+                afterImage="/lovable-uploads/eeb9b7b1-435d-4dc9-ad34-1b9ddcccdd8a.png"
+                className="mx-auto"
+              />
+            </div>
           </div>
 
           {/* Use Cases Grid */}
