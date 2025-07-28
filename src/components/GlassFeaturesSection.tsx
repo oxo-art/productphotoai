@@ -101,7 +101,7 @@ const GlassFeaturesSection = () => {
                     <BeforeAfterSlider
                       beforeImage="/lovable-uploads/7878e2e5-8899-4e0c-9955-327d0918b06a.png"
                       afterImage="/lovable-uploads/eeb9b7b1-435d-4dc9-ad34-1b9ddcccdd8a.png"
-                      className="mx-auto max-w-lg"
+                      className="mx-auto max-w-xl"
                     />
                     
                     {/* Updated prompt text with new styling */}
