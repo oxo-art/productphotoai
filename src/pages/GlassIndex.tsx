@@ -11,10 +11,6 @@ const GlassIndex = () => {
     <div className={`min-h-screen bg-gradient-to-br ${getThemeStyle('background')} transition-all duration-1000`}>
       <GlassNavbar />
       <GlassHeroSection />
-      
-      {/* Visual separator between sections */}
-      <div className="h-24"></div>
-      
       <GlassFeaturesSection />
     </div>
   );
