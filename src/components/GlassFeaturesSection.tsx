@@ -95,26 +95,24 @@ const GlassFeaturesSection = () => {
                   <useCase.icon className="w-6 h-6 text-white" />
                 </div>
                 
-                {/* Add slider for Product Photography card */}
+                {/* Add expanded slider for Product Photography card */}
                 {useCase.hasSlider && (
                   <div className="mb-6">
                     <BeforeAfterSlider
                       beforeImage="/lovable-uploads/7878e2e5-8899-4e0c-9955-327d0918b06a.png"
                       afterImage="/lovable-uploads/eeb9b7b1-435d-4dc9-ad34-1b9ddcccdd8a.png"
-                      className="mx-auto"
+                      className="mx-auto max-w-lg"
                     />
                     
-                    {/* Prompt text with glass effect */}
-                    <div className={`mt-4 p-4 rounded-xl ${getThemeStyle('card')} border border-white/20 backdrop-blur-md`}>
-                      <div className="flex items-start gap-3">
-                        <div className="text-xs text-white/60 font-medium uppercase tracking-wider mt-1">
+                    {/* Updated prompt text with new styling */}
+                    <div className={`mt-6 p-6 rounded-2xl ${getThemeStyle('card')} border border-white/20 backdrop-blur-md`}>
+                      <div className="space-y-2">
+                        <div className="text-lg font-semibold text-white/90">
                           Prompt:
                         </div>
-                        <div className="flex-1">
-                          <p className="text-sm text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
-                            Put a "strawberry juice" label on the white can, and change the background to pink studio photoshoot, add 3 to 4 strawberry stuck in mid air around the can, hyper-realistic.
-                          </p>
-                        </div>
+                        <p className="text-base text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
+                          Put a "strawberry juice" label on the white can, and change the background to pink studio photoshoot, add 3 to 4 strawberry stuck in mid air around the can, hyper-realistic.
+                        </p>
                       </div>
                     </div>
                   </div>
