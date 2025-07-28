@@ -116,7 +116,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   if (hasError) {
     return (
       <div className={`relative max-w-md mx-auto ${className}`}>
-        <AspectRatio ratio={4/3}>
+        <AspectRatio ratio={16/10}>
           <div className="w-full h-full bg-gray-200 rounded-2xl flex items-center justify-center">
             <p className="text-gray-500">Failed to load images</p>
           </div>
@@ -128,7 +128,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   if (isLoading) {
     return (
       <div className={`relative max-w-md mx-auto ${className}`}>
-        <AspectRatio ratio={4/3}>
+        <AspectRatio ratio={16/10}>
           <Skeleton className="w-full h-full rounded-2xl" />
         </AspectRatio>
         <div className="mt-6 px-2">
@@ -140,7 +140,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
   return (
     <div className={`relative max-w-md mx-auto ${className}`}>
-      <AspectRatio ratio={4/3}>
+      <AspectRatio ratio={16/10}>
         <div 
           ref={containerRef}
           className={`relative w-full h-full overflow-hidden rounded-2xl shadow-2xl select-none transition-all duration-300 ${
@@ -171,7 +171,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           
           {/* After Image */}
           <div 
-            className="absolute inset-0 transition-all duration-100 ease-out"
+            className="absolute inset-0 transition-all duration-200 ease-out"
             style={{
               clipPath: `polygon(${sliderPosition}% 0%, 100% 0%, 100% 100%, ${sliderPosition}% 100%)`
             }}
@@ -195,7 +195,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           
           {/* Modern Slider Line */}
           <div 
-            className="absolute top-0 bottom-0 w-0.5 bg-white shadow-xl transition-all duration-100 ease-out"
+            className="absolute top-0 bottom-0 w-0.5 bg-white shadow-xl transition-all duration-200 ease-out"
             style={{ 
               left: `${sliderPosition}%`, 
               transform: 'translateX(-50%)',
@@ -205,7 +205,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           
           {/* Modern Slider Handle */}
           <div 
-            className={`absolute top-1/2 w-12 h-12 bg-white rounded-full shadow-xl border-4 border-white/20 flex items-center justify-center backdrop-blur-sm transition-all duration-100 ease-out ${
+            className={`absolute top-1/2 w-12 h-12 bg-white rounded-full shadow-xl border-4 border-white/20 flex items-center justify-center backdrop-blur-sm transition-all duration-200 ease-out ${
               isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing hover:scale-110'
             }`}
             style={{ 
