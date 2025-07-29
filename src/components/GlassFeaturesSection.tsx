@@ -113,7 +113,7 @@ const GlassFeaturesSection = () => {
                   <div className="mb-6">
                     <BeforeAfterSlider
                       beforeImage="/lovable-uploads/7878e2e5-8899-4e0c-9955-327d0918b06a.png"
-                      afterImage="/lovable-uploads/eeb9b7b1-435d-4dc9-ad34-1b9ddcccdd8a.png"
+                      afterImage="/lovable-uploads/e1fa022b-225a-461d-804f-2fac5fe996ba.png"
                       className="mx-auto max-w-xl"
                     />
                     
@@ -124,7 +124,7 @@ const GlassFeaturesSection = () => {
                           Prompt:
                         </div>
                         <p className="text-base text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
-                          Put a "strawberry juice" label on the white can, and change the background to pink studio photoshoot, add 3 to 4 strawberry stuck in mid air around the can, hyper-realistic.
+                          Put a "orange juice" label on the white can, and change the background to blue studio photoshoot, add 3 to 4 oranges stuck in mid air around the can, hyper-realistic.
                         </p>
                       </div>
                     </div>
