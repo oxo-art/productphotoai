@@ -112,8 +112,8 @@ const GlassFeaturesSection = () => {
                 {useCase.hasSlider && (
                   <div className="mb-6">
                     <BeforeAfterSlider
-                      beforeImage="/lovable-uploads/dddcd740-c935-481c-9a90-69f51865d49d.png"
-                      afterImage="/lovable-uploads/961c73fb-df8d-4118-ba71-bbc16a480d51.png"
+                      beforeImage="/lovable-uploads/7878e2e5-8899-4e0c-9955-327d0918b06a.png"
+                      afterImage="/lovable-uploads/eeb9b7b1-435d-4dc9-ad34-1b9ddcccdd8a.png"
                       className="mx-auto max-w-xl"
                     />
                     
