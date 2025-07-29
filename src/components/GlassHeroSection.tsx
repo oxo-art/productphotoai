@@ -76,7 +76,7 @@ const GlassHeroSection = () => {
                 Prompt:
               </h3>
               <p className="text-lg leading-relaxed text-white font-medium">
-                Change the background, place this product near a lake, place 2-3 half open avocados on the right and left side of this product.
+                A baby wearing gold chain and sunglasses with a leather jacket holding this product in his hand, hyper-realistic.
               </p>
             </div>
           </div>
