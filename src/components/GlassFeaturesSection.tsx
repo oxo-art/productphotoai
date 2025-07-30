@@ -1,4 +1,3 @@
-
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import BeforeAfterSlider from "./BeforeAfterSlider";
@@ -112,8 +111,8 @@ const GlassFeaturesSection = () => {
                 {useCase.hasSlider && (
                   <div className="mb-6">
                     <BeforeAfterSlider
-                      beforeImage=""
-                      afterImage=""
+                      beforeImage="/lovable-uploads/2ea0da7f-de8c-4c04-b137-6dc38dc57e69.png"
+                      afterImage="/lovable-uploads/c256bd02-26c2-43ad-b52e-adce57aae032.png"
                       className="mx-auto max-w-xl"
                     />
                     
@@ -124,7 +123,7 @@ const GlassFeaturesSection = () => {
                           Prompt:
                         </div>
                         <p className="text-base text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
-                          Put an "orange juice" label on the white can, and change the background to blue studio photoshoot, add 3 to 4 oranges stuck in mid air around the can, hyper-realistic.
+                          Transform this baby wipes package into a cool, edgy advertisement featuring a baby wearing sunglasses and a leather jacket with gold chain necklace, creating a "boss baby" aesthetic while maintaining the product visibility.
                         </p>
                       </div>
                     </div>
