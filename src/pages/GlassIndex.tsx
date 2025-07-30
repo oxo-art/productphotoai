@@ -8,7 +8,7 @@ const GlassIndex = () => {
   const { getThemeStyle } = useGlassTheme();
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${getThemeStyle('background')} transition-all duration-1000 smooth-scroll`}>
+    <div className={`min-h-screen bg-gradient-to-br ${getThemeStyle('background')} transition-all duration-1000`}>
       <GlassNavbar />
       <GlassHeroSection />
       <GlassFeaturesSection />

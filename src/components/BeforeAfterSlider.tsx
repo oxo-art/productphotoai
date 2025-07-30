@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Slider } from '@/components/ui/slider';
@@ -137,10 +136,10 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
   if (hasError) {
     return (
-      <div className={`relative max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto ${className}`}>
+      <div className={`relative max-w-2xl lg:max-w-4xl mx-auto ${className}`}>
         <AspectRatio ratio={16/10}>
           <div className="w-full h-full bg-gray-200 rounded-2xl flex items-center justify-center">
-            <p className="text-gray-500 text-xl sm:text-2xl lg:text-3xl">Failed to load images</p>
+            <p className="text-gray-500 text-lg sm:text-xl">Failed to load images</p>
           </div>
         </AspectRatio>
       </div>
@@ -149,23 +148,23 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
   if (isLoading) {
     return (
-      <div className={`relative max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto ${className}`}>
+      <div className={`relative max-w-2xl lg:max-w-4xl mx-auto ${className}`}>
         <AspectRatio ratio={16/10}>
           <Skeleton className="w-full h-full rounded-2xl" />
         </AspectRatio>
-        <div className="mt-8 sm:mt-12 px-2">
-          <Skeleton className="w-full h-8 sm:h-12 lg:h-16 rounded-full" />
+        <div className="mt-6 sm:mt-8 px-2">
+          <Skeleton className="w-full h-6 sm:h-8 rounded-full" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`relative w-full max-w-3xl lg:max-w-5xl xl:max-w-6xl mx-auto ${className}`} style={{ contain: 'layout style paint' }}>
+    <div className={`relative w-full max-w-2xl lg:max-w-4xl mx-auto ${className}`} style={{ contain: 'layout style paint' }}>
       <AspectRatio ratio={16/10}>
         <div 
           ref={containerRef}
-          className={`relative w-full h-full overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl select-none ${animationDuration} ${
+          className={`relative w-full h-full overflow-hidden rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl select-none ${animationDuration} ${
             isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'
           }`}
           onMouseDown={handleMouseDown}
@@ -187,7 +186,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               loading="eager"
             />
             {sliderPosition > 10 && imagesLoaded.before && (
-              <div className={`absolute top-4 sm:top-8 lg:top-12 left-4 sm:left-8 lg:left-12 bg-black/80 text-white px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-5 rounded-full text-base sm:text-xl lg:text-2xl xl:text-3xl font-medium backdrop-blur-sm ${animationDuration}`}>
+              <div className={`absolute top-3 sm:top-6 left-3 sm:left-6 bg-black/80 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full text-sm sm:text-lg font-medium backdrop-blur-sm ${animationDuration}`}>
                 Before
               </div>
             )}
@@ -212,7 +211,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               loading="eager"
             />
             {imagesLoaded.after && (
-              <div className="absolute top-4 sm:top-8 lg:top-12 right-4 sm:right-8 lg:right-12 bg-black/80 text-white px-4 py-3 sm:px-6 sm:py-4 lg:px-8 lg:py-5 rounded-full text-base sm:text-xl lg:text-2xl xl:text-3xl font-medium backdrop-blur-sm">
+              <div className="absolute top-3 sm:top-6 right-3 sm:right-6 bg-black/80 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full text-sm sm:text-lg font-medium backdrop-blur-sm">
                 After
               </div>
             )}
@@ -220,39 +219,37 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           
           {/* Enlarged Slider Line */}
           <div 
-            className={`absolute top-0 bottom-0 w-2 sm:w-3 lg:w-4 bg-white shadow-2xl ${animationDuration} ease-out`}
+            className={`absolute top-0 bottom-0 w-1 bg-white shadow-xl ${animationDuration} ease-out`}
             style={{ 
               left: `${sliderPosition}%`, 
               transform: 'translate3d(-50%, 0, 0)',
-              boxShadow: isMobile ? '0 0 20px rgba(255, 255, 255, 0.6)' : '0 0 30px rgba(255, 255, 255, 0.8)',
+              boxShadow: isMobile ? '0 0 15px rgba(255, 255, 255, 0.5)' : '0 0 25px rgba(255, 255, 255, 0.7)',
               willChange: isDragging ? 'transform' : 'auto'
             }}
           />
           
           {/* Enlarged Slider Handle */}
           <div 
-            className={`absolute top-1/2 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 bg-white rounded-full shadow-2xl border-4 sm:border-6 lg:border-8 border-white/30 flex items-center justify-center backdrop-blur-sm ${animationDuration} ease-out ${
-              isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing hover:scale-110 touch-target'
+            className={`absolute top-1/2 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white rounded-full shadow-lg sm:shadow-xl border-4 sm:border-6 border-white/20 flex items-center justify-center backdrop-blur-sm ${animationDuration} ease-out ${
+              isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing hover:scale-110'
             }`}
             style={{ 
               left: `${sliderPosition}%`, 
               transform: 'translate3d(-50%, -50%, 0)',
-              boxShadow: isMobile ? '0 8px 32px rgba(0, 0, 0, 0.4)' : '0 16px 64px rgba(0, 0, 0, 0.5)',
-              willChange: isDragging ? 'transform' : 'auto',
-              minHeight: '44px',
-              minWidth: '44px'
+              boxShadow: isMobile ? '0 6px 24px rgba(0, 0, 0, 0.3)' : '0 12px 48px rgba(0, 0, 0, 0.4)',
+              willChange: isDragging ? 'transform' : 'auto'
             }}
           >
-            <div className="flex space-x-1 sm:space-x-2 lg:space-x-3">
-              <div className="w-1.5 sm:w-2 lg:w-2.5 h-8 sm:h-10 lg:h-12 xl:h-14 bg-gray-400 rounded-full"></div>
-              <div className="w-1.5 sm:w-2 lg:w-2.5 h-8 sm:h-10 lg:h-12 xl:h-14 bg-gray-400 rounded-full"></div>
+            <div className="flex space-x-1 sm:space-x-1.5">
+              <div className="w-1 sm:w-1.5 h-6 sm:h-8 lg:h-10 bg-gray-400 rounded-full"></div>
+              <div className="w-1 sm:w-1.5 h-6 sm:h-8 lg:h-10 bg-gray-400 rounded-full"></div>
             </div>
           </div>
         </div>
       </AspectRatio>
       
       {/* Enlarged Slider Control */}
-      <div className="mt-8 sm:mt-12 lg:mt-16 px-2">
+      <div className="mt-6 sm:mt-8 px-2">
         <Slider
           value={[sliderPosition]}
           onValueChange={(value) => !isLoading && throttledSetPosition(value[0])}

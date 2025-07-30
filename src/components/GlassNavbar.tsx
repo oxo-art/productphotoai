@@ -1,101 +1,85 @@
 
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
-import GlassThemeSelector from "./GlassThemeSelector";
-import { useMobileOptimization } from "@/hooks/useMobileOptimization";
+import GlassThemeSelector from "@/components/GlassThemeSelector";
+import { Link } from "react-router-dom";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 const GlassNavbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const { getThemeStyle } = useGlassTheme();
-  const { animationDuration } = useMobileOptimization();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 ${getThemeStyle('navbar')} ${animationDuration}`} style={{ contain: 'layout style paint' }}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
-          {/* Logo */}
-          <Link 
-            to="/" 
-            className={`text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold ${textStyles.primary} hover:scale-105 ${animationDuration} touch-target`}
-          >
-            ImageAI
-          </Link>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            <Link 
-              to="/" 
-              className={`${textStyles.secondary} hover:${textStyles.primary} ${animationDuration} text-base lg:text-lg xl:text-xl font-medium touch-target`}
-            >
-              Home
-            </Link>
-            <Link 
-              to="/design" 
-              className={`${textStyles.secondary} hover:${textStyles.primary} ${animationDuration} text-base lg:text-lg xl:text-xl font-medium touch-target`}
-            >
-              Design Tool
-            </Link>
-            
-            <GlassThemeSelector />
-            
-            <Link to="/design">
-              <Button 
-                className={`${getThemeStyle('buttonPrimary')} text-white px-6 py-3 lg:px-8 lg:py-4 text-base lg:text-lg xl:text-xl font-semibold rounded-xl hover:scale-105 ${animationDuration} touch-target`}
-              >
-                Get Started
+    <nav className={`border-b border-white/10 ${getThemeStyle('navbar')} px-4 py-4`}>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className={`md:hidden ${textStyles.primary} hover:bg-white/10`}>
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Toggle menu</span>
               </Button>
-            </Link>
+            </SheetTrigger>
+            <SheetContent side="left" className={`${getThemeStyle('popover')} border-white/10`}>
+              <SheetHeader>
+                <SheetTitle className={textStyles.primary}>Navigation</SheetTitle>
+                <SheetDescription className={textStyles.secondary}>
+                  Navigate through the application
+                </SheetDescription>
+              </SheetHeader>
+              <div className="mt-6 space-y-4">
+                <Link to="/" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                  Home
+                </Link>
+                <Link to="/design" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                  Design Tool
+                </Link>
+                <a href="#" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                  Gallery
+                </a>
+                <a href="#" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                  Settings
+                </a>
+              </div>
+            </SheetContent>
+          </Sheet>
+          
+          <div className={`p-2 ${getThemeStyle('buttonPrimary')} rounded-lg`}>
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button
-              onClick={() => setIsOpen(!isOpen)}
-              variant="ghost"
-              className={`${textStyles.primary} hover:${getThemeStyle('cardHover')} p-3 touch-target`}
-            >
-              {isOpen ? <X className="w-6 h-6 lg:w-8 lg:h-8" /> : <Menu className="w-6 h-6 lg:w-8 lg:h-8" />}
-            </Button>
-          </div>
+          
+          <Link to="/">
+            <h1 className={`text-3xl font-bold ${textStyles.primary} font-ramlony cursor-pointer`} style={{ textShadow: '0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3)' }}>
+              Decorspaceai
+            </h1>
+          </Link>
         </div>
 
-        {/* Mobile Navigation */}
-        {isOpen && (
-          <div className={`md:hidden ${getThemeStyle('card')} rounded-2xl mx-4 mb-4 p-6 shadow-xl ${animationDuration}`}>
-            <div className="space-y-4">
-              <Link 
-                to="/" 
-                className={`block ${textStyles.secondary} hover:${textStyles.primary} ${animationDuration} text-lg lg:text-xl font-medium py-2 touch-target`}
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                to="/design" 
-                className={`block ${textStyles.secondary} hover:${textStyles.primary} ${animationDuration} text-lg lg:text-xl font-medium py-2 touch-target`}
-                onClick={() => setIsOpen(false)}
-              >
-                Design Tool
-              </Link>
-              
-              <div className="py-2">
-                <GlassThemeSelector />
-              </div>
-              
-              <Link to="/design" onClick={() => setIsOpen(false)}>
-                <Button 
-                  className={`w-full ${getThemeStyle('buttonPrimary')} text-white px-6 py-4 text-lg font-semibold rounded-xl hover:scale-105 ${animationDuration} touch-target`}
-                >
-                  Get Started
-                </Button>
-              </Link>
-            </div>
+        <div className="flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-8">
+            <Link to="/" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
+              Home
+            </Link>
+            <Link to="/design" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
+              Design Tool
+            </Link>
+            <a href="#" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
+              Gallery
+            </a>
+            <a href="#" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
+              Settings
+            </a>
           </div>
-        )}
+          <GlassThemeSelector />
+        </div>
       </div>
     </nav>
   );
