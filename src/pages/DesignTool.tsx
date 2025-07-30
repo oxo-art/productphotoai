@@ -10,8 +10,8 @@ const DesignTool = () => {
     <div className={`min-h-screen bg-gradient-to-br ${getThemeStyle('background')} transition-all duration-1000`}>
       <GlassNavbar />
       
-      {/* Main content area with the image upload component - positioned at the very top */}
-      <main className="container mx-auto px-4">
+      {/* Main content area with appropriate spacing from navbar */}
+      <main className="container mx-auto px-4 pt-6">
         <GlassImageUpload />
       </main>
     </div>
