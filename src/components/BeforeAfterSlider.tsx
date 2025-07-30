@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Slider } from '@/components/ui/slider';
@@ -22,18 +23,28 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   const [hasError, setHasError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number>();
+  const lastUpdateRef = useRef<number>(0);
   const { isMobile, animationDuration } = useMobileOptimization();
 
-  // Throttle position updates for 60fps performance
+  // Optimized throttle with RAF for 60fps performance
   const throttledSetPosition = useCallback((position: number) => {
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
+    const now = performance.now();
     
-    animationRef.current = requestAnimationFrame(() => {
+    // Throttle updates to ~16ms (60fps) but allow immediate updates during dragging
+    if (now - lastUpdateRef.current < 8 && !isDragging) {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      
+      animationRef.current = requestAnimationFrame(() => {
+        setSliderPosition(position);
+        lastUpdateRef.current = performance.now();
+      });
+    } else {
       setSliderPosition(position);
-    });
-  }, []);
+      lastUpdateRef.current = now;
+    }
+  }, [isDragging]);
 
   // Preload images
   useEffect(() => {
@@ -164,7 +175,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
       <AspectRatio ratio={16/10}>
         <div 
           ref={containerRef}
-          className={`relative w-full h-full overflow-hidden rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl select-none ${animationDuration} ${
+          className={`relative w-full h-full overflow-hidden rounded-xl sm:rounded-2xl shadow-xl sm:shadow-2xl select-none ${
             isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'
           }`}
           onMouseDown={handleMouseDown}
@@ -179,14 +190,14 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             <img 
               src={beforeImage} 
               alt="Before" 
-              className={`w-full h-full object-cover object-center ${animationDuration} ${
+              className={`w-full h-full object-cover object-center transition-opacity duration-300 ${
                 imagesLoaded.before ? 'opacity-100' : 'opacity-0'
               }`}
               draggable={false}
               loading="eager"
             />
             {sliderPosition > 10 && imagesLoaded.before && (
-              <div className={`absolute top-3 sm:top-6 left-3 sm:left-6 bg-black/80 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full text-sm sm:text-lg font-medium backdrop-blur-sm ${animationDuration}`}>
+              <div className="absolute top-3 sm:top-6 left-3 sm:left-6 bg-black/80 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full text-sm sm:text-lg font-medium backdrop-blur-sm transition-all duration-300">
                 Before
               </div>
             )}
@@ -194,7 +205,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           
           {/* After Image with optimized clipPath */}
           <div 
-            className={`absolute inset-0 ${animationDuration} ease-out`}
+            className="absolute inset-0 transition-all duration-100 ease-out"
             style={{
               clipPath: `polygon(${sliderPosition}% 0%, 100% 0%, 100% 100%, ${sliderPosition}% 100%)`,
               willChange: isDragging ? 'clip-path' : 'auto',
@@ -204,22 +215,22 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             <img 
               src={afterImage} 
               alt="After" 
-              className={`w-full h-full object-cover object-center ${animationDuration} ${
+              className={`w-full h-full object-cover object-center transition-opacity duration-300 ${
                 imagesLoaded.after ? 'opacity-100' : 'opacity-0'
               }`}
               draggable={false}
               loading="eager"
             />
             {imagesLoaded.after && (
-              <div className="absolute top-3 sm:top-6 right-3 sm:right-6 bg-black/80 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full text-sm sm:text-lg font-medium backdrop-blur-sm">
+              <div className="absolute top-3 sm:top-6 right-3 sm:right-6 bg-black/80 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full text-sm sm:text-lg font-medium backdrop-blur-sm transition-all duration-300">
                 After
               </div>
             )}
           </div>
           
-          {/* Enlarged Slider Line */}
+          {/* Optimized Slider Line */}
           <div 
-            className={`absolute top-0 bottom-0 w-1 bg-white shadow-xl ${animationDuration} ease-out`}
+            className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl transition-all duration-100 ease-out"
             style={{ 
               left: `${sliderPosition}%`, 
               transform: 'translate3d(-50%, 0, 0)',
@@ -228,9 +239,9 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             }}
           />
           
-          {/* Enlarged Slider Handle */}
+          {/* Optimized Slider Handle */}
           <div 
-            className={`absolute top-1/2 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white rounded-full shadow-lg sm:shadow-xl border-4 sm:border-6 border-white/20 flex items-center justify-center backdrop-blur-sm ${animationDuration} ease-out ${
+            className={`absolute top-1/2 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white rounded-full shadow-2xl border-4 sm:border-6 border-white/20 flex items-center justify-center backdrop-blur-sm transition-all duration-100 ease-out ${
               isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing hover:scale-110'
             }`}
             style={{ 
@@ -248,13 +259,18 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         </div>
       </AspectRatio>
       
-      {/* Enlarged Slider Control */}
+      {/* Synchronized Bottom Slider Control */}
       <div className="mt-6 sm:mt-8 px-2">
         <Slider
           value={[sliderPosition]}
-          onValueChange={(value) => !isLoading && throttledSetPosition(value[0])}
+          onValueChange={(value) => {
+            if (!isLoading) {
+              const newValue = value[0];
+              throttledSetPosition(newValue);
+            }
+          }}
           max={100}
-          step={1}
+          step={0.5}
           className="w-full"
           disabled={isLoading}
         />
