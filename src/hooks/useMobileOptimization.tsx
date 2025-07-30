@@ -9,6 +9,11 @@ interface MobileOptimization {
   animationDuration: string;
 }
 
+// Extend Navigator interface to include experimental properties
+interface ExtendedNavigator extends Navigator {
+  deviceMemory?: number;
+}
+
 export const useMobileOptimization = (): MobileOptimization => {
   const [optimization, setOptimization] = useState<MobileOptimization>({
     isMobile: false,
@@ -21,7 +26,13 @@ export const useMobileOptimization = (): MobileOptimization => {
   useEffect(() => {
     const checkDevice = () => {
       const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      const isLowEndDevice = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
+      
+      // Safely check for experimental properties
+      const extendedNavigator = navigator as ExtendedNavigator;
+      const deviceMemory = extendedNavigator.deviceMemory || 8; // Default to 8GB if not available
+      const hardwareConcurrency = navigator.hardwareConcurrency || 4; // Default to 4 cores if not available
+      
+      const isLowEndDevice = hardwareConcurrency <= 4 || deviceMemory <= 4;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       setOptimization({
