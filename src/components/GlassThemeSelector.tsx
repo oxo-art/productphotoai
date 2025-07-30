@@ -32,12 +32,7 @@ const GlassThemeSelector = () => {
           <span className="sr-only">Change theme</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent 
-        className={`w-80 ${getThemeStyle('popover')} border-white/20 p-4`}
-        align="end"
-        side="bottom"
-        sideOffset={8}
-      >
+      <PopoverContent className={`w-80 ${getThemeStyle('popover')} border-white/20 p-4`}>
         <div className="space-y-3">
           <h3 className={`text-sm font-medium ${textStyles.primary} mb-3`}>Choose Glass Theme</h3>
           <div className="grid grid-cols-2 gap-3">
