@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -99,5 +100,140 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Mobile-first performance optimizations */
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Prevent layout shift on mobile */
+  img {
+    height: auto;
+    max-width: 100%;
+  }
+
+  /* Optimize transforms for mobile */
+  .transform-gpu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  /* Mobile-specific animation optimizations */
+  @media (max-width: 768px) {
+    * {
+      animation-duration: 200ms !important;
+      transition-duration: 200ms !important;
+    }
+    
+    /* Reduce blur on mobile for performance */
+    .blur-3xl {
+      @apply blur-lg;
+    }
+    
+    .blur-2xl {
+      @apply blur-md;
+    }
+    
+    /* Optimize backdrop-blur for mobile */
+    .backdrop-blur-xl {
+      @apply backdrop-blur-sm;
+    }
+    
+    .backdrop-blur-lg {
+      @apply backdrop-blur-sm;
+    }
+  }
+
+  /* High performance mode for low-end devices */
+  @media (max-width: 480px) {
+    .blur-lg {
+      @apply blur-sm;
+    }
+    
+    .shadow-2xl {
+      @apply shadow-lg;
+    }
+    
+    .shadow-xl {
+      @apply shadow-md;
+    }
+  }
+
+  /* Optimized scrolling for touch devices */
+  @media (pointer: coarse) {
+    * {
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+}
+
+@layer components {
+  /* Performance-optimized container */
+  .performance-container {
+    contain: layout style paint;
+    will-change: auto;
+  }
+
+  /* Mobile-optimized animation classes */
+  .mobile-fade-in {
+    animation: fadeIn 0.2s ease-out forwards;
+  }
+
+  .mobile-scale {
+    transition: transform 0.15s ease-out;
+  }
+
+  .mobile-scale:hover {
+    transform: scale(1.02);
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .backdrop-blur-sm,
+    .backdrop-blur-md,
+    .backdrop-blur-lg,
+    .backdrop-blur-xl {
+      backdrop-filter: none;
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Touch target optimization for mobile */
+@layer utilities {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .tap-highlight-transparent {
+    -webkit-tap-highlight-color: transparent;
   }
 }
