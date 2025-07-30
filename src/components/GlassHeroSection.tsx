@@ -76,7 +76,7 @@ const GlassHeroSection = () => {
                 Prompt:
               </h3>
               <p className="text-lg leading-relaxed text-white font-medium">
-                Transform this white can into an orange juice can on a blue background with floating oranges around it.
+                Put an "orange juice" label on the white can, and change the background to blue studio photoshoot, add 3 to 4 oranges stuck in mid air around the can, hyper-realistic.
               </p>
             </div>
           </div>
