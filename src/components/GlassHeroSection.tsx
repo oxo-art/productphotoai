@@ -1,3 +1,4 @@
+
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
@@ -13,9 +14,9 @@ const GlassHeroSection = () => {
   return (
     <section className="relative overflow-hidden py-10 sm:py-20 px-4" style={{ contain: 'layout style paint' }}>
       {/* Optimized Background decorative elements */}
-      <div className={`absolute inset-0 bg-gradient-to-br from-white/5 via-white/10 to-white/5 ${blurIntensity} ${animationDuration}`}></div>
-      <div className={`absolute top-5 sm:top-10 left-5 sm:left-10 w-48 h-48 sm:w-72 sm:h-72 bg-white/10 rounded-full ${blurIntensity}`}></div>
-      <div className={`absolute bottom-5 sm:bottom-10 right-5 sm:right-10 w-64 h-64 sm:w-96 sm:h-96 bg-white/5 rounded-full ${blurIntensity}`}></div>
+      <div className={`absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/10 to-cyan-500/5 ${blurIntensity} ${animationDuration}`}></div>
+      <div className={`absolute top-5 sm:top-10 left-5 sm:left-10 w-48 h-48 sm:w-72 sm:h-72 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full ${blurIntensity}`}></div>
+      <div className={`absolute bottom-5 sm:bottom-10 right-5 sm:right-10 w-64 h-64 sm:w-96 sm:h-96 bg-gradient-to-br from-purple-400/5 to-cyan-400/5 rounded-full ${blurIntensity}`}></div>
       
       <div className="relative max-w-4xl mx-auto text-center">
         <div className={`inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-6 sm:mb-8`}>
