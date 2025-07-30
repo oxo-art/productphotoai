@@ -11,7 +11,7 @@ const DesignTool = () => {
       <GlassNavbar />
       
       {/* Main content area with the image upload component positioned at the top */}
-      <main className="container mx-auto px-4 pt-4 sm:pt-6 md:pt-8 lg:pt-12">
+      <main className="container mx-auto px-4">
         <GlassImageUpload />
       </main>
     </div>
