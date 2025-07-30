@@ -62,8 +62,8 @@ const GlassHeroSection = () => {
         {/* Before/After Slider */}
         <div className="mb-12">
           <BeforeAfterSlider 
-            beforeImage=""
-            afterImage=""
+            beforeImage="/lovable-uploads/92fc894a-2e51-402d-989c-6208ae67ee31.png"
+            afterImage="/lovable-uploads/6ee9a072-130a-4b5f-81c7-bfd418eb0839.png"
             className="backdrop-blur-sm"
           />
         </div>
@@ -76,7 +76,7 @@ const GlassHeroSection = () => {
                 Prompt:
               </h3>
               <p className="text-lg leading-relaxed text-white font-medium">
-                A baby wearing gold chain and sunglasses with a leather jacket holding this product in his hand, hyper-realistic.
+                Transform this white can into an orange juice can on a blue background with floating oranges around it.
               </p>
             </div>
           </div>
