@@ -57,10 +57,10 @@ const GlassFeaturesSection = () => {
 
   return (
     <section className="relative overflow-hidden py-10 sm:py-20 px-4" style={{ contain: 'layout style paint' }}>
-      {/* Optimized Background decorative elements */}
+      {/* Background decorative elements - removed pulse animations */}
       <div className={`absolute inset-0 bg-gradient-to-br from-white/5 via-white/10 to-white/5 ${blurIntensity}`}></div>
-      <div className={`absolute top-10 sm:top-20 left-10 sm:left-20 w-48 h-48 sm:w-64 sm:h-64 bg-white/5 rounded-full ${blurIntensity} animate-pulse delay-500`} style={{ animationFillMode: 'forwards' }}></div>
-      <div className={`absolute bottom-10 sm:bottom-20 right-10 sm:right-20 w-56 h-56 sm:w-80 sm:h-80 bg-white/10 rounded-full ${blurIntensity} animate-pulse delay-1500`} style={{ animationFillMode: 'forwards' }}></div>
+      <div className={`absolute top-10 sm:top-20 left-10 sm:left-20 w-48 h-48 sm:w-64 sm:h-64 bg-white/5 rounded-full ${blurIntensity}`} style={{ animationFillMode: 'forwards' }}></div>
+      <div className={`absolute bottom-10 sm:bottom-20 right-10 sm:right-20 w-56 h-56 sm:w-80 sm:h-80 bg-white/10 rounded-full ${blurIntensity}`} style={{ animationFillMode: 'forwards' }}></div>
       
       <div className="relative max-w-7xl mx-auto">
         {/* Image Editing Use Case Section */}

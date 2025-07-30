@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 const NavySection = () => {
   return (
     <section className="relative overflow-hidden py-20 px-4 bg-gradient-to-br from-slate-800 via-blue-900 to-gray-800">
-      {/* Background decorative elements */}
+      {/* Background decorative elements - removed pulse animations */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 via-slate-500/10 to-gray-500/10 blur-3xl"></div>
-      <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-r from-blue-500/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-r from-gray-500/20 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-r from-blue-500/20 to-transparent rounded-full blur-3xl"></div>
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-r from-gray-500/20 to-transparent rounded-full blur-3xl"></div>
       
       <div className="relative max-w-6xl mx-auto">
         <div className="text-center mb-16">
