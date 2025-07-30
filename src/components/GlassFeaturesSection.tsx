@@ -108,14 +108,16 @@ const GlassFeaturesSection = () => {
                   </>
                 )}
                 
-                {/* Add expanded slider for Product Photography card */}
+                {/* Add expanded slider for Product Photography card with the new image */}
                 {useCase.hasSlider && (
                   <div className="mb-6">
-                    <BeforeAfterSlider
-                      beforeImage=""
-                      afterImage=""
-                      className="mx-auto max-w-xl"
-                    />
+                    <div className="relative max-w-2xl mx-auto">
+                      <img 
+                        src="/lovable-uploads/eede4c9e-9788-42fd-b8ee-446e59290251.png"
+                        alt="Product Photography Example"
+                        className="w-full h-auto rounded-2xl shadow-2xl"
+                      />
+                    </div>
                     
                     {/* Updated prompt text with new styling */}
                     <div className={`mt-6 p-6 rounded-2xl ${getThemeStyle('card')} border border-white/20 backdrop-blur-md`}>
