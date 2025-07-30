@@ -1,4 +1,3 @@
-
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
@@ -16,8 +15,8 @@ const HeroSection = () => {
     <section className="relative overflow-hidden py-20 px-4">
       {/* Background decorative elements */}
       <div className={`absolute inset-0 bg-gradient-to-r ${getGradient('hero')} blur-3xl transition-all duration-1000`}></div>
-      <div className={`absolute top-10 left-10 w-72 h-72 bg-gradient-to-r ${getGradient('decorative')[0]} rounded-full blur-3xl animate-pulse`}></div>
-      <div className={`absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-r ${getGradient('decorative')[1]} rounded-full blur-3xl animate-pulse delay-1000`}></div>
+      <div className={`absolute top-10 left-10 w-72 h-72 bg-gradient-to-r ${getGradient('decorative')[0]} rounded-full blur-3xl`}></div>
+      <div className={`absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-r ${getGradient('decorative')[1]} rounded-full blur-3xl`}></div>
       
       <div className="relative max-w-4xl mx-auto text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 mb-8">
