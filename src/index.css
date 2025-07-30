@@ -38,19 +38,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -102,27 +95,35 @@
     @apply bg-background text-foreground;
   }
 
-  /* Mobile-first performance optimizations */
+  /* Smooth scrolling optimization */
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-padding-top: 6rem;
   }
 
-  /* Prevent layout shift on mobile */
+  /* Prevent layout shift and optimize images */
   img {
     height: auto;
     max-width: 100%;
+    display: block;
   }
 
-  /* Optimize transforms for mobile */
+  /* Hardware acceleration for transforms */
   .transform-gpu {
     transform: translateZ(0);
     backface-visibility: hidden;
     perspective: 1000px;
   }
 
-  /* Mobile-specific animation optimizations */
+  /* Smooth animations with hardware acceleration */
+  .smooth-transform {
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  /* Optimized mobile performance */
   @media (max-width: 768px) {
     * {
       animation-duration: 200ms !important;
@@ -161,12 +162,24 @@
     .shadow-xl {
       @apply shadow-md;
     }
+    
+    /* Reduce motion for better performance */
+    .backdrop-blur-sm {
+      backdrop-filter: none;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
   }
 
   /* Optimized scrolling for touch devices */
   @media (pointer: coarse) {
     * {
       -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Improve touch targets */
+    button, a, [role="button"] {
+      min-height: 44px;
+      min-width: 44px;
     }
   }
 }
@@ -178,7 +191,16 @@
     will-change: auto;
   }
 
-  /* Mobile-optimized animation classes */
+  /* Touch target optimization */
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Mobile-optimized animations */
   .mobile-fade-in {
     animation: fadeIn 0.2s ease-out forwards;
   }
@@ -209,8 +231,13 @@
     .backdrop-blur-md,
     .backdrop-blur-lg,
     .backdrop-blur-xl {
-      backdrop-filter: none;
-      background-color: rgba(0, 0, 0, 0.8);
+      backdrop-filter: none !important;
+      background-color: rgba(0, 0, 0, 0.8) !important;
+    }
+    
+    .bg-white\/10,
+    .bg-white\/20 {
+      background-color: rgba(255, 255, 255, 0.9) !important;
     }
   }
 }
@@ -226,7 +253,7 @@
   }
 }
 
-/* Touch target optimization for mobile */
+/* Touch target and accessibility utilities */
 @layer utilities {
   .touch-target {
     min-height: 44px;
@@ -236,4 +263,20 @@
   .tap-highlight-transparent {
     -webkit-tap-highlight-color: transparent;
   }
+
+  /* Focus ring improvements */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2;
+  }
+
+  /* Smooth scroll container */
+  .smooth-scroll {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Custom sizing for larger elements */
+  .w-112 { width: 28rem; }
+  .h-112 { height: 28rem; }
+  .text-10xl { font-size: 10rem; line-height: 1; }
 }

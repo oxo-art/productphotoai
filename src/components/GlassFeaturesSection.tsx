@@ -56,22 +56,22 @@ const GlassFeaturesSection = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden py-12 sm:py-24 px-4" style={{ contain: 'layout style paint' }}>
-      {/* Background decorative elements - removed pulse animations */}
+    <section className="relative overflow-hidden py-16 sm:py-32 lg:py-40 px-4" style={{ contain: 'layout style paint' }}>
+      {/* Background decorative elements */}
       <div className={`absolute inset-0 bg-gradient-to-br from-white/5 via-white/10 to-white/5 ${blurIntensity}`}></div>
-      <div className={`absolute top-10 sm:top-20 left-10 sm:left-20 w-48 h-48 sm:w-64 sm:h-64 bg-white/5 rounded-full ${blurIntensity}`} style={{ animationFillMode: 'forwards' }}></div>
-      <div className={`absolute bottom-10 sm:bottom-20 right-10 sm:right-20 w-56 h-56 sm:w-80 sm:h-80 bg-white/10 rounded-full ${blurIntensity}`} style={{ animationFillMode: 'forwards' }}></div>
+      <div className={`absolute top-16 sm:top-32 left-16 sm:left-32 w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 bg-white/5 rounded-full ${blurIntensity}`}></div>
+      <div className={`absolute bottom-16 sm:bottom-32 right-16 sm:right-32 w-80 h-80 sm:w-96 sm:h-96 lg:w-112 lg:h-112 bg-white/10 rounded-full ${blurIntensity}`}></div>
       
       <div className="relative max-w-7xl mx-auto">
         {/* Image Editing Use Case Section */}
-        <div className="mb-20 sm:mb-28">
-          <div className="text-center mb-16 sm:mb-20 px-4">
-            <div className={`inline-flex items-center gap-2 sm:gap-3 px-4 py-3 sm:px-6 sm:py-4 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-6 sm:mb-8`}>
-              <Image className="w-4 h-4 sm:w-6 sm:h-6" />
-              <span className="text-sm sm:text-lg lg:text-xl font-medium">Image Editing Use Case</span>
+        <div className="mb-28 sm:mb-36 lg:mb-44">
+          <div className="text-center mb-20 sm:mb-28 lg:mb-36 px-4">
+            <div className={`inline-flex items-center gap-3 sm:gap-4 lg:gap-5 px-6 py-4 sm:px-8 sm:py-5 lg:px-10 lg:py-6 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-8 sm:mb-12 lg:mb-16`}>
+              <Image className="w-5 h-5 sm:w-7 sm:h-7 lg:w-9 lg:h-9" />
+              <span className="text-base sm:text-xl lg:text-2xl xl:text-3xl font-medium">Image Editing Use Case</span>
             </div>
             
-            <h2 className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold ${textStyles.primary} mb-6 sm:mb-8 leading-tight`}>
+            <h2 className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold ${textStyles.primary} mb-8 sm:mb-12 lg:mb-16 leading-tight`}>
               <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
                 Perfect for{" "}
               </span>
@@ -80,31 +80,31 @@ const GlassFeaturesSection = () => {
               </span>
             </h2>
             
-            <p className="text-lg sm:text-2xl lg:text-3xl text-white/90 leading-relaxed max-w-4xl mx-auto" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+            <p className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl text-white/90 leading-relaxed max-w-5xl mx-auto font-light" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               From professional product photography to creative content creation, our AI handles every image editing challenge with precision and style.
             </p>
           </div>
 
           {/* Responsive Use Cases Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-16 px-4">
             {useCases.map((useCase, index) => (
               <div
                 key={index}
-                className={`${getThemeStyle('card')} rounded-xl sm:rounded-2xl p-8 sm:p-10 lg:p-12 ${getThemeStyle('shadow')} hover:${getThemeStyle('cardHover')} ${animationDuration} group`}
+                className={`${getThemeStyle('card')} rounded-2xl sm:rounded-3xl p-10 sm:p-14 lg:p-16 xl:p-20 ${getThemeStyle('shadow')} hover:${getThemeStyle('cardHover')} ${animationDuration} group`}
                 style={{ contain: 'layout style paint' }}
               >
-                <div className={`inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl ${getThemeStyle('buttonPrimary')} mb-6 sm:mb-8 group-hover:scale-110 ${animationDuration}`}>
-                  <useCase.icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-white" />
+                <div className={`inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 rounded-2xl ${getThemeStyle('buttonPrimary')} mb-8 sm:mb-12 lg:mb-16 group-hover:scale-110 ${animationDuration} touch-target`}>
+                  <useCase.icon className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 text-white" />
                 </div>
                 
                 {/* Move title and description before slider for Product Photography */}
                 {useCase.hasSlider && (
                   <>
-                    <h3 className={`text-xl sm:text-2xl lg:text-3xl font-semibold ${textStyles.primary} mb-4 sm:mb-6`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                    <h3 className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold ${textStyles.primary} mb-6 sm:mb-8 lg:mb-10`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
                       {useCase.title}
                     </h3>
                     
-                    <p className={`${textStyles.secondary} leading-relaxed mb-6 sm:mb-8 text-base sm:text-lg lg:text-xl`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
+                    <p className={`${textStyles.secondary} leading-relaxed mb-8 sm:mb-12 lg:mb-16 text-lg sm:text-xl lg:text-2xl xl:text-3xl`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
                       {useCase.description}
                     </p>
                   </>
@@ -112,23 +112,23 @@ const GlassFeaturesSection = () => {
                 
                 {/* Enlarged slider for Product Photography card */}
                 {useCase.hasSlider && (
-                  <div className="mb-6 sm:mb-8">
-                    <div className="relative max-w-3xl mx-auto">
+                  <div className="mb-8 sm:mb-12 lg:mb-16">
+                    <div className="relative max-w-4xl mx-auto">
                       <img 
                         src="/lovable-uploads/eede4c9e-9788-42fd-b8ee-446e59290251.png"
                         alt="Product Photography Example"
-                        className="w-full h-auto rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl"
+                        className="w-full h-auto rounded-2xl sm:rounded-3xl shadow-2xl"
                         loading="lazy"
                       />
                     </div>
                     
                     {/* Enlarged prompt text */}
-                    <div className={`mt-6 sm:mt-8 p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl ${getThemeStyle('card')} border border-white/20 ${isMobile ? '' : 'backdrop-blur-md'}`}>
-                      <div className="space-y-3 sm:space-y-4">
-                        <div className="text-lg sm:text-xl lg:text-2xl font-semibold text-white/90">
+                    <div className={`mt-8 sm:mt-12 lg:mt-16 p-8 sm:p-12 lg:p-16 xl:p-20 rounded-2xl sm:rounded-3xl ${getThemeStyle('card')} border border-white/20 ${isMobile ? '' : 'backdrop-blur-md'}`}>
+                      <div className="space-y-4 sm:space-y-6 lg:space-y-8">
+                        <div className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-semibold text-white/90">
                           Prompt:
                         </div>
-                        <p className="text-base sm:text-lg lg:text-xl text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
+                        <p className="text-lg sm:text-xl lg:text-2xl xl:text-3xl text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
                           A baby wearing gold chain and sunglasses with a leather jacket holding this product in his hand, hyper-realistic.
                         </p>
                       </div>
@@ -139,11 +139,11 @@ const GlassFeaturesSection = () => {
                 {/* Show title and description for non-slider cards */}
                 {!useCase.hasSlider && (
                   <>
-                    <h3 className={`text-xl sm:text-2xl lg:text-3xl font-semibold ${textStyles.primary} mb-4 sm:mb-6`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                    <h3 className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold ${textStyles.primary} mb-6 sm:mb-8 lg:mb-10`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
                       {useCase.title}
                     </h3>
                     
-                    <p className={`${textStyles.secondary} leading-relaxed text-base sm:text-lg lg:text-xl`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
+                    <p className={`${textStyles.secondary} leading-relaxed text-lg sm:text-xl lg:text-2xl xl:text-3xl`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
                       {useCase.description}
                     </p>
                   </>
@@ -154,13 +154,13 @@ const GlassFeaturesSection = () => {
         </div>
 
         {/* Features Section Header */}
-        <div className="text-center mb-16 sm:mb-20 px-4">
-          <div className={`inline-flex items-center gap-2 sm:gap-3 px-4 py-3 sm:px-6 sm:py-4 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-6 sm:mb-8`}>
-            <Rocket className="w-4 h-4 sm:w-6 sm:h-6" />
-            <span className="text-sm sm:text-lg lg:text-xl font-medium">Why Choose Our Platform</span>
+        <div className="text-center mb-20 sm:mb-28 lg:mb-36 px-4">
+          <div className={`inline-flex items-center gap-3 sm:gap-4 lg:gap-5 px-6 py-4 sm:px-8 sm:py-5 lg:px-10 lg:py-6 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-8 sm:mb-12 lg:mb-16`}>
+            <Rocket className="w-5 h-5 sm:w-7 sm:h-7 lg:w-9 lg:h-9" />
+            <span className="text-base sm:text-xl lg:text-2xl xl:text-3xl font-medium">Why Choose Our Platform</span>
           </div>
           
-          <h2 className={`text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold ${textStyles.primary} mb-6 sm:mb-8 leading-tight`}>
+          <h2 className={`text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold ${textStyles.primary} mb-8 sm:mb-12 lg:mb-16 leading-tight`}>
             <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
               Built for{" "}
             </span>
@@ -169,28 +169,28 @@ const GlassFeaturesSection = () => {
             </span>
           </h2>
           
-          <p className="text-lg sm:text-2xl lg:text-3xl text-white/90 leading-relaxed max-w-4xl mx-auto" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+          <p className="text-xl sm:text-3xl lg:text-4xl xl:text-5xl text-white/90 leading-relaxed max-w-5xl mx-auto font-light" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
             Experience the next generation of AI-powered image transformation with professional-grade results and unmatched reliability.
           </p>
         </div>
 
         {/* Enlarged Features Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-14 lg:gap-16 px-4">
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`${getThemeStyle('card')} rounded-xl sm:rounded-2xl p-8 sm:p-10 lg:p-12 ${getThemeStyle('shadow')} hover:${getThemeStyle('cardHover')} ${animationDuration} group`}
+              className={`${getThemeStyle('card')} rounded-2xl sm:rounded-3xl p-10 sm:p-14 lg:p-16 xl:p-20 ${getThemeStyle('shadow')} hover:${getThemeStyle('cardHover')} ${animationDuration} group`}
               style={{ contain: 'layout style paint' }}
             >
-              <div className={`inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-xl ${getThemeStyle('buttonPrimary')} mb-6 sm:mb-8 group-hover:scale-110 ${animationDuration}`}>
-                <feature.icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-white" />
+              <div className={`inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28 rounded-2xl ${getThemeStyle('buttonPrimary')} mb-8 sm:mb-12 lg:mb-16 group-hover:scale-110 ${animationDuration} touch-target`}>
+                <feature.icon className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 xl:w-14 xl:h-14 text-white" />
               </div>
               
-              <h3 className={`text-xl sm:text-2xl lg:text-3xl font-semibold ${textStyles.primary} mb-4 sm:mb-6`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+              <h3 className={`text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold ${textStyles.primary} mb-6 sm:mb-8 lg:mb-10`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
                 {feature.title}
               </h3>
               
-              <p className={`${textStyles.secondary} leading-relaxed text-base sm:text-lg lg:text-xl`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
+              <p className={`${textStyles.secondary} leading-relaxed text-lg sm:text-xl lg:text-2xl xl:text-3xl`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
                 {feature.description}
               </p>
             </div>
