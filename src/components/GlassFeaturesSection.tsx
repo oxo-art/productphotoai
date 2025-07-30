@@ -1,3 +1,4 @@
+
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import BeforeAfterSlider from "./BeforeAfterSlider";
@@ -123,7 +124,7 @@ const GlassFeaturesSection = () => {
                           Prompt:
                         </div>
                         <p className="text-base text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
-                          Transform this baby wipes package into a cool, edgy advertisement featuring a baby wearing sunglasses and a leather jacket with gold chain necklace, creating a "boss baby" aesthetic while maintaining the product visibility.
+                          A baby wearing gold chain and sunglasses with a leather jacket holding this product in his hand, hyper-realistic.
                         </p>
                       </div>
                     </div>
