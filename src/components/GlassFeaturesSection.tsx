@@ -1,11 +1,10 @@
 
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
-import { useMobileOptimization } from "@/hooks/useMobileOptimization";
+import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const GlassFeaturesSection = () => {
   const { getThemeStyle } = useGlassTheme();
-  const { shouldReduceAnimations, isMobile } = useMobileOptimization();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
 
   const useCases = [
@@ -56,22 +55,11 @@ const GlassFeaturesSection = () => {
   ];
 
   return (
-    <section 
-      className="relative overflow-hidden py-20 px-4"
-      style={{ contain: 'layout' }}
-    >
-      {/* Background decorative elements - Reduced on mobile */}
-      {!shouldReduceAnimations && (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-white/10 to-white/5 blur-3xl"></div>
-          <div className={`absolute top-20 left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl ${
-            isMobile ? 'animate-pulse' : 'animate-pulse delay-500'
-          }`}></div>
-          <div className={`absolute bottom-20 right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl ${
-            isMobile ? 'animate-pulse' : 'animate-pulse delay-1500'
-          }`}></div>
-        </>
-      )}
+    <section className="relative overflow-hidden py-20 px-4">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-white/10 to-white/5 blur-3xl"></div>
+      <div className="absolute top-20 left-20 w-64 h-64 bg-white/5 rounded-full blur-3xl animate-pulse delay-500"></div>
+      <div className="absolute bottom-20 right-20 w-80 h-80 bg-white/10 rounded-full blur-3xl animate-pulse delay-1500"></div>
       
       <div className="relative max-w-7xl mx-auto">
         {/* Image Editing Use Case Section */}
@@ -83,27 +71,15 @@ const GlassFeaturesSection = () => {
             </div>
             
             <h2 className={`text-4xl md:text-5xl font-bold ${textStyles.primary} mb-6 leading-tight`}>
-              <span style={{ 
-                textShadow: shouldReduceAnimations ? 'none' : '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' 
-              }}>
+              <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
                 Perfect for{" "}
               </span>
-              <span 
-                className="bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent" 
-                style={{ 
-                  filter: shouldReduceAnimations ? 'none' : 'drop-shadow(0 0 2px rgba(234, 179, 8, 0.3))' 
-                }}
-              >
+              <span className="bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 2px rgba(234, 179, 8, 0.3))' }}>
                 Every Project
               </span>
             </h2>
             
-            <p 
-              className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto" 
-              style={{ 
-                textShadow: shouldReduceAnimations ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.3)' 
-              }}
-            >
+            <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               From professional product photography to creative content creation, our AI handles every image editing challenge with precision and style.
             </p>
           </div>
@@ -113,35 +89,20 @@ const GlassFeaturesSection = () => {
             {useCases.map((useCase, index) => (
               <div
                 key={index}
-                className={`${getThemeStyle('card')} rounded-2xl p-8 ${getThemeStyle('shadow')} ${
-                  shouldReduceAnimations ? '' : `hover:${getThemeStyle('cardHover')} transition-all duration-300 group`
-                }`}
-                style={{ contain: 'paint' }}
+                className={`${getThemeStyle('card')} rounded-2xl p-8 ${getThemeStyle('shadow')} hover:${getThemeStyle('cardHover')} transition-all duration-300 group`}
               >
-                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${getThemeStyle('buttonPrimary')} mb-6 ${
-                  shouldReduceAnimations ? '' : 'group-hover:scale-110 transition-transform duration-300'
-                }`}>
+                <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${getThemeStyle('buttonPrimary')} mb-6 group-hover:scale-110 transition-transform duration-300`}>
                   <useCase.icon className="w-6 h-6 text-white" />
                 </div>
                 
                 {/* Move title and description before slider for Product Photography */}
                 {useCase.hasSlider && (
                   <>
-                    <h3 
-                      className={`text-xl font-semibold ${textStyles.primary} mb-4`} 
-                      style={{ 
-                        textShadow: shouldReduceAnimations ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.3)' 
-                      }}
-                    >
+                    <h3 className={`text-xl font-semibold ${textStyles.primary} mb-4`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
                       {useCase.title}
                     </h3>
                     
-                    <p 
-                      className={`${textStyles.secondary} leading-relaxed mb-6`} 
-                      style={{ 
-                        textShadow: shouldReduceAnimations ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.2)' 
-                      }}
-                    >
+                    <p className={`${textStyles.secondary} leading-relaxed mb-6`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
                       {useCase.description}
                     </p>
                   </>
@@ -155,25 +116,16 @@ const GlassFeaturesSection = () => {
                         src="/lovable-uploads/eede4c9e-9788-42fd-b8ee-446e59290251.png"
                         alt="Product Photography Example"
                         className="w-full h-auto rounded-2xl shadow-2xl"
-                        loading="lazy"
-                        style={{ contain: 'paint' }}
                       />
                     </div>
                     
                     {/* Updated prompt text with new styling */}
-                    <div className={`mt-6 p-6 rounded-2xl ${getThemeStyle('card')} border border-white/20 ${
-                      isMobile ? 'backdrop-blur-sm' : 'backdrop-blur-md'
-                    }`}>
+                    <div className={`mt-6 p-6 rounded-2xl ${getThemeStyle('card')} border border-white/20 backdrop-blur-md`}>
                       <div className="space-y-2">
                         <div className="text-lg font-semibold text-white/90">
                           Prompt:
                         </div>
-                        <p 
-                          className="text-base text-white/80 leading-relaxed" 
-                          style={{ 
-                            textShadow: shouldReduceAnimations ? 'none' : '0 1px 2px rgba(0, 0, 0, 0.2)' 
-                          }}
-                        >
+                        <p className="text-base text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
                           A baby wearing gold chain and sunglasses with a leather jacket holding this product in his hand, hyper-realistic.
                         </p>
                       </div>
@@ -184,21 +136,11 @@ const GlassFeaturesSection = () => {
                 {/* Show title and description for non-slider cards */}
                 {!useCase.hasSlider && (
                   <>
-                    <h3 
-                      className={`text-xl font-semibold ${textStyles.primary} mb-4`} 
-                      style={{ 
-                        textShadow: shouldReduceAnimations ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.3)' 
-                      }}
-                    >
+                    <h3 className={`text-xl font-semibold ${textStyles.primary} mb-4`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
                       {useCase.title}
                     </h3>
                     
-                    <p 
-                      className={`${textStyles.secondary} leading-relaxed`} 
-                      style={{ 
-                        textShadow: shouldReduceAnimations ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.2)' 
-                      }}
-                    >
+                    <p className={`${textStyles.secondary} leading-relaxed`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
                       {useCase.description}
                     </p>
                   </>
@@ -216,27 +158,15 @@ const GlassFeaturesSection = () => {
           </div>
           
           <h2 className={`text-4xl md:text-5xl font-bold ${textStyles.primary} mb-6 leading-tight`}>
-            <span style={{ 
-              textShadow: shouldReduceAnimations ? 'none' : '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' 
-            }}>
+            <span style={{ textShadow: '0 4px 15px rgba(0, 0, 0, 0.5), 0 2px 8px rgba(0, 0, 0, 0.3)' }}>
               Built for{" "}
             </span>
-            <span 
-              className="bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent" 
-              style={{ 
-                filter: shouldReduceAnimations ? 'none' : 'drop-shadow(0 0 2px rgba(234, 179, 8, 0.3))' 
-              }}
-            >
+            <span className="bg-gradient-to-r from-yellow-300 via-yellow-200 to-yellow-100 bg-clip-text text-transparent" style={{ filter: 'drop-shadow(0 0 2px rgba(234, 179, 8, 0.3))' }}>
               Excellence
             </span>
           </h2>
           
-          <p 
-            className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto" 
-            style={{ 
-              textShadow: shouldReduceAnimations ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.3)' 
-            }}
-          >
+          <p className="text-xl text-white/90 leading-relaxed max-w-3xl mx-auto" style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
             Experience the next generation of AI-powered image transformation with professional-grade results and unmatched reliability.
           </p>
         </div>
@@ -246,32 +176,17 @@ const GlassFeaturesSection = () => {
           {features.map((feature, index) => (
             <div
               key={index}
-              className={`${getThemeStyle('card')} rounded-2xl p-8 ${getThemeStyle('shadow')} ${
-                shouldReduceAnimations ? '' : `hover:${getThemeStyle('cardHover')} transition-all duration-300 group`
-              }`}
-              style={{ contain: 'paint' }}
+              className={`${getThemeStyle('card')} rounded-2xl p-8 ${getThemeStyle('shadow')} hover:${getThemeStyle('cardHover')} transition-all duration-300 group`}
             >
-              <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${getThemeStyle('buttonPrimary')} mb-6 ${
-                shouldReduceAnimations ? '' : 'group-hover:scale-110 transition-transform duration-300'
-              }`}>
+              <div className={`inline-flex items-center justify-center w-12 h-12 rounded-xl ${getThemeStyle('buttonPrimary')} mb-6 group-hover:scale-110 transition-transform duration-300`}>
                 <feature.icon className="w-6 h-6 text-white" />
               </div>
               
-              <h3 
-                className={`text-xl font-semibold ${textStyles.primary} mb-4`} 
-                style={{ 
-                  textShadow: shouldReduceAnimations ? 'none' : '0 2px 8px rgba(0, 0, 0, 0.3)' 
-                }}
-              >
+              <h3 className={`text-xl font-semibold ${textStyles.primary} mb-4`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
                 {feature.title}
               </h3>
               
-              <p 
-                className={`${textStyles.secondary} leading-relaxed`} 
-                style={{ 
-                  textShadow: shouldReduceAnimations ? 'none' : '0 1px 3px rgba(0, 0, 0, 0.2)' 
-                }}
-              >
+              <p className={`${textStyles.secondary} leading-relaxed`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
                 {feature.description}
               </p>
             </div>

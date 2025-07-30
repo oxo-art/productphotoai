@@ -3,7 +3,6 @@ import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Slider } from '@/components/ui/slider';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useMobileOptimization } from '@/hooks/useMobileOptimization';
 
 interface BeforeAfterSliderProps {
   beforeImage: string;
@@ -22,19 +21,6 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   const [imagesLoaded, setImagesLoaded] = useState({ before: false, after: false });
   const [hasError, setHasError] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const lastUpdateTime = useRef(0);
-  const { shouldReduceAnimations, isMobile } = useMobileOptimization();
-
-  // Throttle function for mobile performance
-  const throttle = useCallback((func: Function, delay: number) => {
-    return (...args: any[]) => {
-      const now = Date.now();
-      if (now - lastUpdateTime.current >= delay) {
-        lastUpdateTime.current = now;
-        func(...args);
-      }
-    };
-  }, []);
 
   // Preload images
   useEffect(() => {
@@ -52,6 +38,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
         setIsLoading(true);
         setHasError(false);
         
+        // Load both images in parallel
         await Promise.all([
           preloadImage(beforeImage).then(() => {
             setImagesLoaded(prev => ({ ...prev, before: true }));
@@ -81,12 +68,6 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
     setSliderPosition(percentage);
   }, []);
 
-  // Throttled version for mobile
-  const throttledUpdateSliderPosition = useCallback(
-    throttle(updateSliderPosition, isMobile ? 16 : 8),
-    [updateSliderPosition, isMobile, throttle]
-  );
-
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     if (isLoading) return;
     setIsDragging(true);
@@ -103,14 +84,14 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!isDragging) return;
-    throttledUpdateSliderPosition(e.clientX);
-  }, [isDragging, throttledUpdateSliderPosition]);
+    updateSliderPosition(e.clientX);
+  }, [isDragging, updateSliderPosition]);
 
   const handleTouchMove = useCallback((e: TouchEvent) => {
     if (!isDragging) return;
     e.preventDefault();
-    throttledUpdateSliderPosition(e.touches[0].clientX);
-  }, [isDragging, throttledUpdateSliderPosition]);
+    updateSliderPosition(e.touches[0].clientX);
+  }, [isDragging, updateSliderPosition]);
 
   const handleEnd = useCallback(() => {
     setIsDragging(false);
@@ -162,38 +143,27 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
       <AspectRatio ratio={16/10}>
         <div 
           ref={containerRef}
-          className={`relative w-full h-full overflow-hidden rounded-2xl shadow-2xl select-none ${
-            shouldReduceAnimations ? '' : 'transition-all duration-300'
-          } ${
+          className={`relative w-full h-full overflow-hidden rounded-2xl shadow-2xl select-none transition-all duration-300 ${
             isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'
           }`}
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
-          style={{ 
-            touchAction: 'none',
-            contain: 'layout style paint',
-            willChange: isDragging ? 'transform' : 'auto'
-          }}
+          style={{ touchAction: 'none' }}
         >
           {/* Before Image */}
-          <div className="absolute inset-0" style={{ contain: 'paint' }}>
+          <div className="absolute inset-0">
             <img 
               src={beforeImage} 
               alt="Before" 
-              className={`w-full h-full object-cover object-center ${
-                shouldReduceAnimations ? '' : 'transition-opacity duration-300'
-              } ${
+              className={`w-full h-full object-cover object-center transition-opacity duration-300 ${
                 imagesLoaded.before ? 'opacity-100' : 'opacity-0'
               }`}
               draggable={false}
               loading="eager"
-              style={{ willChange: 'opacity' }}
             />
             {/* Before tag */}
             {sliderPosition > 10 && imagesLoaded.before && (
-              <div className={`absolute top-4 left-4 bg-black/80 text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm ${
-                shouldReduceAnimations ? '' : 'transition-opacity duration-300'
-              }`}>
+              <div className="absolute top-4 left-4 bg-black/80 text-white px-3 py-1.5 rounded-full text-sm font-medium backdrop-blur-sm transition-opacity duration-300">
                 Before
               </div>
             )}
@@ -201,26 +171,19 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           
           {/* After Image */}
           <div 
-            className={`absolute inset-0 ${
-              shouldReduceAnimations ? '' : 'transition-all duration-200 ease-out'
-            }`}
+            className="absolute inset-0 transition-all duration-200 ease-out"
             style={{
-              clipPath: `polygon(${sliderPosition}% 0%, 100% 0%, 100% 100%, ${sliderPosition}% 100%)`,
-              contain: 'paint',
-              willChange: 'clip-path'
+              clipPath: `polygon(${sliderPosition}% 0%, 100% 0%, 100% 100%, ${sliderPosition}% 100%)`
             }}
           >
             <img 
               src={afterImage} 
               alt="After" 
-              className={`w-full h-full object-cover object-center ${
-                shouldReduceAnimations ? '' : 'transition-opacity duration-300'
-              } ${
+              className={`w-full h-full object-cover object-center transition-opacity duration-300 ${
                 imagesLoaded.after ? 'opacity-100' : 'opacity-0'
               }`}
               draggable={false}
               loading="eager"
-              style={{ willChange: 'opacity' }}
             />
             {/* After tag */}
             {imagesLoaded.after && (
@@ -232,29 +195,23 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           
           {/* Modern Slider Line */}
           <div 
-            className={`absolute top-0 bottom-0 w-0.5 bg-white shadow-xl ${
-              shouldReduceAnimations ? '' : 'transition-all duration-200 ease-out'
-            }`}
+            className="absolute top-0 bottom-0 w-0.5 bg-white shadow-xl transition-all duration-200 ease-out"
             style={{ 
               left: `${sliderPosition}%`, 
-              transform: 'translate3d(-50%, 0, 0)',
-              boxShadow: '0 0 20px rgba(255, 255, 255, 0.5)',
-              willChange: 'transform'
+              transform: 'translateX(-50%)',
+              boxShadow: '0 0 20px rgba(255, 255, 255, 0.5)'
             }}
           />
           
           {/* Modern Slider Handle */}
           <div 
-            className={`absolute top-1/2 w-12 h-12 bg-white rounded-full shadow-xl border-4 border-white/20 flex items-center justify-center backdrop-blur-sm ${
-              shouldReduceAnimations ? '' : 'transition-all duration-200 ease-out'
-            } ${
+            className={`absolute top-1/2 w-12 h-12 bg-white rounded-full shadow-xl border-4 border-white/20 flex items-center justify-center backdrop-blur-sm transition-all duration-200 ease-out ${
               isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing hover:scale-110'
             }`}
             style={{ 
               left: `${sliderPosition}%`, 
-              transform: 'translate3d(-50%, -50%, 0)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
-              willChange: 'transform'
+              transform: 'translateX(-50%) translateY(-50%)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
             }}
           >
             <div className="flex space-x-1">
