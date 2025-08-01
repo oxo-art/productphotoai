@@ -1,7 +1,7 @@
-
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
+import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const HeroSection = () => {
   const { getGradient } = useGradientTheme();
@@ -57,6 +57,29 @@ const HeroSection = () => {
                 <Sparkles className="w-5 h-5" />
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Before/After Slider */}
+        <div className="mb-12">
+          <BeforeAfterSlider 
+            beforeImage="/lovable-uploads/92fc894a-2e51-402d-989c-6208ae67ee31.png"
+            afterImage="/lovable-uploads/6ee9a072-130a-4b5f-81c7-bfd418eb0839.png"
+            className="backdrop-blur-sm"
+          />
+        </div>
+        
+        {/* Prompt Example Section */}
+        <div className="mb-8 max-w-2xl mx-auto">
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.3)]">
+            <div className="text-left">
+              <h3 className="text-lg font-semibold text-white mb-3">
+                Prompt:
+              </h3>
+              <p className="text-lg leading-relaxed text-white font-medium">
+                Put an "orange juice" label on the white can, and change the background to blue studio photoshoot, add 3 to 4 oranges stuck in mid air around the can, hyper-realistic.
+              </p>
             </div>
           </div>
         </div>

@@ -2,6 +2,7 @@
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
+import BeforeAfterSlider from "./BeforeAfterSlider";
 import { Link } from "react-router-dom";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
@@ -56,6 +57,29 @@ const GlassHeroSection = () => {
                 <Sparkles className="w-5 h-5 sm:w-7 sm:h-7" />
               </div>
               <span className="text-base sm:text-xl lg:text-2xl" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* Enlarged Before/After Slider */}
+        <div className="mb-10 sm:mb-14 px-4">
+          <BeforeAfterSlider 
+            beforeImage="/lovable-uploads/92fc894a-2e51-402d-989c-6208ae67ee31.png"
+            afterImage="/lovable-uploads/6ee9a072-130a-4b5f-81c7-bfd418eb0839.png"
+            className={isMobile ? '' : 'backdrop-blur-sm'}
+          />
+        </div>
+        
+        {/* Enlarged Prompt Example Section */}
+        <div className="mb-8 sm:mb-10 max-w-4xl mx-auto px-4">
+          <div className={`${getThemeStyle('card')} rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10 ${getThemeStyle('shadow')}`}>
+            <div className="text-left">
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-white mb-3 sm:mb-4">
+                Prompt:
+              </h3>
+              <p className="text-base sm:text-xl lg:text-2xl leading-relaxed text-white font-medium">
+                Put an "orange juice" label on the white can, and change the background to blue studio photoshoot, add 3 to 4 oranges stuck in mid air around the can, hyper-realistic.
+              </p>
             </div>
           </div>
         </div>
