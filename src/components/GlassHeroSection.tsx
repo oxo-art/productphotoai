@@ -65,7 +65,7 @@ const GlassHeroSection = () => {
         <div className="mb-8 sm:mb-10 max-w-4xl mx-auto px-4">
           <div className={`${getThemeStyle('card')} rounded-xl sm:rounded-2xl p-6 sm:p-8 ${getThemeStyle('shadow')}`}>
             <img 
-              src="/lovable-uploads/443f83f9-a210-4d5a-a0dd-0e69b7b4f368.png" 
+              src="/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png" 
               alt="AI transformation example" 
               className="w-full h-auto rounded-xl"
             />

@@ -66,7 +66,7 @@ const HeroSection = () => {
         <div className="mb-8 max-w-3xl mx-auto">
           <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.3)]">
             <img 
-              src="/lovable-uploads/443f83f9-a210-4d5a-a0dd-0e69b7b4f368.png" 
+              src="/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png" 
               alt="AI transformation example" 
               className="w-full h-auto rounded-xl"
             />
