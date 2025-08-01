@@ -2,21 +2,20 @@
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
-import BeforeAfterSlider from "./BeforeAfterSlider";
 import { Link } from "react-router-dom";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 const GlassHeroSection = () => {
   const { getThemeStyle } = useGlassTheme();
-  const { blurIntensity, animationDuration, isMobile } = useMobileOptimization();
+  const { animationDuration, isMobile } = useMobileOptimization();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
 
   return (
     <section className="relative overflow-hidden py-12 sm:py-24 px-4" style={{ contain: 'layout style paint' }}>
       {/* Background decorative elements - ensure all are full circles */}
-      <div className={`absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/10 to-cyan-500/5 ${blurIntensity} ${animationDuration}`}></div>
-      <div className={`absolute top-5 sm:top-10 left-5 sm:left-10 w-48 h-48 sm:w-72 sm:h-72 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full ${blurIntensity}`}></div>
-      <div className={`absolute bottom-5 sm:bottom-10 right-5 sm:right-10 w-64 h-64 sm:w-96 sm:h-96 bg-gradient-to-br from-purple-400/5 to-cyan-400/5 rounded-full ${blurIntensity}`}></div>
+      <div className={`absolute inset-0 bg-gradient-to-br from-blue-500/5 via-purple-500/10 to-cyan-500/5 blur-3xl ${animationDuration}`}></div>
+      <div className={`absolute top-5 sm:top-10 left-5 sm:left-10 w-48 h-48 sm:w-72 sm:h-72 bg-gradient-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl`}></div>
+      <div className={`absolute bottom-5 sm:bottom-10 right-5 sm:right-10 w-64 h-64 sm:w-96 sm:h-96 bg-gradient-to-br from-purple-400/5 to-cyan-400/5 rounded-full blur-3xl`}></div>
       
       <div className="relative max-w-5xl mx-auto text-center">
         <div className={`inline-flex items-center gap-2 sm:gap-3 px-4 py-2 sm:px-6 sm:py-3 rounded-full ${getThemeStyle('card')} ${textStyles.secondary} mb-8 sm:mb-10`}>
@@ -59,15 +58,6 @@ const GlassHeroSection = () => {
               <span className="text-base sm:text-xl lg:text-2xl" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
             </div>
           </div>
-        </div>
-        
-        {/* Enlarged Before/After Slider */}
-        <div className="mb-10 sm:mb-14 px-4">
-          <BeforeAfterSlider 
-            beforeImage="/lovable-uploads/92fc894a-2e51-402d-989c-6208ae67ee31.png"
-            afterImage="/lovable-uploads/6ee9a072-130a-4b5f-81c7-bfd418eb0839.png"
-            className={isMobile ? '' : 'backdrop-blur-sm'}
-          />
         </div>
         
         {/* Enlarged Prompt Example Section */}

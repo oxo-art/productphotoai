@@ -1,7 +1,7 @@
+
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
-import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const HeroSection = () => {
   const { getGradient } = useGradientTheme();
@@ -59,15 +59,6 @@ const HeroSection = () => {
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
             </div>
           </div>
-        </div>
-        
-        {/* Before/After Slider */}
-        <div className="mb-12">
-          <BeforeAfterSlider 
-            beforeImage="/lovable-uploads/92fc894a-2e51-402d-989c-6208ae67ee31.png"
-            afterImage="/lovable-uploads/6ee9a072-130a-4b5f-81c7-bfd418eb0839.png"
-            className="backdrop-blur-sm"
-          />
         </div>
         
         {/* Prompt Example Section */}
