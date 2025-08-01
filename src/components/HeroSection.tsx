@@ -1,9 +1,24 @@
+
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
+import { useEffect } from "react";
 
 const HeroSection = () => {
   const { getGradient } = useGradientTheme();
+
+  // Preload the hero image for faster loading
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = '/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png';
+    document.head.appendChild(link);
+    
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
   const scrollToUpload = () => {
     const uploadSection = document.querySelector('main');
@@ -67,6 +82,9 @@ const HeroSection = () => {
               src="/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png" 
               alt="AI transformation example" 
               className="w-full h-auto rounded-xl"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
             />
           </div>
         </div>

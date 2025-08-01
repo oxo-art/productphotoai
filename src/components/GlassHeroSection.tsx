@@ -1,13 +1,28 @@
+
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { Link } from "react-router-dom";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
+import { useEffect } from "react";
 
 const GlassHeroSection = () => {
   const { getThemeStyle } = useGlassTheme();
   const { animationDuration, isMobile } = useMobileOptimization();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
+
+  // Preload the hero image for faster loading
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = 'image';
+    link.href = '/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png';
+    document.head.appendChild(link);
+    
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
   return (
     <section className="relative overflow-hidden py-12 sm:py-24 px-4" style={{ contain: 'layout style paint' }}>
@@ -66,6 +81,9 @@ const GlassHeroSection = () => {
               src="/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png" 
               alt="AI transformation example" 
               className="w-full h-auto rounded-xl"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
             />
           </div>
         </div>
