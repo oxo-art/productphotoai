@@ -127,7 +127,7 @@ const GlassFeaturesSection = () => {
                           Prompt:
                         </div>
                         <p className="text-base sm:text-lg lg:text-xl text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
-                          A baby wearing gold chain and sunglasses with a leather jacket holding this product in his hand, hyper-realistic.
+                          Put an "orange juice" label on the can, and change the background to blue studio, add 3 to 4 oranges stuck in mid air around the can, hyper-realistic.
                         </p>
                       </div>
                     </div>
