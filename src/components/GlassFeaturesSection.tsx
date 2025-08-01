@@ -1,4 +1,3 @@
-
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
@@ -11,7 +10,7 @@ const GlassFeaturesSection = () => {
   const useCases = [
     {
       icon: Camera,
-      title: "Product Photography",
+      title: "Product Photography", 
       description: "Transform product shots with professional backgrounds and enhanced lighting for e-commerce excellence.",
       hasSlider: true
     },
@@ -110,20 +109,11 @@ const GlassFeaturesSection = () => {
                   </>
                 )}
                 
-                {/* Enlarged slider for Product Photography card */}
+                {/* Enlarged slider for Product Photography card - image removed, keeping prompt only */}
                 {useCase.hasSlider && (
                   <div className="mb-6 sm:mb-8">
-                    <div className="relative max-w-3xl mx-auto">
-                      <img 
-                        src="/lovable-uploads/eede4c9e-9788-42fd-b8ee-446e59290251.png"
-                        alt="Product Photography Example"
-                        className="w-full h-auto rounded-xl sm:rounded-2xl shadow-lg sm:shadow-2xl"
-                        loading="lazy"
-                      />
-                    </div>
-                    
                     {/* Enlarged prompt text */}
-                    <div className={`mt-6 sm:mt-8 p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl ${getThemeStyle('card')} border border-white/20 ${isMobile ? '' : 'backdrop-blur-md'}`}>
+                    <div className={`p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl ${getThemeStyle('card')} border border-white/20 ${isMobile ? '' : 'backdrop-blur-md'}`}>
                       <div className="space-y-3 sm:space-y-4">
                         <div className="text-lg sm:text-xl lg:text-2xl font-semibold text-white/90">
                           Prompt:
