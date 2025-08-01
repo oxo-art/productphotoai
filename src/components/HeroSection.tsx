@@ -1,5 +1,3 @@
-
-
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
@@ -81,7 +79,7 @@ const HeroSection = () => {
                 Prompt:
               </h3>
               <p className="text-lg leading-relaxed text-white font-medium">
-                Put an "orange juice" label on the white can, and change the background to blue studio photoshoot, add 3 to 4 oranges stuck in mid air around the can, hyper-realistic.
+                A baby wearing gold chain and sunglasses with a leather jacket holding this product in his hand, hyper-realistic.
               </p>
             </div>
           </div>
@@ -101,4 +99,3 @@ const HeroSection = () => {
 };
 
 export default HeroSection;
-
