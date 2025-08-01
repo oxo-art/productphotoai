@@ -1,6 +1,8 @@
+
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
+import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const GlassFeaturesSection = () => {
   const { getThemeStyle } = useGlassTheme();
@@ -109,9 +111,15 @@ const GlassFeaturesSection = () => {
                   </>
                 )}
                 
-                {/* Enlarged slider for Product Photography card - image removed, keeping prompt only */}
+                {/* Before and After Slider for Product Photography card */}
                 {useCase.hasSlider && (
                   <div className="mb-6 sm:mb-8">
+                    <BeforeAfterSlider
+                      beforeImage="/lovable-uploads/5b72d958-1574-40c1-a179-edfa72623843.png"
+                      afterImage="/lovable-uploads/0084acda-65f8-47c3-9b69-188bd62e8a80.png"
+                      className="mb-6 sm:mb-8"
+                    />
+                    
                     {/* Enlarged prompt text */}
                     <div className={`p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl ${getThemeStyle('card')} border border-white/20 ${isMobile ? '' : 'backdrop-blur-md'}`}>
                       <div className="space-y-3 sm:space-y-4">
