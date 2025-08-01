@@ -1,4 +1,5 @@
 
+
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
@@ -60,6 +61,17 @@ const GlassHeroSection = () => {
           </div>
         </div>
         
+        {/* Example Image */}
+        <div className="mb-8 sm:mb-10 max-w-4xl mx-auto px-4">
+          <div className={`${getThemeStyle('card')} rounded-xl sm:rounded-2xl p-6 sm:p-8 ${getThemeStyle('shadow')}`}>
+            <img 
+              src="/lovable-uploads/443f83f9-a210-4d5a-a0dd-0e69b7b4f368.png" 
+              alt="AI transformation example" 
+              className="w-full h-auto rounded-xl"
+            />
+          </div>
+        </div>
+        
         {/* Enlarged Prompt Example Section */}
         <div className="mb-8 sm:mb-10 max-w-4xl mx-auto px-4">
           <div className={`${getThemeStyle('card')} rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10 ${getThemeStyle('shadow')}`}>
@@ -89,3 +101,4 @@ const GlassHeroSection = () => {
 };
 
 export default GlassHeroSection;
+
