@@ -1,5 +1,5 @@
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -31,6 +31,15 @@ const GlassImageUpload = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const { generateImage, isGenerating } = useImageGeneration();
+
+  // Reset component state on mount to ensure clean state on navigation
+  useEffect(() => {
+    setUploadedImage(null);
+    setPrompt("");
+    setSelectedAspectRatio("match_input_image");
+    setGeneratedImages([]);
+    setDragActive(false);
+  }, []);
 
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
@@ -112,7 +121,7 @@ const GlassImageUpload = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8">
-      {/* Upload Section */}
+      {/* Upload Section - Always show this first */}
       <Card className={`${getThemeStyle('card')} ${getThemeStyle('shadow')} transition-all duration-1000`}>
         <CardContent className="p-8">
           <div className="flex items-center gap-3 mb-6">
@@ -200,81 +209,83 @@ const GlassImageUpload = () => {
         </CardContent>
       </Card>
 
-      {/* Prompt Section */}
-      <Card className={`${getThemeStyle('card')} ${getThemeStyle('shadow')} transition-all duration-1000`}>
-        <CardContent className="p-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
-              <Lightbulb className={`w-5 h-5 ${textStyles.primary}`} />
+      {/* Prompt Section - Only show if image is uploaded */}
+      {uploadedImage && (
+        <Card className={`${getThemeStyle('card')} ${getThemeStyle('shadow')} transition-all duration-1000`}>
+          <CardContent className="p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
+                <Lightbulb className={`w-5 h-5 ${textStyles.primary}`} />
+              </div>
+              <h3 className={`text-xl font-semibold ${textStyles.primary}`}>Describe Your Vision</h3>
             </div>
-            <h3 className={`text-xl font-semibold ${textStyles.primary}`}>Describe Your Vision</h3>
-          </div>
-          
-          <div className="space-y-6">
-            {/* Aspect Ratio Selector */}
-            <div className="space-y-3">
-              <label className={`${textStyles.secondary} text-sm font-medium`}>Aspect Ratio</label>
-              <Select value={selectedAspectRatio} onValueChange={setSelectedAspectRatio}>
-                <SelectTrigger className={`${getThemeStyle('input')} ${textStyles.primary} focus:border-white/40 focus:bg-white/10`}>
-                  <SelectValue placeholder="Select aspect ratio" />
-                </SelectTrigger>
-                <SelectContent className="bg-gray-900/95 backdrop-blur-lg border-white/20">
-                  {aspectRatios.map((ratio) => (
-                    <SelectItem 
-                      key={ratio.value} 
-                      value={ratio.value}
-                      className="text-white hover:bg-white/10 focus:bg-white/10"
-                    >
-                      {ratio.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            
+            <div className="space-y-6">
+              {/* Aspect Ratio Selector */}
+              <div className="space-y-3">
+                <label className={`${textStyles.secondary} text-sm font-medium`}>Aspect Ratio</label>
+                <Select value={selectedAspectRatio} onValueChange={setSelectedAspectRatio}>
+                  <SelectTrigger className={`${getThemeStyle('input')} ${textStyles.primary} focus:border-white/40 focus:bg-white/10`}>
+                    <SelectValue placeholder="Select aspect ratio" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-gray-900/95 backdrop-blur-lg border-white/20">
+                    {aspectRatios.map((ratio) => (
+                      <SelectItem 
+                        key={ratio.value} 
+                        value={ratio.value}
+                        className="text-white hover:bg-white/10 focus:bg-white/10"
+                      >
+                        {ratio.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-            <Textarea
-              placeholder="Describe how you want to transform your image..."
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              className={`min-h-[120px] ${getThemeStyle('input')} ${textStyles.primary} placeholder:text-white/50 resize-none rounded-xl`}
-            />
-            
-            <Button 
-              onClick={handleGenerate} 
-              className={`w-full ${getThemeStyle('buttonPrimary')} text-white py-4 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105`}
-              disabled={isGenerating || !uploadedImage}
-            >
-              {isGenerating ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Creating Magic...
-                </>
-              ) : (
-                <>
-                  <Sparkles className="mr-2 h-5 w-5" />
-                  Generate Transformation
-                </>
-              )}
-            </Button>
-            
-            {/* Prompt Suggestions */}
-            <div className="space-y-3">
-              <p className={`${textStyles.secondary} text-sm font-medium`}>Quick suggestions:</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {promptSuggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => addPromptSuggestion(suggestion)}
-                    className={`px-4 py-3 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg text-left border border-white/20 hover:border-white/30`}
-                  >
-                    {suggestion}
-                  </button>
-                ))}
+              <Textarea
+                placeholder="Describe how you want to transform your image..."
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                className={`min-h-[120px] ${getThemeStyle('input')} ${textStyles.primary} placeholder:text-white/50 resize-none rounded-xl`}
+              />
+              
+              <Button 
+                onClick={handleGenerate} 
+                className={`w-full ${getThemeStyle('buttonPrimary')} text-white py-4 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105`}
+                disabled={isGenerating || !uploadedImage}
+              >
+                {isGenerating ? (
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Creating Magic...
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="mr-2 h-5 w-5" />
+                    Generate Transformation
+                  </>
+                )}
+              </Button>
+              
+              {/* Prompt Suggestions */}
+              <div className="space-y-3">
+                <p className={`${textStyles.secondary} text-sm font-medium`}>Quick suggestions:</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {promptSuggestions.map((suggestion, index) => (
+                    <button
+                      key={index}
+                      onClick={() => addPromptSuggestion(suggestion)}
+                      className={`px-4 py-3 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg text-left border border-white/20 hover:border-white/30`}
+                    >
+                      {suggestion}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Output Section */}
       {generatedImages.length > 0 && (
