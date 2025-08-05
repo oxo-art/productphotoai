@@ -4,6 +4,7 @@ import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Slider } from '@/components/ui/slider';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useMobileOptimization } from '@/hooks/useMobileOptimization';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface BeforeAfterSliderProps {
   beforeImage: string;
@@ -18,6 +19,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
 }) => {
   const [sliderPosition, setSliderPosition] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [imagesLoaded, setImagesLoaded] = useState({ before: false, after: false });
   const [hasError, setHasError] = useState(false);
@@ -30,7 +32,6 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
   const throttledSetPosition = useCallback((position: number) => {
     const now = performance.now();
     
-    // Throttle updates to ~16ms (60fps) but allow immediate updates during dragging
     if (now - lastUpdateRef.current < 8 && !isDragging) {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
@@ -180,6 +181,8 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
           }`}
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
+          onMouseEnter={() => setIsHovering(true)}
+          onMouseLeave={() => setIsHovering(false)}
           style={{ 
             touchAction: 'pan-x',
             willChange: isDragging ? 'transform' : 'auto'
@@ -196,16 +199,16 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               draggable={false}
               loading="eager"
             />
-            {sliderPosition > 10 && imagesLoaded.before && (
-              <div className="absolute top-3 sm:top-6 left-3 sm:left-6 bg-black/80 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full text-sm sm:text-lg font-medium backdrop-blur-sm transition-all duration-300">
+            {sliderPosition > 15 && imagesLoaded.before && (
+              <div className="absolute top-4 sm:top-6 left-4 sm:left-6 bg-black/90 text-white px-4 py-2 sm:px-5 sm:py-3 rounded-xl text-sm sm:text-lg font-semibold backdrop-blur-sm transition-all duration-300 border border-white/20">
                 Before
               </div>
             )}
           </div>
           
-          {/* After Image with optimized clipPath */}
+          {/* After Image with clip path */}
           <div 
-            className="absolute inset-0 transition-all duration-100 ease-out"
+            className="absolute inset-0 transition-all duration-75 ease-out"
             style={{
               clipPath: `polygon(${sliderPosition}% 0%, 100% 0%, 100% 100%, ${sliderPosition}% 100%)`,
               willChange: isDragging ? 'clip-path' : 'auto',
@@ -221,45 +224,87 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               draggable={false}
               loading="eager"
             />
-            {imagesLoaded.after && (
-              <div className="absolute top-3 sm:top-6 right-3 sm:right-6 bg-black/80 text-white px-3 py-2 sm:px-4 sm:py-3 rounded-full text-sm sm:text-lg font-medium backdrop-blur-sm transition-all duration-300">
+            {sliderPosition < 85 && imagesLoaded.after && (
+              <div className="absolute top-4 sm:top-6 right-4 sm:right-6 bg-black/90 text-white px-4 py-2 sm:px-5 sm:py-3 rounded-xl text-sm sm:text-lg font-semibold backdrop-blur-sm transition-all duration-300 border border-white/20">
                 After
               </div>
             )}
           </div>
           
-          {/* Optimized Slider Line */}
+          {/* Modern Slider Divider */}
           <div 
-            className="absolute top-0 bottom-0 w-1 bg-white shadow-2xl transition-all duration-100 ease-out"
-            style={{ 
-              left: `${sliderPosition}%`, 
-              transform: 'translate3d(-50%, 0, 0)',
-              boxShadow: isMobile ? '0 0 15px rgba(255, 255, 255, 0.5)' : '0 0 25px rgba(255, 255, 255, 0.7)',
-              willChange: isDragging ? 'transform' : 'auto'
-            }}
-          />
-          
-          {/* Optimized Slider Handle */}
-          <div 
-            className={`absolute top-1/2 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-white rounded-full shadow-2xl border-4 sm:border-6 border-white/20 flex items-center justify-center backdrop-blur-sm transition-all duration-100 ease-out ${
-              isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing hover:scale-110'
+            className={`absolute top-0 bottom-0 transition-all duration-75 ease-out ${
+              isDragging || isHovering ? 'w-1' : 'w-0.5'
             }`}
             style={{ 
               left: `${sliderPosition}%`, 
+              transform: 'translate3d(-50%, 0, 0)',
+              background: 'linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(255,255,255,1), rgba(255,255,255,0.9))',
+              boxShadow: isDragging || isHovering 
+                ? '0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.4)' 
+                : '0 0 15px rgba(255, 255, 255, 0.6)',
+              willChange: isDragging ? 'transform, width' : 'auto'
+            }}
+          />
+          
+          {/* Animated Slider Handle with Icons */}
+          <div 
+            className={`absolute top-1/2 transition-all duration-200 ease-out ${
+              isDragging ? 'scale-110' : isHovering ? 'scale-105' : 'scale-100'
+            } ${isLoading ? 'cursor-default' : 'cursor-grab active:cursor-grabbing'}`}
+            style={{ 
+              left: `${sliderPosition}%`, 
               transform: 'translate3d(-50%, -50%, 0)',
-              boxShadow: isMobile ? '0 6px 24px rgba(0, 0, 0, 0.3)' : '0 12px 48px rgba(0, 0, 0, 0.4)',
               willChange: isDragging ? 'transform' : 'auto'
             }}
           >
-            <div className="flex space-x-1 sm:space-x-1.5">
-              <div className="w-1 sm:w-1.5 h-6 sm:h-8 lg:h-10 bg-gray-400 rounded-full"></div>
-              <div className="w-1 sm:w-1.5 h-6 sm:h-8 lg:h-10 bg-gray-400 rounded-full"></div>
+            {/* Main Handle */}
+            <div className={`relative w-14 h-14 sm:w-18 sm:h-18 lg:w-20 lg:h-20 bg-white rounded-full shadow-2xl border-3 border-white/30 flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
+              isDragging ? 'ring-4 ring-white/50' : ''
+            }`}
+              style={{ 
+                boxShadow: isDragging 
+                  ? '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(255, 255, 255, 0.3)' 
+                  : '0 6px 24px rgba(0, 0, 0, 0.3)'
+              }}
+            >
+              {/* Left Arrow */}
+              <div className="absolute -left-8 sm:-left-10 top-1/2 transform -translate-y-1/2">
+                <div className={`w-6 h-6 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 ${
+                  isDragging || isHovering ? 'opacity-100 scale-100' : 'opacity-70 scale-90'
+                }`}>
+                  <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
+                </div>
+              </div>
+              
+              {/* Right Arrow */}
+              <div className="absolute -right-8 sm:-right-10 top-1/2 transform -translate-y-1/2">
+                <div className={`w-6 h-6 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 ${
+                  isDragging || isHovering ? 'opacity-100 scale-100' : 'opacity-70 scale-90'
+                }`}>
+                  <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
+                </div>
+              </div>
+              
+              {/* Center Grip Lines */}
+              <div className="flex space-x-1">
+                <div className="w-0.5 sm:w-1 h-4 sm:h-6 lg:h-8 bg-gray-400 rounded-full"></div>
+                <div className="w-0.5 sm:w-1 h-4 sm:h-6 lg:h-8 bg-gray-400 rounded-full"></div>
+                <div className="w-0.5 sm:w-1 h-4 sm:h-6 lg:h-8 bg-gray-400 rounded-full"></div>
+              </div>
             </div>
           </div>
+
+          {/* Interactive Guide (appears on hover) */}
+          {(isHovering || isDragging) && (
+            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm transition-all duration-300 animate-fade-in">
+              Drag to compare
+            </div>
+          )}
         </div>
       </AspectRatio>
       
-      {/* Synchronized Bottom Slider Control */}
+      {/* Bottom Slider Control */}
       <div className="mt-6 sm:mt-8 px-2">
         <Slider
           value={[sliderPosition]}
