@@ -84,7 +84,7 @@ const HeroSection = () => {
               className="w-full h-auto rounded-xl"
               loading="eager"
               decoding="async"
-              fetchpriority="high"
+              fetchPriority="high"
             />
           </div>
         </div>
