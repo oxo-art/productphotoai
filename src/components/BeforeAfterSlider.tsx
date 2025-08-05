@@ -199,7 +199,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               loading="eager"
             />
             {sliderPosition > 15 && imagesLoaded.before && (
-              <div className="absolute top-4 sm:top-6 left-4 sm:left-6 bg-black/90 text-white px-4 py-2 sm:px-5 sm:py-3 rounded-xl text-sm sm:text-lg font-semibold backdrop-blur-sm transition-all duration-300 border border-white/20">
+              <div className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-black/90 text-white px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold backdrop-blur-sm transition-all duration-300 border border-white/20">
                 Before
               </div>
             )}
@@ -224,7 +224,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               loading="eager"
             />
             {sliderPosition < 85 && imagesLoaded.after && (
-              <div className="absolute top-4 sm:top-6 right-4 sm:right-6 bg-black/90 text-white px-4 py-2 sm:px-5 sm:py-3 rounded-xl text-sm sm:text-lg font-semibold backdrop-blur-sm transition-all duration-300 border border-white/20">
+              <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-black/90 text-white px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold backdrop-blur-sm transition-all duration-300 border border-white/20">
                 After
               </div>
             )}
@@ -257,13 +257,13 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               willChange: isDragging ? 'transform' : 'auto'
             }}
           >
-            {/* Main Handle - Just the circle */}
-            <div className={`relative w-14 h-14 sm:w-18 sm:h-18 lg:w-20 lg:h-20 bg-white rounded-full shadow-2xl border-3 border-white/30 flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
-              isDragging ? 'ring-4 ring-white/50' : ''
+            {/* Main Handle - Transparent circle */}
+            <div className={`relative w-14 h-14 sm:w-18 sm:h-18 lg:w-20 lg:h-20 bg-white/20 rounded-full shadow-2xl border-3 border-white/40 flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
+              isDragging ? 'ring-4 ring-white/30' : ''
             }`}
               style={{ 
                 boxShadow: isDragging 
-                  ? '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(255, 255, 255, 0.3)' 
+                  ? '0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 4px rgba(255, 255, 255, 0.2)' 
                   : '0 6px 24px rgba(0, 0, 0, 0.3)'
               }}
             >
@@ -284,12 +284,8 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
                   <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4 text-gray-700" />
                 </div>
               </div>
-              
-              {/* Removed the center grip lines - now just an empty circle */}
             </div>
           </div>
-
-          
         </div>
       </AspectRatio>
       
