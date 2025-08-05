@@ -7,6 +7,7 @@ interface MobileOptimization {
   reducedMotion: boolean;
   blurIntensity: string;
   animationDuration: string;
+  scrollBehavior: 'smooth' | 'auto';
 }
 
 // Extend Navigator interface to include experimental properties
@@ -20,7 +21,8 @@ export const useMobileOptimization = (): MobileOptimization => {
     isLowEndDevice: false,
     reducedMotion: false,
     blurIntensity: 'blur-3xl',
-    animationDuration: 'duration-300'
+    animationDuration: 'duration-300',
+    scrollBehavior: 'smooth'
   });
 
   useEffect(() => {
@@ -35,12 +37,16 @@ export const useMobileOptimization = (): MobileOptimization => {
       const isLowEndDevice = hardwareConcurrency <= 4 || deviceMemory <= 4;
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+      // Optimize scroll behavior for mobile devices
+      const scrollBehavior: 'smooth' | 'auto' = isMobile && isLowEndDevice ? 'auto' : 'smooth';
+
       setOptimization({
         isMobile,
         isLowEndDevice,
         reducedMotion,
         blurIntensity: isMobile || isLowEndDevice ? 'blur-lg' : 'blur-3xl',
-        animationDuration: reducedMotion ? 'duration-75' : 'duration-300'
+        animationDuration: reducedMotion ? 'duration-75' : isMobile ? 'duration-200' : 'duration-300',
+        scrollBehavior
       });
     };
 

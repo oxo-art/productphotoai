@@ -4,18 +4,24 @@ import GlassNavbar from "@/components/GlassNavbar";
 import GlassImageUpload from "@/components/GlassImageUpload";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
+import { scrollToTopWithFallback } from "@/utils/scrollUtils";
 
 const DesignTool = () => {
   const { getThemeStyle } = useGlassTheme();
-  const { isMobile } = useMobileOptimization();
+  const { isMobile, animationDuration } = useMobileOptimization();
 
-  // Scroll to top when component mounts to ensure navbar and upload section are visible
+  // Enhanced scroll to top with mobile optimization
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    // Wait for component to fully render before scrolling
+    const timer = setTimeout(() => {
+      scrollToTopWithFallback();
+    }, isMobile ? 150 : 50);
+
+    return () => clearTimeout(timer);
+  }, [isMobile]);
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${getThemeStyle('background')} transition-all duration-1000`}>
+    <div className={`min-h-screen bg-gradient-to-br ${getThemeStyle('background')} ${animationDuration}`}>
       <GlassNavbar />
       
       {/* Main content area with responsive spacing from navbar */}
