@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Slider } from '@/components/ui/slider';
@@ -247,7 +246,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             }}
           />
           
-          {/* Animated Slider Handle with Icons */}
+          {/* Simplified Slider Handle */}
           <div 
             className={`absolute top-1/2 transition-all duration-200 ease-out ${
               isDragging ? 'scale-110' : isHovering ? 'scale-105' : 'scale-100'
@@ -258,7 +257,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               willChange: isDragging ? 'transform' : 'auto'
             }}
           >
-            {/* Main Handle */}
+            {/* Main Handle - Just the circle */}
             <div className={`relative w-14 h-14 sm:w-18 sm:h-18 lg:w-20 lg:h-20 bg-white rounded-full shadow-2xl border-3 border-white/30 flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
               isDragging ? 'ring-4 ring-white/50' : ''
             }`}
@@ -286,17 +285,12 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
                 </div>
               </div>
               
-              {/* Center Grip Lines */}
-              <div className="flex space-x-1">
-                <div className="w-0.5 sm:w-1 h-4 sm:h-6 lg:h-8 bg-gray-400 rounded-full"></div>
-                <div className="w-0.5 sm:w-1 h-4 sm:h-6 lg:h-8 bg-gray-400 rounded-full"></div>
-                <div className="w-0.5 sm:w-1 h-4 sm:h-6 lg:h-8 bg-gray-400 rounded-full"></div>
-              </div>
+              {/* Removed the center grip lines - now just an empty circle */}
             </div>
           </div>
 
-          {/* Interactive Guide (appears on hover) */}
-          {(isHovering || isDragging) && (
+          {/* Interactive Guide - only shows on hover when NOT dragging */}
+          {isHovering && !isDragging && (
             <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm transition-all duration-300 animate-fade-in">
               Drag to compare
             </div>
