@@ -199,7 +199,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               loading="eager"
             />
             {sliderPosition > 15 && imagesLoaded.before && (
-              <div className="absolute top-3 sm:top-4 left-3 sm:left-4 bg-black/90 text-white px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold backdrop-blur-sm transition-all duration-300 border border-white/20">
+              <div className="absolute top-2 sm:top-3 left-2 sm:left-3 bg-black/90 text-white px-2 py-1 sm:px-2.5 sm:py-1.5 rounded text-xs font-medium backdrop-blur-sm transition-all duration-300 border border-white/20">
                 Before
               </div>
             )}
@@ -224,7 +224,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               loading="eager"
             />
             {sliderPosition < 85 && imagesLoaded.after && (
-              <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-black/90 text-white px-3 py-1.5 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold backdrop-blur-sm transition-all duration-300 border border-white/20">
+              <div className="absolute top-2 sm:top-3 right-2 sm:right-3 bg-black/90 text-white px-2 py-1 sm:px-2.5 sm:py-1.5 rounded text-xs font-medium backdrop-blur-sm transition-all duration-300 border border-white/20">
                 After
               </div>
             )}
