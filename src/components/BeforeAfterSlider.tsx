@@ -289,12 +289,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             </div>
           </div>
 
-          {/* Interactive Guide - only shows on hover when NOT dragging */}
-          {isHovering && !isDragging && (
-            <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-3 py-2 rounded-lg text-sm backdrop-blur-sm transition-all duration-300 animate-fade-in">
-              Drag to compare
-            </div>
-          )}
+          
         </div>
       </AspectRatio>
       
