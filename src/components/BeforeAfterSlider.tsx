@@ -269,7 +269,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             >
               {/* Slide text */}
               <span className="text-white text-xs sm:text-sm font-medium tracking-wide drop-shadow-lg">
-                Slide
+                Move
               </span>
               
               {/* Left Arrow */}
