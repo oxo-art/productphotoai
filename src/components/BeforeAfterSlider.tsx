@@ -246,7 +246,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
             }}
           />
           
-          {/* Simplified Slider Handle */}
+          {/* Slider Handle with Slide text */}
           <div 
             className={`absolute top-1/2 transition-all duration-200 ease-out ${
               isDragging ? 'scale-110' : isHovering ? 'scale-105' : 'scale-100'
@@ -257,7 +257,7 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
               willChange: isDragging ? 'transform' : 'auto'
             }}
           >
-            {/* Main Handle - Transparent circle */}
+            {/* Main Handle - Transparent circle with Slide text */}
             <div className={`relative w-14 h-14 sm:w-18 sm:h-18 lg:w-20 lg:h-20 bg-white/20 rounded-full shadow-2xl border-3 border-white/40 flex items-center justify-center backdrop-blur-sm transition-all duration-200 ${
               isDragging ? 'ring-4 ring-white/30' : ''
             }`}
@@ -267,6 +267,11 @@ const BeforeAfterSlider: React.FC<BeforeAfterSliderProps> = ({
                   : '0 6px 24px rgba(0, 0, 0, 0.3)'
               }}
             >
+              {/* Slide text */}
+              <span className="text-white text-xs sm:text-sm font-medium tracking-wide drop-shadow-lg">
+                Slide
+              </span>
+              
               {/* Left Arrow */}
               <div className="absolute -left-8 sm:-left-10 top-1/2 transform -translate-y-1/2">
                 <div className={`w-6 h-6 sm:w-8 sm:h-8 bg-white/90 rounded-full flex items-center justify-center shadow-lg transition-all duration-200 ${
