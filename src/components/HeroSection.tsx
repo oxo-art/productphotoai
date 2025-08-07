@@ -83,7 +83,7 @@ const HeroSection = () => {
                 Prompt:
               </h3>
               <p className="text-lg leading-relaxed text-white font-medium">
-                A baby wearing gold chain and sunglasses with a leather jacket holding this product in his hand, hyper-realistic.
+                A realistic baby wearing gold chain and leather jacket holding this product in his hand
               </p>
             </div>
           </div>
