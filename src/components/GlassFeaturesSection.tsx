@@ -19,7 +19,8 @@ const GlassFeaturesSection = () => {
     {
       icon: Palette,
       title: "Creative Design",
-      description: "Reimagine artwork and designs with AI-powered style transfers and artistic transformations."
+      description: "Reimagine artwork and designs with AI-powered style transfers and artistic transformations.",
+      hasImage: true
     },
     {
       icon: Wand2,
@@ -98,18 +99,13 @@ const GlassFeaturesSection = () => {
                   <useCase.icon className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10 text-white" />
                 </div>
                 
-                {/* Move title and description before slider for Product Photography */}
-                {useCase.hasSlider && (
-                  <>
-                    <h3 className={`text-xl sm:text-2xl lg:text-3xl font-semibold ${textStyles.primary} mb-4 sm:mb-6`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
-                      {useCase.title}
-                    </h3>
-                    
-                    <p className={`${textStyles.secondary} leading-relaxed mb-6 sm:mb-8 text-base sm:text-lg lg:text-xl`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
-                      {useCase.description}
-                    </p>
-                  </>
-                )}
+                <h3 className={`text-xl sm:text-2xl lg:text-3xl font-semibold ${textStyles.primary} mb-4 sm:mb-6`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
+                  {useCase.title}
+                </h3>
+                
+                <p className={`${textStyles.secondary} leading-relaxed mb-6 sm:mb-8 text-base sm:text-lg lg:text-xl`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
+                  {useCase.description}
+                </p>
                 
                 {/* Before and After Slider for Product Photography card */}
                 {useCase.hasSlider && (
@@ -134,17 +130,17 @@ const GlassFeaturesSection = () => {
                   </div>
                 )}
                 
-                {/* Show title and description for non-slider cards */}
-                {!useCase.hasSlider && (
-                  <>
-                    <h3 className={`text-xl sm:text-2xl lg:text-3xl font-semibold ${textStyles.primary} mb-4 sm:mb-6`} style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.3)' }}>
-                      {useCase.title}
-                    </h3>
-                    
-                    <p className={`${textStyles.secondary} leading-relaxed text-base sm:text-lg lg:text-xl`} style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.2)' }}>
-                      {useCase.description}
-                    </p>
-                  </>
+                {/* Creative Design Image */}
+                {useCase.hasImage && (
+                  <div className={`rounded-xl sm:rounded-2xl overflow-hidden ${getThemeStyle('shadow')}`}>
+                    <img 
+                      src="/lovable-uploads/378c7866-45c5-4cf3-92ce-f9e3002f9318.png" 
+                      alt="Creative design transformation example" 
+                      className="w-full h-auto"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 )}
               </div>
             ))}
