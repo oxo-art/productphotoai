@@ -60,6 +60,20 @@ const GlassHeroSection = () => {
           </div>
         </div>
         
+        {/* Example Image */}
+        <div className="mb-8 sm:mb-10 max-w-4xl mx-auto px-4">
+          <div className={`${getThemeStyle('card')} rounded-xl sm:rounded-2xl p-6 sm:p-8 ${getThemeStyle('shadow')}`}>
+            <img 
+              src="/lovable-uploads/18c96854-77c5-45d4-bd59-083373aaaf84.png" 
+              alt="AI transformation example" 
+              className="w-full h-auto rounded-xl"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </div>
+        </div>
+        
         {/* Enlarged Prompt Example Section */}
         <div className="mb-8 sm:mb-10 max-w-4xl mx-auto px-4">
           <div className={`${getThemeStyle('card')} rounded-xl sm:rounded-2xl p-6 sm:p-8 lg:p-10 ${getThemeStyle('shadow')}`}>

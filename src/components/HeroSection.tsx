@@ -61,6 +61,20 @@ const HeroSection = () => {
           </div>
         </div>
         
+        {/* Example Image */}
+        <div className="mb-8 max-w-3xl mx-auto">
+          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.3)]">
+            <img 
+              src="/lovable-uploads/18c96854-77c5-45d4-bd59-083373aaaf84.png" 
+              alt="AI transformation example" 
+              className="w-full h-auto rounded-xl"
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </div>
+        </div>
+        
         {/* Prompt Example Section */}
         <div className="mb-8 max-w-2xl mx-auto">
           <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.3)]">
