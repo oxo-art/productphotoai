@@ -2,23 +2,9 @@
 import { Sparkles, Zap, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useGradientTheme } from "@/contexts/GradientThemeContext";
-import { useEffect } from "react";
 
 const HeroSection = () => {
   const { getGradient } = useGradientTheme();
-
-  // Preload the hero image for faster loading
-  useEffect(() => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = '/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png';
-    document.head.appendChild(link);
-    
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, []);
 
   const scrollToUpload = () => {
     const uploadSection = document.querySelector('main');
@@ -72,20 +58,6 @@ const HeroSection = () => {
               </div>
               <span style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
             </div>
-          </div>
-        </div>
-        
-        {/* Example Image */}
-        <div className="mb-8 max-w-3xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.3)]">
-            <img 
-              src="/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png" 
-              alt="AI transformation example" 
-              className="w-full h-auto rounded-xl"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
           </div>
         </div>
         

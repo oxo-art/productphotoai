@@ -4,25 +4,11 @@ import { Button } from "@/components/ui/button";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { Link } from "react-router-dom";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
-import { useEffect } from "react";
 
 const GlassHeroSection = () => {
   const { getThemeStyle } = useGlassTheme();
   const { animationDuration, isMobile } = useMobileOptimization();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
-
-  // Preload the hero image for faster loading
-  useEffect(() => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = '/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png';
-    document.head.appendChild(link);
-    
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, []);
 
   return (
     <section className="relative overflow-hidden py-12 sm:py-24 px-4" style={{ contain: 'layout style paint' }}>
@@ -71,20 +57,6 @@ const GlassHeroSection = () => {
               </div>
               <span className="text-base sm:text-xl lg:text-2xl" style={{ textShadow: '0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 4px rgba(0, 0, 0, 0.3)' }}>AI Powered</span>
             </div>
-          </div>
-        </div>
-        
-        {/* Example Image */}
-        <div className="mb-8 sm:mb-10 max-w-4xl mx-auto px-4">
-          <div className={`${getThemeStyle('card')} rounded-xl sm:rounded-2xl p-6 sm:p-8 ${getThemeStyle('shadow')}`}>
-            <img 
-              src="/lovable-uploads/364eb201-1bb4-421f-8eec-f1b3f2f2e074.png" 
-              alt="AI transformation example" 
-              className="w-full h-auto rounded-xl"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
           </div>
         </div>
         
