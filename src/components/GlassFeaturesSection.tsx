@@ -1,4 +1,3 @@
-
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
@@ -135,7 +134,7 @@ const GlassFeaturesSection = () => {
                   <div className="mb-6 sm:mb-8">
                     <div className={`rounded-xl sm:rounded-2xl overflow-hidden ${getThemeStyle('shadow')} mb-6 sm:mb-8`}>
                       <img 
-                        src="/lovable-uploads/378c7866-45c5-4cf3-92ce-f9e3002f9318.png" 
+                        src="/lovable-uploads/858f3190-35d6-4e2b-95c9-0c47475146c3.png" 
                         alt="Creative design transformation example" 
                         className="w-full h-auto"
                         loading="lazy"
@@ -150,7 +149,7 @@ const GlassFeaturesSection = () => {
                           Prompt:
                         </div>
                         <p className="text-base sm:text-lg lg:text-xl text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
-                          A realistic man wearing this jacket and sitting infront of a formula 1 car.
+                          A realistic image of a man wearing this jacket white background.
                         </p>
                       </div>
                     </div>
