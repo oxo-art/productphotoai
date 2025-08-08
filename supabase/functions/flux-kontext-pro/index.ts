@@ -105,13 +105,13 @@ serve(async (req) => {
     
     const input = {
       prompt: requestData.prompt,
-      go_fast: true,
-      guidance: 2.5,
+      go_fast: false, // Changed from true to false for better quality
+      guidance: 4.0, // Increased from 2.5 to 4.0 for better prompt adherence
       input_image: requestData.input_image,
       aspect_ratio: requestData.aspect_ratio,
-      output_format: "jpg",
-      output_quality: 80,
-      num_inference_steps: 30
+      output_format: "png", // Changed from "jpg" to "png" for lossless quality
+      output_quality: 95, // Increased from 80 to 95 for higher quality
+      num_inference_steps: 44 // Increased from 30 to 44 for better detail
     };
 
     console.log("Final input to Replicate:", input);
