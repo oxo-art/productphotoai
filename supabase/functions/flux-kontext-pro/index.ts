@@ -54,15 +54,13 @@ const validateRequest = (body: any): { isValid: boolean; errors: string[] } => {
 
   // Validate aspect ratio values
   const validAspectRatios = [
-    "match_input_image", "1:1", "16:9", "21:9", "3:2", "2:3", 
+    "1:1", "16:9", "21:9", "3:2", "2:3", 
     "4:5", "5:4", "3:4", "4:3", "9:16", "9:21"
   ];
   
   if (body.aspect_ratio && !validAspectRatios.includes(body.aspect_ratio)) {
     errors.push(`aspect_ratio must be one of: ${validAspectRatios.join(', ')}`);
   }
-
-  // Note: We no longer validate strict dimension limits here as we'll normalize them
 
   return { isValid: errors.length === 0, errors };
 };
@@ -116,16 +114,17 @@ serve(async (req) => {
     
     const input = {
       prompt: requestData.prompt,
-      go_fast: false, // Changed from true to false for better quality
-      guidance: 4.0, // Increased from 2.5 to 4.0 for better prompt adherence
+      go_fast: false,
+      guidance: 4.0,
+      guidance_scale: 4.0,
       input_image: requestData.input_image,
       aspect_ratio: requestData.aspect_ratio,
-      output_format: "png", // Changed from "jpg" to "png" for lossless quality
-      output_quality: 95, // Increased from 80 to 95 for higher quality
-      num_inference_steps: 44 // Increased from 30 to 44 for better detail
+      output_format: "png",
+      output_quality: 95,
+      num_inference_steps: 44
     };
 
-    console.log("Final input to Replicate:", input);
+    console.log("Final input payload to Replicate:", JSON.stringify(input, null, 2));
 
     const output = await replicate.run("black-forest-labs/flux-kontext-dev", { input });
 
@@ -149,6 +148,12 @@ serve(async (req) => {
         dimensions: {
           width: normalizedDimensions.width,
           height: normalizedDimensions.height
+        },
+        quality_settings: {
+          guidance_scale: 4.0,
+          num_inference_steps: 44,
+          output_format: "png",
+          output_quality: 95
         }
       }
     }), {
