@@ -5,6 +5,41 @@ import { useToast } from "@/hooks/use-toast";
 import { UploadedImage, GeneratedImage, ImageGenerationRequest, validateImageGenerationRequest } from "@/types/imageGeneration";
 import { getAspectRatioDimensions } from "@/config/aspectRatios";
 
+// Helper function to normalize dimensions for mobile compatibility
+const normalizeDimensions = (width: number, height: number): { width: number; height: number } => {
+  // Scale down if either dimension exceeds 2048
+  const maxDimension = 2048;
+  const minDimension = 256;
+  
+  if (width > maxDimension || height > maxDimension) {
+    const scale = Math.min(maxDimension / width, maxDimension / height);
+    width = Math.round(width * scale);
+    height = Math.round(height * scale);
+  }
+  
+  // Ensure minimum dimensions
+  if (width < minDimension) {
+    const scale = minDimension / width;
+    width = Math.round(width * scale);
+    height = Math.round(height * scale);
+  }
+  
+  if (height < minDimension) {
+    const scale = minDimension / height;
+    width = Math.round(width * scale);
+    height = Math.round(height * scale);
+  }
+  
+  // Round to nearest multiple of 8 for better model compatibility
+  const normalizedWidth = Math.round(width / 8) * 8;
+  const normalizedHeight = Math.round(height / 8) * 8;
+  
+  return { 
+    width: Math.max(minDimension, Math.min(maxDimension, normalizedWidth)),
+    height: Math.max(minDimension, Math.min(maxDimension, normalizedHeight))
+  };
+};
+
 export const useImageGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
@@ -43,14 +78,20 @@ export const useImageGeneration = () => {
       let outputHeight: number;
       
       if (selectedAspectRatio === "match_input_image") {
-        outputWidth = uploadedImage.width || 1024;
-        outputHeight = uploadedImage.height || 1024;
-        console.log("Using input image dimensions:", outputWidth, "x", outputHeight);
+        const originalWidth = uploadedImage.width || 1024;
+        const originalHeight = uploadedImage.height || 1024;
+        const normalized = normalizeDimensions(originalWidth, originalHeight);
+        outputWidth = normalized.width;
+        outputHeight = normalized.height;
+        console.log("Using normalized input image dimensions:", outputWidth, "x", outputHeight);
       } else {
         const dimensions = getAspectRatioDimensions(selectedAspectRatio);
-        outputWidth = dimensions.width || 1024;
-        outputHeight = dimensions.height || 1024;
-        console.log("Using aspect ratio dimensions:", outputWidth, "x", outputHeight);
+        const baseWidth = dimensions.width || 1024;
+        const baseHeight = dimensions.height || 1024;
+        const normalized = normalizeDimensions(baseWidth, baseHeight);
+        outputWidth = normalized.width;
+        outputHeight = normalized.height;
+        console.log("Using normalized aspect ratio dimensions:", outputWidth, "x", outputHeight);
       }
       
       const requestBody: ImageGenerationRequest = {
@@ -75,13 +116,18 @@ export const useImageGeneration = () => {
 
       if (error) {
         console.error("Supabase function error:", error);
-        throw new Error(error.message || "Failed to generate image");
+        // Provide more detailed error message
+        const errorMessage = error.message || "Failed to generate image";
+        const errorDetails = data?.details ? ` (${data.details.join(', ')})` : '';
+        throw new Error(`${errorMessage}${errorDetails}`);
       }
 
       console.log("Function response:", data);
 
       if (data.error) {
-        throw new Error(data.error);
+        // Handle error response from edge function
+        const errorDetails = data.details ? ` Details: ${Array.isArray(data.details) ? data.details.join(', ') : data.details}` : '';
+        throw new Error(`${data.error}${errorDetails}`);
       }
 
       if (data.output && Array.isArray(data.output) && data.output.length > 0) {

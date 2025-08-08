@@ -16,6 +16,19 @@ interface ImageGenerationRequest {
   height: number;
 }
 
+// Helper function to clamp and normalize dimensions
+const normalizeDimensions = (width: number, height: number): { width: number; height: number } => {
+  // Clamp to allowed range
+  const clampedWidth = Math.max(256, Math.min(2048, width));
+  const clampedHeight = Math.max(256, Math.min(2048, height));
+  
+  // Round to nearest multiple of 8 for better model compatibility
+  const normalizedWidth = Math.round(clampedWidth / 8) * 8;
+  const normalizedHeight = Math.round(clampedHeight / 8) * 8;
+  
+  return { width: normalizedWidth, height: normalizedHeight };
+};
+
 const validateRequest = (body: any): { isValid: boolean; errors: string[] } => {
   const errors: string[] = [];
   
@@ -49,14 +62,7 @@ const validateRequest = (body: any): { isValid: boolean; errors: string[] } => {
     errors.push(`aspect_ratio must be one of: ${validAspectRatios.join(', ')}`);
   }
 
-  // Validate image dimensions
-  if (body.width && (body.width < 256 || body.width > 2048)) {
-    errors.push("width must be between 256 and 2048 pixels");
-  }
-  
-  if (body.height && (body.height < 256 || body.height > 2048)) {
-    errors.push("height must be between 256 and 2048 pixels");
-  }
+  // Note: We no longer validate strict dimension limits here as we'll normalize them
 
   return { isValid: errors.length === 0, errors };
 };
@@ -97,11 +103,16 @@ serve(async (req) => {
 
     const requestData: ImageGenerationRequest = body as ImageGenerationRequest;
 
+    // Normalize dimensions to ensure they're within valid range
+    const normalizedDimensions = normalizeDimensions(requestData.width, requestData.height);
+    console.log(`Original dimensions: ${requestData.width}x${requestData.height}`);
+    console.log(`Normalized dimensions: ${normalizedDimensions.width}x${normalizedDimensions.height}`);
+
     console.log("Generating image with Flux Kontext Dev")
     console.log("Prompt:", requestData.prompt)
     console.log("Aspect ratio:", requestData.aspect_ratio)
-    console.log("Width:", requestData.width)
-    console.log("Height:", requestData.height)
+    console.log("Width:", normalizedDimensions.width)
+    console.log("Height:", normalizedDimensions.height)
     
     const input = {
       prompt: requestData.prompt,
@@ -136,8 +147,8 @@ serve(async (req) => {
         prompt: requestData.prompt,
         aspect_ratio: requestData.aspect_ratio,
         dimensions: {
-          width: requestData.width,
-          height: requestData.height
+          width: normalizedDimensions.width,
+          height: normalizedDimensions.height
         }
       }
     }), {
