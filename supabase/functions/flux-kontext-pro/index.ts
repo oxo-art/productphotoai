@@ -16,17 +16,6 @@ interface ImageGenerationRequest {
   height: number;
 }
 
-// Helper function to clamp dimensions to valid range
-const clampDimensions = (width: number, height: number): { width: number; height: number } => {
-  const MIN_SIZE = 256;
-  const MAX_SIZE = 2048;
-  
-  const clampedWidth = Math.max(MIN_SIZE, Math.min(MAX_SIZE, Math.round(width / 8) * 8));
-  const clampedHeight = Math.max(MIN_SIZE, Math.min(MAX_SIZE, Math.round(height / 8) * 8));
-  
-  return { width: clampedWidth, height: clampedHeight };
-};
-
 const validateRequest = (body: any): { isValid: boolean; errors: string[] } => {
   const errors: string[] = [];
   
@@ -42,11 +31,11 @@ const validateRequest = (body: any): { isValid: boolean; errors: string[] } => {
     errors.push("aspect_ratio is required and must be a string");
   }
   
-  if (typeof body.width !== 'number' || body.width <= 0) {
+  if (!body.width || typeof body.width !== 'number' || body.width <= 0) {
     errors.push("width is required and must be a positive number");
   }
   
-  if (typeof body.height !== 'number' || body.height <= 0) {
+  if (!body.height || typeof body.height !== 'number' || body.height <= 0) {
     errors.push("height is required and must be a positive number");
   }
 
@@ -58,6 +47,15 @@ const validateRequest = (body: any): { isValid: boolean; errors: string[] } => {
   
   if (body.aspect_ratio && !validAspectRatios.includes(body.aspect_ratio)) {
     errors.push(`aspect_ratio must be one of: ${validAspectRatios.join(', ')}`);
+  }
+
+  // Validate image dimensions
+  if (body.width && (body.width < 256 || body.width > 2048)) {
+    errors.push("width must be between 256 and 2048 pixels");
+  }
+  
+  if (body.height && (body.height < 256 || body.height > 2048)) {
+    errors.push("height must be between 256 and 2048 pixels");
   }
 
   return { isValid: errors.length === 0, errors };
@@ -99,19 +97,11 @@ serve(async (req) => {
 
     const requestData: ImageGenerationRequest = body as ImageGenerationRequest;
 
-    // Auto-clamp dimensions to valid range instead of rejecting
-    const originalDimensions = { width: requestData.width, height: requestData.height };
-    const clampedDimensions = clampDimensions(requestData.width, requestData.height);
-    
-    if (originalDimensions.width !== clampedDimensions.width || originalDimensions.height !== clampedDimensions.height) {
-      console.log(`Dimensions auto-clamped from ${originalDimensions.width}x${originalDimensions.height} to ${clampedDimensions.width}x${clampedDimensions.height}`);
-    }
-
     console.log("Generating image with Flux Kontext Dev")
     console.log("Prompt:", requestData.prompt)
     console.log("Aspect ratio:", requestData.aspect_ratio)
-    console.log("Final width:", clampedDimensions.width)
-    console.log("Final height:", clampedDimensions.height)
+    console.log("Width:", requestData.width)
+    console.log("Height:", requestData.height)
     
     const input = {
       prompt: requestData.prompt,
@@ -146,10 +136,9 @@ serve(async (req) => {
         prompt: requestData.prompt,
         aspect_ratio: requestData.aspect_ratio,
         dimensions: {
-          width: clampedDimensions.width,
-          height: clampedDimensions.height
-        },
-        original_dimensions: originalDimensions
+          width: requestData.width,
+          height: requestData.height
+        }
       }
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

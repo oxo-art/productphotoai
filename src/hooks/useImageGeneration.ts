@@ -5,43 +5,6 @@ import { useToast } from "@/hooks/use-toast";
 import { UploadedImage, GeneratedImage, ImageGenerationRequest, validateImageGenerationRequest } from "@/types/imageGeneration";
 import { getAspectRatioDimensions } from "@/config/aspectRatios";
 
-// Helper function to normalize dimensions to valid range (256-2048) and multiples of 8
-const normalizeDimensions = (width: number, height: number): { width: number; height: number } => {
-  const MIN_SIZE = 256;
-  const MAX_SIZE = 2048;
-  
-  // Calculate the scale needed to fit within bounds
-  const maxDimension = Math.max(width, height);
-  const minDimension = Math.min(width, height);
-  
-  let scale = 1;
-  
-  // If any dimension is too large, scale down
-  if (maxDimension > MAX_SIZE) {
-    scale = MAX_SIZE / maxDimension;
-  }
-  
-  // If any dimension would be too small after scaling, scale up
-  const scaledMin = minDimension * scale;
-  if (scaledMin < MIN_SIZE) {
-    scale = MIN_SIZE / minDimension;
-  }
-  
-  // Apply scale and round to nearest multiple of 8
-  let normalizedWidth = Math.round((width * scale) / 8) * 8;
-  let normalizedHeight = Math.round((height * scale) / 8) * 8;
-  
-  // Ensure dimensions are within bounds
-  normalizedWidth = Math.max(MIN_SIZE, Math.min(MAX_SIZE, normalizedWidth));
-  normalizedHeight = Math.max(MIN_SIZE, Math.min(MAX_SIZE, normalizedHeight));
-  
-  // Final check to ensure we have multiples of 8
-  normalizedWidth = Math.round(normalizedWidth / 8) * 8;
-  normalizedHeight = Math.round(normalizedHeight / 8) * 8;
-  
-  return { width: normalizedWidth, height: normalizedHeight };
-};
-
 export const useImageGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
@@ -74,7 +37,6 @@ export const useImageGeneration = () => {
     try {
       console.log("Calling Flux Kontext Dev function...");
       console.log("Selected aspect ratio:", selectedAspectRatio);
-      console.log("Original image dimensions:", uploadedImage.width, "x", uploadedImage.height);
       
       // Calculate output dimensions based on selected aspect ratio
       let outputWidth: number;
@@ -91,16 +53,12 @@ export const useImageGeneration = () => {
         console.log("Using aspect ratio dimensions:", outputWidth, "x", outputHeight);
       }
       
-      // Normalize dimensions to fit within API constraints
-      const normalizedDimensions = normalizeDimensions(outputWidth, outputHeight);
-      console.log("Normalized dimensions:", normalizedDimensions.width, "x", normalizedDimensions.height);
-      
       const requestBody: ImageGenerationRequest = {
         prompt: prompt,
         input_image: uploadedImage.url,
         aspect_ratio: selectedAspectRatio,
-        width: normalizedDimensions.width,
-        height: normalizedDimensions.height
+        width: outputWidth,
+        height: outputHeight
       };
 
       // Validate request before sending
@@ -129,8 +87,8 @@ export const useImageGeneration = () => {
       if (data.output && Array.isArray(data.output) && data.output.length > 0) {
         const newImages = data.output.map((url: string) => ({
           url,
-          width: normalizedDimensions.width,
-          height: normalizedDimensions.height
+          width: outputWidth,
+          height: outputHeight
         }));
         
         toast({
