@@ -14,19 +14,65 @@ interface ImageGenerationRequest {
   aspect_ratio: string;
   width: number;
   height: number;
+  strength?: number;
 }
 
-// Helper function to clamp and normalize dimensions
-const normalizeDimensions = (width: number, height: number): { width: number; height: number } => {
-  // Clamp to allowed range
-  const clampedWidth = Math.max(256, Math.min(2048, width));
-  const clampedHeight = Math.max(256, Math.min(2048, height));
+// Helper function to calculate optimal dimensions for better quality
+const calculateOptimalDimensions = (aspectRatio: string): { width: number; height: number } => {
+  const maxDimension = 2048;
+  const minDimension = 512;
   
-  // Round to nearest multiple of 8 for better model compatibility
-  const normalizedWidth = Math.round(clampedWidth / 8) * 8;
-  const normalizedHeight = Math.round(clampedHeight / 8) * 8;
+  // Define base ratios
+  const ratioMap: { [key: string]: { w: number; h: number } } = {
+    "1:1": { w: 1, h: 1 },
+    "16:9": { w: 16, h: 9 },
+    "21:9": { w: 21, h: 9 },
+    "3:2": { w: 3, h: 2 },
+    "2:3": { w: 2, h: 3 },
+    "4:5": { w: 4, h: 5 },
+    "5:4": { w: 5, h: 4 },
+    "3:4": { w: 3, h: 4 },
+    "4:3": { w: 4, h: 3 },
+    "9:16": { w: 9, h: 16 },
+    "9:21": { w: 9, h: 21 }
+  };
   
-  return { width: normalizedWidth, height: normalizedHeight };
+  const ratio = ratioMap[aspectRatio] || { w: 4, h: 5 }; // default to 4:5
+  
+  // Calculate dimensions that maximize resolution within limits
+  let width, height;
+  
+  if (ratio.w >= ratio.h) {
+    // Landscape or square - make width the max dimension
+    width = Math.min(maxDimension, Math.max(minDimension, maxDimension));
+    height = Math.round((width * ratio.h) / ratio.w);
+    
+    // Ensure height doesn't exceed max
+    if (height > maxDimension) {
+      height = maxDimension;
+      width = Math.round((height * ratio.w) / ratio.h);
+    }
+  } else {
+    // Portrait - make height the max dimension
+    height = Math.min(maxDimension, Math.max(minDimension, maxDimension));
+    width = Math.round((height * ratio.w) / ratio.h);
+    
+    // Ensure width doesn't exceed max
+    if (width > maxDimension) {
+      width = maxDimension;
+      height = Math.round((width * ratio.h) / ratio.w);
+    }
+  }
+  
+  // Snap to multiples of 8 for better model compatibility
+  width = Math.round(width / 8) * 8;
+  height = Math.round(height / 8) * 8;
+  
+  // Final bounds check
+  width = Math.max(minDimension, Math.min(maxDimension, width));
+  height = Math.max(minDimension, Math.min(maxDimension, height));
+  
+  return { width, height };
 };
 
 const validateRequest = (body: any): { isValid: boolean; errors: string[] } => {
@@ -43,14 +89,6 @@ const validateRequest = (body: any): { isValid: boolean; errors: string[] } => {
   if (!body.aspect_ratio || typeof body.aspect_ratio !== 'string') {
     errors.push("aspect_ratio is required and must be a string");
   }
-  
-  if (!body.width || typeof body.width !== 'number' || body.width <= 0) {
-    errors.push("width is required and must be a positive number");
-  }
-  
-  if (!body.height || typeof body.height !== 'number' || body.height <= 0) {
-    errors.push("height is required and must be a positive number");
-  }
 
   // Validate aspect ratio values
   const validAspectRatios = [
@@ -60,6 +98,13 @@ const validateRequest = (body: any): { isValid: boolean; errors: string[] } => {
   
   if (body.aspect_ratio && !validAspectRatios.includes(body.aspect_ratio)) {
     errors.push(`aspect_ratio must be one of: ${validAspectRatios.join(', ')}`);
+  }
+
+  // Validate strength if provided
+  if (body.strength !== undefined) {
+    if (typeof body.strength !== 'number' || body.strength < 0.1 || body.strength > 0.6) {
+      errors.push("strength must be a number between 0.1 and 0.6");
+    }
   }
 
   return { isValid: errors.length === 0, errors };
@@ -101,16 +146,19 @@ serve(async (req) => {
 
     const requestData: ImageGenerationRequest = body as ImageGenerationRequest;
 
-    // Normalize dimensions to ensure they're within valid range
-    const normalizedDimensions = normalizeDimensions(requestData.width, requestData.height);
-    console.log(`Original dimensions: ${requestData.width}x${requestData.height}`);
-    console.log(`Normalized dimensions: ${normalizedDimensions.width}x${normalizedDimensions.height}`);
+    // Calculate optimal dimensions for better quality
+    const optimalDimensions = calculateOptimalDimensions(requestData.aspect_ratio);
+    console.log(`Optimal dimensions for ${requestData.aspect_ratio}: ${optimalDimensions.width}x${optimalDimensions.height}`);
 
+    // Set strength for better detail preservation (default 0.30 for good balance)
+    const strength = requestData.strength || 0.30;
+    
     console.log("Generating image with Flux Kontext Dev")
     console.log("Prompt:", requestData.prompt)
     console.log("Aspect ratio:", requestData.aspect_ratio)
-    console.log("Width:", normalizedDimensions.width)
-    console.log("Height:", normalizedDimensions.height)
+    console.log("Strength:", strength)
+    console.log("Width:", optimalDimensions.width)
+    console.log("Height:", optimalDimensions.height)
     
     const input = {
       prompt: requestData.prompt,
@@ -119,6 +167,10 @@ serve(async (req) => {
       guidance_scale: 4.0,
       input_image: requestData.input_image,
       aspect_ratio: requestData.aspect_ratio,
+      width: optimalDimensions.width,
+      height: optimalDimensions.height,
+      strength: strength,
+      negative_prompt: "blurry, distorted text, unreadable label, warped letters, deformed bottle, misspelled words, low resolution, artifacts, pixelated, smudged text",
       output_format: "png",
       output_quality: 95,
       num_inference_steps: 44
@@ -146,14 +198,16 @@ serve(async (req) => {
         prompt: requestData.prompt,
         aspect_ratio: requestData.aspect_ratio,
         dimensions: {
-          width: normalizedDimensions.width,
-          height: normalizedDimensions.height
+          width: optimalDimensions.width,
+          height: optimalDimensions.height
         },
         quality_settings: {
           guidance_scale: 4.0,
           num_inference_steps: 44,
           output_format: "png",
-          output_quality: 95
+          output_quality: 95,
+          strength: strength,
+          negative_prompt_applied: true
         }
       }
     }), {
