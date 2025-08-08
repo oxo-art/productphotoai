@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -73,26 +72,13 @@ export const useImageGeneration = () => {
       console.log("Calling Flux Kontext Dev function...");
       console.log("Selected aspect ratio:", selectedAspectRatio);
       
-      // Calculate output dimensions based on selected aspect ratio
-      let outputWidth: number;
-      let outputHeight: number;
+      // Get output dimensions based on selected aspect ratio
+      const dimensions = getAspectRatioDimensions(selectedAspectRatio);
+      const normalized = normalizeDimensions(dimensions.width, dimensions.height);
+      const outputWidth = normalized.width;
+      const outputHeight = normalized.height;
       
-      if (selectedAspectRatio === "match_input_image") {
-        const originalWidth = uploadedImage.width || 1024;
-        const originalHeight = uploadedImage.height || 1024;
-        const normalized = normalizeDimensions(originalWidth, originalHeight);
-        outputWidth = normalized.width;
-        outputHeight = normalized.height;
-        console.log("Using normalized input image dimensions:", outputWidth, "x", outputHeight);
-      } else {
-        const dimensions = getAspectRatioDimensions(selectedAspectRatio);
-        const baseWidth = dimensions.width || 1024;
-        const baseHeight = dimensions.height || 1024;
-        const normalized = normalizeDimensions(baseWidth, baseHeight);
-        outputWidth = normalized.width;
-        outputHeight = normalized.height;
-        console.log("Using normalized aspect ratio dimensions:", outputWidth, "x", outputHeight);
-      }
+      console.log("Using normalized aspect ratio dimensions:", outputWidth, "x", outputHeight);
       
       const requestBody: ImageGenerationRequest = {
         prompt: prompt,
