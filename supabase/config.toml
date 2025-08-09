@@ -1,1 +1,5 @@
+
 project_id = "ynzkqaakzhlvhusqwemu"
+
+[functions.flux-kontext-dev]
+verify_jwt = false
