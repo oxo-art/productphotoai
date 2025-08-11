@@ -3,7 +3,6 @@ import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb }
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { aspectRatios } from "@/config/aspectRatios";
@@ -109,6 +108,25 @@ const GlassImageUpload = () => {
     setPrompt(suggestion);
   };
 
+  const getAspectRatioBoxStyle = (ratio: string) => {
+    const aspectRatio = aspectRatios.find(ar => ar.value === ratio);
+    if (!aspectRatio) return { width: '24px', height: '24px' };
+    
+    // Calculate dimensions for visual representation (max 24px)
+    const maxSize = 24;
+    let width, height;
+    
+    if (aspectRatio.width >= aspectRatio.height) {
+      width = maxSize;
+      height = (aspectRatio.height / aspectRatio.width) * maxSize;
+    } else {
+      height = maxSize;
+      width = (aspectRatio.width / aspectRatio.height) * maxSize;
+    }
+    
+    return { width: `${width}px`, height: `${height}px` };
+  };
+
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8">
       {/* Upload Section */}
@@ -210,25 +228,44 @@ const GlassImageUpload = () => {
           </div>
           
           <div className="space-y-6">
-            {/* Aspect Ratio Selector */}
+            {/* Aspect Ratio Glass Buttons */}
             <div className="space-y-3">
               <label className={`${textStyles.secondary} text-sm font-medium`}>Aspect Ratio</label>
-              <Select value={selectedAspectRatio} onValueChange={setSelectedAspectRatio}>
-                <SelectTrigger className={`${getThemeStyle('input')} ${textStyles.primary} focus:border-white/40 focus:bg-white/10`}>
-                  <SelectValue placeholder="Select aspect ratio" />
-                </SelectTrigger>
-                <SelectContent className="bg-gray-900/95 backdrop-blur-lg border-white/20 z-[80]">
-                  {aspectRatios.map((ratio) => (
-                    <SelectItem 
-                      key={ratio.value} 
-                      value={ratio.value}
-                      className="text-white hover:bg-white/10 focus:bg-white/10"
-                    >
+              <div className="flex flex-wrap gap-3">
+                {aspectRatios.map((ratio) => (
+                  <button
+                    key={ratio.value}
+                    onClick={() => setSelectedAspectRatio(ratio.value)}
+                    className={`group relative flex flex-col items-center gap-2 p-4 rounded-xl backdrop-blur-md border transition-all duration-300 hover:scale-105 ${
+                      selectedAspectRatio === ratio.value
+                        ? `${getThemeStyle('buttonPrimary')} border-white/40 shadow-lg`
+                        : `${getThemeStyle('button')} border-white/20 hover:border-white/30`
+                    }`}
+                  >
+                    {/* Visual representation of aspect ratio */}
+                    <div 
+                      className={`bg-white/80 rounded-sm ${
+                        selectedAspectRatio === ratio.value ? 'shadow-md' : 'shadow-sm'
+                      }`}
+                      style={getAspectRatioBoxStyle(ratio.value)}
+                    />
+                    <span className={`text-xs font-medium ${
+                      selectedAspectRatio === ratio.value 
+                        ? 'text-white' 
+                        : textStyles.secondary
+                    }`}>
                       {ratio.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                    </span>
+                    
+                    {/* Selection indicator */}
+                    {selectedAspectRatio === ratio.value && (
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full flex items-center justify-center">
+                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <Textarea
