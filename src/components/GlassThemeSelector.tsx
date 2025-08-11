@@ -1,3 +1,4 @@
+
 import { Palette, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +33,7 @@ const GlassThemeSelector = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent 
-        className={`w-80 ${getThemeStyle('popover')} border-white/20 p-4`}
+        className={`w-80 ${getThemeStyle('popover')} border-white/20 p-4 z-[80]`}
         align="end"
         side="bottom"
         sideOffset={8}

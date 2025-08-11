@@ -25,7 +25,7 @@ const GradientThemeSelector = () => {
           <span className="sr-only">Change theme</span>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64 bg-black/90 backdrop-blur-lg border-white/20 p-4">
+      <PopoverContent className="w-64 bg-black/90 backdrop-blur-lg border-white/20 p-4 z-[80]">
         <div className="space-y-3">
           <h3 className="text-sm font-medium text-white mb-3">Choose Theme</h3>
           <div className="grid grid-cols-2 gap-2">

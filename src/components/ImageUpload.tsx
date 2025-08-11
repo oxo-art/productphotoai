@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -218,7 +217,7 @@ const ImageUpload = () => {
                 <SelectTrigger className="bg-white/5 border-white/20 text-white focus:border-white/40 focus:bg-white/10">
                   <SelectValue placeholder="Select aspect ratio" />
                 </SelectTrigger>
-                <SelectContent className="bg-gray-900/95 backdrop-blur-lg border-white/20">
+                <SelectContent className="bg-gray-900/95 backdrop-blur-lg border-white/20 z-[80]">
                   {aspectRatios.map((ratio) => (
                     <SelectItem 
                       key={ratio.value} 
