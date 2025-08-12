@@ -1,3 +1,4 @@
+
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
@@ -24,7 +25,8 @@ const GlassFeaturesSection = () => {
     {
       icon: Wand2,
       title: "Content Creation",
-      description: "Generate eye-catching visuals for social media, marketing campaigns, and digital content."
+      description: "Generate eye-catching visuals for social media, marketing campaigns, and digital content.",
+      hasContentImage: true
     },
     {
       icon: Image,
@@ -150,6 +152,33 @@ const GlassFeaturesSection = () => {
                         </div>
                         <p className="text-base sm:text-lg lg:text-xl text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
                           A realistic image of a man wearing this jacket white background.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Content Creation Image */}
+                {useCase.hasContentImage && (
+                  <div className="mb-6 sm:mb-8">
+                    <div className={`rounded-xl sm:rounded-2xl overflow-hidden ${getThemeStyle('shadow')} mb-6 sm:mb-8`}>
+                      <img 
+                        src="/lovable-uploads/5b157084-398e-4226-b7fa-da33b53f006e.png" 
+                        alt="Content creation transformation example" 
+                        className="w-full h-auto"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                    
+                    {/* Prompt text for Content Creation */}
+                    <div className={`p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl ${getThemeStyle('card')} border border-white/20 ${isMobile ? '' : 'backdrop-blur-md'}`}>
+                      <div className="space-y-3 sm:space-y-4">
+                        <div className="text-lg sm:text-xl lg:text-2xl font-semibold text-white/90">
+                          Prompt:
+                        </div>
+                        <p className="text-base sm:text-lg lg:text-xl text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
+                          Transform this simple product photo into a stunning marketing image with natural avocado elements and professional studio lighting.
                         </p>
                       </div>
                     </div>
