@@ -88,22 +88,6 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-
-        {/* New Content Creation Section */}
-        <div className="mb-8 max-w-3xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-[0_8px_32px_0_rgba(31,38,135,0.3)]">
-            <h3 className="text-2xl font-bold text-white mb-4">
-              Generate Eye Catching Content
-            </h3>
-            <img 
-              src="/lovable-uploads/7794cbbd-fabb-4a92-bf76-2d195df73a94.png" 
-              alt="Product transformation example" 
-              className="w-full h-auto rounded-xl"
-              loading="lazy"
-              decoding="async"
-            />
-          </div>
-        </div>
         
         <Button 
           onClick={scrollToUpload}
