@@ -1,4 +1,3 @@
-
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
@@ -19,7 +18,7 @@ const GlassFeaturesSection = () => {
     {
       icon: Palette,
       title: "Creative Design",
-      description: "Reimagine artwork and designs with AI-powered style transfers and artistic transformations.",
+      description: "Transform product images into realistic lifestyle visuals with AI-powered modeling and professional photography effects.",
       hasImage: true
     },
     {
