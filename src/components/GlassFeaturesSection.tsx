@@ -1,4 +1,3 @@
-
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
@@ -27,11 +26,6 @@ const GlassFeaturesSection = () => {
       title: "Content Creation",
       description: "Generate eye-catching visuals for social media, marketing campaigns, and digital content.",
       hasContentImage: true
-    },
-    {
-      icon: Image,
-      title: "Photo Restoration",
-      description: "Restore old photographs and enhance image quality with advanced AI algorithms."
     }
   ];
 
