@@ -1,3 +1,4 @@
+
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
@@ -23,8 +24,8 @@ const GlassFeaturesSection = () => {
     },
     {
       icon: Wand2,
-      title: "Content Creation",
-      description: "Generate eye-catching visuals for social media, marketing campaigns, and digital content.",
+      title: "Product Enhancement",
+      description: "Transform simple product photos into stunning marketing visuals with natural elements and professional studio lighting.",
       hasContentImage: true
     }
   ];
