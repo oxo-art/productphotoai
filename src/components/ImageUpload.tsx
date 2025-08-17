@@ -1,3 +1,4 @@
+
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -12,11 +13,10 @@ import { useImageGeneration } from "@/hooks/useImageGeneration";
 import { processImageFile, downloadImage } from "@/utils/fileHandling";
 
 const promptSuggestions = [
-  "Turn this image into a ghibli style art",
-  "Make it look like a vintage photograph", 
-  "Transform into a futuristic cyberpunk style",
-  "Add dramatic lighting and shadows",
-  "Make it look like a comic book illustration"
+  "Place this product in a luxury lifestyle setting with premium lighting",
+  "Create a professional studio shot with clean white background and soft shadows", 
+  "Transform into an Instagram-worthy flat lay with trendy props and styling",
+  "Add dramatic cinematic lighting with moody atmosphere for premium brand appeal"
 ];
 
 const ImageUpload = () => {
