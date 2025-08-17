@@ -30,27 +30,28 @@ export const processImageToAspectRatio = (
       canvas.width = targetWidth;
       canvas.height = targetHeight;
 
+      // Fill background with white
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, targetWidth, targetHeight);
+
       let drawWidth, drawHeight, offsetX, offsetY;
 
+      // Use "contain" fit - scale the image to fit entirely within the target dimensions
       if (sourceRatio > targetRatio) {
-        // Source is wider, fit by height and center crop width
-        drawHeight = targetHeight;
-        drawWidth = (sourceWidth * targetHeight) / sourceHeight;
-        offsetX = (targetWidth - drawWidth) / 2;
-        offsetY = 0;
-      } else {
-        // Source is taller, fit by width and center crop height
+        // Source is wider than target, fit by width
         drawWidth = targetWidth;
         drawHeight = (sourceHeight * targetWidth) / sourceWidth;
         offsetX = 0;
         offsetY = (targetHeight - drawHeight) / 2;
+      } else {
+        // Source is taller than target, fit by height
+        drawHeight = targetHeight;
+        drawWidth = (sourceWidth * targetHeight) / sourceHeight;
+        offsetX = (targetWidth - drawWidth) / 2;
+        offsetY = 0;
       }
 
-      // Fill background with white in case of letterboxing
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, 0, targetWidth, targetHeight);
-
-      // Draw the image
+      // Draw the image centered with letterboxing/pillarboxing
       ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
 
       // Convert to data URL
