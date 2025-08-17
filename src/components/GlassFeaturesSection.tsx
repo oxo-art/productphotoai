@@ -1,4 +1,3 @@
-
 import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image, Eye } from "lucide-react";
 import { useState } from "react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
@@ -10,7 +9,11 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogPortal,
+  DialogOverlay,
+  DialogClose,
 } from "@/components/ui/dialog";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const GlassFeaturesSection = () => {
@@ -241,18 +244,33 @@ const GlassFeaturesSection = () => {
         </div>
       </div>
 
-      {/* Prompt Dialog */}
+      {/* Custom Prompt Dialog */}
       <Dialog open={showPromptDialog} onOpenChange={setShowPromptDialog}>
-        <DialogContent className={`${getThemeStyle('card')} ${isMobile ? '' : 'backdrop-blur-md'} border-white/20 max-w-2xl`}>
-          <DialogHeader>
-            <DialogTitle className={`text-2xl font-semibold ${textStyles.primary} mb-4`}>
-              Prompt
-            </DialogTitle>
-            <DialogDescription className={`${textStyles.secondary} text-base leading-relaxed`}>
-              Create a fresh and vibrant product photoshoot featuring a sleek bottle of avocado shampoo as the centerpiece. Place the shampoo bottle on a clean, white surface with soft natural lighting to highlight its textures and label details. Beside the bottle, arrange a halved ripe avocado with its rich green flesh and pit visible, along with a few avocado leaves for a touch of natural greenery. Incorporate subtle water droplets on the bottle and avocado to evoke a sense of freshness and hydration. Use a shallow depth of field to keep focus on the product and avocado, while softly blurring the background to maintain a clean, elegant, and visually pleasing composition.
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
+        <DialogPortal>
+          <DialogOverlay className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+          <DialogPrimitive.Content
+            className={`fixed left-[50%] top-[50%] z-50 grid w-full max-w-2xl translate-x-[-50%] translate-y-[-50%] gap-4 border ${getThemeStyle('card')} ${isMobile ? '' : 'backdrop-blur-md'} border-white/20 p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg`}
+          >
+            <DialogHeader>
+              <DialogTitle className={`text-2xl font-semibold ${textStyles.primary} mb-4`}>
+                Prompt
+              </DialogTitle>
+              <DialogDescription className={`${textStyles.secondary} text-base leading-relaxed`}>
+                Create a fresh and vibrant product photoshoot featuring a sleek bottle of avocado shampoo as the centerpiece. Place the shampoo bottle on a clean, white surface with soft natural lighting to highlight its textures and label details. Beside the bottle, arrange a halved ripe avocado with its rich green flesh and pit visible, along with a few avocado leaves for a touch of natural greenery. Incorporate subtle water droplets on the bottle and avocado to evoke a sense of freshness and hydration. Use a shallow depth of field to keep focus on the product and avocado, while softly blurring the background to maintain a clean, elegant, and visually pleasing composition.
+              </DialogDescription>
+            </DialogHeader>
+            
+            {/* Custom Close Button */}
+            <DialogPrimitive.Close asChild>
+              <Button
+                className="absolute right-4 top-4 h-8 w-16 text-xs bg-gray-600/80 hover:bg-gray-500/80 text-white border-0"
+                variant="outline"
+              >
+                Close
+              </Button>
+            </DialogPrimitive.Close>
+          </DialogPrimitive.Content>
+        </DialogPortal>
       </Dialog>
     </section>
   );
