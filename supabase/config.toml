@@ -3,6 +3,3 @@ project_id = "ynzkqaakzhlvhusqwemu"
 
 [functions.flux-kontext-dev]
 verify_jwt = false
-
-[functions.generate-prompt]
-verify_jwt = false
