@@ -1,12 +1,23 @@
-import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image } from "lucide-react";
+
+import { Zap, Shield, Award, Rocket, Camera, Palette, Wand2, Image, Eye } from "lucide-react";
+import { useState } from "react";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 import { useMobileOptimization } from "@/hooks/useMobileOptimization";
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import BeforeAfterSlider from "./BeforeAfterSlider";
 
 const GlassFeaturesSection = () => {
   const { getThemeStyle } = useGlassTheme();
   const { blurIntensity, animationDuration, isMobile } = useMobileOptimization();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
+  const [showPromptDialog, setShowPromptDialog] = useState(false);
 
   const useCases = [
     {
@@ -25,7 +36,8 @@ const GlassFeaturesSection = () => {
       icon: Wand2,
       title: "Product Enhancement",
       description: "Transform simple product photos into stunning marketing visuals with natural elements and professional studio lighting.",
-      hasContentImage: true
+      hasContentImage: true,
+      hasPromptButton: true
     }
   ];
 
@@ -165,17 +177,18 @@ const GlassFeaturesSection = () => {
                       />
                     </div>
                     
-                    {/* Prompt text for Content Creation */}
-                    <div className={`p-6 sm:p-8 lg:p-10 rounded-xl sm:rounded-2xl ${getThemeStyle('card')} border border-white/20 ${isMobile ? '' : 'backdrop-blur-md'}`}>
-                      <div className="space-y-3 sm:space-y-4">
-                        <div className="text-lg sm:text-xl lg:text-2xl font-semibold text-white/90">
-                          Prompt:
-                        </div>
-                        <p className="text-base sm:text-lg lg:text-xl text-white/80 leading-relaxed" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.2)' }}>
-                          Transform this simple product photo into a stunning marketing image with natural avocado elements and professional studio lighting.
-                        </p>
+                    {/* Prompt button for Product Enhancement */}
+                    {useCase.hasPromptButton && (
+                      <div className="text-center">
+                        <Button
+                          onClick={() => setShowPromptDialog(true)}
+                          className={`bg-gradient-to-r ${getThemeStyle('buttonPrimary')} hover:${getThemeStyle('cardHover')} text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-lg`}
+                        >
+                          <Eye className="w-5 h-5 mr-2" />
+                          Click to see prompt
+                        </Button>
                       </div>
-                    </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -227,6 +240,20 @@ const GlassFeaturesSection = () => {
           ))}
         </div>
       </div>
+
+      {/* Prompt Dialog */}
+      <Dialog open={showPromptDialog} onOpenChange={setShowPromptDialog}>
+        <DialogContent className={`${getThemeStyle('card')} ${isMobile ? '' : 'backdrop-blur-md'} border-white/20 max-w-2xl`}>
+          <DialogHeader>
+            <DialogTitle className={`text-2xl font-semibold ${textStyles.primary} mb-4`}>
+              Product Enhancement Prompt
+            </DialogTitle>
+            <DialogDescription className={`${textStyles.secondary} text-base leading-relaxed`}>
+              Create a fresh and vibrant product photoshoot featuring a sleek bottle of avocado shampoo as the centerpiece. Place the shampoo bottle on a clean, white surface with soft natural lighting to highlight its textures and label details. Beside the bottle, arrange a halved ripe avocado with its rich green flesh and pit visible, along with a few avocado leaves for a touch of natural greenery. Incorporate subtle water droplets on the bottle and avocado to evoke a sense of freshness and hydration. Use a shallow depth of field to keep focus on the product and avocado, while softly blurring the background to maintain a clean, elegant, and visually pleasing composition.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
