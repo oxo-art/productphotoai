@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import BeforeAfterSlider from "./BeforeAfterSlider";
 
@@ -243,7 +244,7 @@ const GlassFeaturesSection = () => {
 
       {/* Prompt Dialog */}
       <Dialog open={showPromptDialog} onOpenChange={setShowPromptDialog}>
-        <DialogContent className={`${getThemeStyle('card')} ${isMobile ? '' : 'backdrop-blur-md'} border-white/20 max-w-2xl`}>
+        <DialogContent className={`${getThemeStyle('card')} ${isMobile ? '' : 'backdrop-blur-md'} border-white/20 max-w-2xl`} hideCloseButton>
           <DialogHeader>
             <DialogTitle className={`text-2xl font-semibold ${textStyles.primary} mb-4`}>
               Prompt
@@ -252,6 +253,14 @@ const GlassFeaturesSection = () => {
               Create a fresh and vibrant product photoshoot featuring a sleek bottle of avocado shampoo as the centerpiece. Place the shampoo bottle on a clean, white surface with soft natural lighting to highlight its textures and label details. Beside the bottle, arrange a halved ripe avocado with its rich green flesh and pit visible, along with a few avocado leaves for a touch of natural greenery. Incorporate subtle water droplets on the bottle and avocado to evoke a sense of freshness and hydration. Use a shallow depth of field to keep focus on the product and avocado, while softly blurring the background to maintain a clean, elegant, and visually pleasing composition.
             </DialogDescription>
           </DialogHeader>
+          <DialogFooter>
+            <Button
+              onClick={() => setShowPromptDialog(false)}
+              className={`bg-gradient-to-r ${getThemeStyle('buttonPrimary')} hover:${getThemeStyle('cardHover')} text-white px-6 py-2 rounded-lg font-semibold transition-all duration-300`}
+            >
+              Close
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </section>
