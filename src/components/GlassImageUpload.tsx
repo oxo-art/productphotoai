@@ -9,13 +9,7 @@ import { aspectRatios } from "@/config/aspectRatios";
 import { UploadedImage, GeneratedImage } from "@/types/imageGeneration";
 import { useImageGeneration } from "@/hooks/useImageGeneration";
 import { processImageFile, downloadImage } from "@/utils/fileHandling";
-
-const promptSuggestions = [
-  "Place this product in a luxury lifestyle setting with premium lighting",
-  "Create a professional studio shot with clean white background and soft shadows", 
-  "Transform into an Instagram-worthy flat lay with trendy props and styling",
-  "Add dramatic cinematic lighting with moody atmosphere for premium brand appeal"
-];
+import PromptEnhancer from "./PromptEnhancer";
 
 const GlassImageUpload = () => {
   const { getThemeStyle } = useGlassTheme();
@@ -103,10 +97,6 @@ const GlassImageUpload = () => {
     }
   };
 
-  const addPromptSuggestion = (suggestion: string) => {
-    setPrompt(suggestion);
-  };
-
   const getAspectRatioBoxStyle = (ratio: string) => {
     const aspectRatio = aspectRatios.find(ar => ar.value === ratio);
     if (!aspectRatio) return { width: '24px', height: '24px' };
@@ -124,6 +114,10 @@ const GlassImageUpload = () => {
     }
     
     return { width: `${width}px`, height: `${height}px` };
+  };
+
+  const handlePromptGenerated = (generatedPrompt: string) => {
+    setPrompt(generatedPrompt);
   };
 
   return (
@@ -292,20 +286,15 @@ const GlassImageUpload = () => {
               )}
             </Button>
             
-            {/* Prompt Suggestions */}
+            {/* AI Prompt Enhancer - Replacing Quick Suggestions */}
             <div className="space-y-3">
-              <p className={`${textStyles.secondary} text-sm font-medium`}>Quick suggestions:</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {promptSuggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => addPromptSuggestion(suggestion)}
-                    className={`px-4 py-3 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg text-left border border-white/20 hover:border-white/30`}
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
+              <p className={`${textStyles.secondary} text-sm font-medium`}>AI Prompt Enhancement:</p>
+              <PromptEnhancer 
+                onPromptGenerated={handlePromptGenerated}
+                getThemeStyle={getThemeStyle}
+                textStyles={textStyles}
+                isGlassTheme={true}
+              />
             </div>
           </div>
         </CardContent>

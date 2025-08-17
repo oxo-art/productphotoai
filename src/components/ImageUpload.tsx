@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react";
 import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,13 +10,7 @@ import { aspectRatios } from "@/config/aspectRatios";
 import { UploadedImage, GeneratedImage } from "@/types/imageGeneration";
 import { useImageGeneration } from "@/hooks/useImageGeneration";
 import { processImageFile, downloadImage } from "@/utils/fileHandling";
-
-const promptSuggestions = [
-  "Place this product in a luxury lifestyle setting with premium lighting",
-  "Create a professional studio shot with clean white background and soft shadows", 
-  "Transform into an Instagram-worthy flat lay with trendy props and styling",
-  "Add dramatic cinematic lighting with moody atmosphere for premium brand appeal"
-];
+import PromptEnhancer from "./PromptEnhancer";
 
 const ImageUpload = () => {
   const { getGradient } = useGradientTheme();
@@ -104,8 +97,8 @@ const ImageUpload = () => {
     }
   };
 
-  const addPromptSuggestion = (suggestion: string) => {
-    setPrompt(suggestion);
+  const handlePromptGenerated = (generatedPrompt: string) => {
+    setPrompt(generatedPrompt);
   };
 
   return (
@@ -256,20 +249,10 @@ const ImageUpload = () => {
               )}
             </Button>
             
-            {/* Prompt Suggestions */}
+            {/* AI Prompt Enhancer - Replacing Quick Suggestions */}
             <div className="space-y-3">
-              <p className="text-white/70 text-sm font-medium">Quick suggestions:</p>
-              <div className="flex flex-wrap gap-2">
-                {promptSuggestions.map((suggestion, index) => (
-                  <button
-                    key={index}
-                    onClick={() => addPromptSuggestion(suggestion)}
-                    className="px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 hover:border-white/30 rounded-lg text-white/80 hover:text-white text-sm transition-all duration-200 hover:scale-105"
-                  >
-                    {suggestion}
-                  </button>
-                ))}
-              </div>
+              <p className="text-white/70 text-sm font-medium">AI Prompt Enhancement:</p>
+              <PromptEnhancer onPromptGenerated={handlePromptGenerated} />
             </div>
           </div>
         </CardContent>
