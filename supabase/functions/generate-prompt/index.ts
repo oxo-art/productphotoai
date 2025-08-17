@@ -34,7 +34,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'gpt-5-2025-08-07',
+        model: 'gpt-3.5-turbo',
         messages: [
           {
             role: 'system',
@@ -58,7 +58,8 @@ Enhanced: "Transform this image into a professional studio photograph with clean
             content: `Transform this simple description into a detailed image generation prompt: "${userInput}"`
           }
         ],
-        max_completion_tokens: 300,
+        max_tokens: 300,
+        temperature: 0.7,
       }),
     });
 
