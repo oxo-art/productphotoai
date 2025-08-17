@@ -246,7 +246,7 @@ const GlassFeaturesSection = () => {
         <DialogContent className={`${getThemeStyle('card')} ${isMobile ? '' : 'backdrop-blur-md'} border-white/20 max-w-2xl`}>
           <DialogHeader>
             <DialogTitle className={`text-2xl font-semibold ${textStyles.primary} mb-4`}>
-              Product Enhancement Prompt
+              Prompt
             </DialogTitle>
             <DialogDescription className={`${textStyles.secondary} text-base leading-relaxed`}>
               Create a fresh and vibrant product photoshoot featuring a sleek bottle of avocado shampoo as the centerpiece. Place the shampoo bottle on a clean, white surface with soft natural lighting to highlight its textures and label details. Beside the bottle, arrange a halved ripe avocado with its rich green flesh and pit visible, along with a few avocado leaves for a touch of natural greenery. Incorporate subtle water droplets on the bottle and avocado to evoke a sense of freshness and hydration. Use a shallow depth of field to keep focus on the product and avocado, while softly blurring the background to maintain a clean, elegant, and visually pleasing composition.
