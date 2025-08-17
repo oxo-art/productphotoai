@@ -7,14 +7,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { usePromptGeneration } from "@/hooks/usePromptGeneration";
 
+interface TextStyles {
+  primary: string;
+  secondary: string;
+  muted: string;
+}
+
 interface PromptEnhancerProps {
   onPromptGenerated: (prompt: string) => void;
-  getThemeStyle?: (key: string) => string;
-  textStyles?: {
-    primary: string;
-    secondary: string;
-    muted: string;
-  };
+  getThemeStyle?: (key: string) => string | TextStyles;
+  textStyles?: TextStyles;
   isGlassTheme?: boolean;
 }
 
@@ -62,14 +64,16 @@ const PromptEnhancer = ({
 
   const getCardStyle = () => {
     if (isGlassTheme && getThemeStyle) {
-      return `${getThemeStyle('card')} border border-white/20`;
+      const cardStyle = getThemeStyle('card');
+      return typeof cardStyle === 'string' ? `${cardStyle} border border-white/20` : "bg-white/5 border border-white/20";
     }
     return "bg-white/5 border border-white/20";
   };
 
   const getButtonStyle = () => {
     if (isGlassTheme && getThemeStyle) {
-      return getThemeStyle('buttonPrimary');
+      const buttonStyle = getThemeStyle('buttonPrimary');
+      return typeof buttonStyle === 'string' ? buttonStyle : "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700";
     }
     return "bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700";
   };
