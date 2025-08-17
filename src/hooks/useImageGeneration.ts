@@ -4,7 +4,6 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { UploadedImage, GeneratedImage } from "@/types/imageGeneration";
 import { getAspectRatioDimensions } from "@/config/aspectRatios";
-import { processImageToAspectRatio } from "@/utils/imageProcessing";
 
 export const useImageGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -72,29 +71,14 @@ export const useImageGeneration = () => {
       }
 
       if (data?.success && data.output && Array.isArray(data.output) && data.output.length > 0) {
-        console.log("Processing generated images to match aspect ratio...");
+        console.log("Processing generated images directly from API response...");
         
-        // Post-process each generated image to match the selected aspect ratio
-        const processedImages = await Promise.all(
-          data.output.map(async (url: string) => {
-            try {
-              const processedUrl = await processImageToAspectRatio(url, selectedAspectRatio);
-              return {
-                url: processedUrl,
-                width: dimensions.width,
-                height: dimensions.height
-              };
-            } catch (processingError) {
-              console.warn("Failed to process image, using original:", processingError);
-              // Fallback to original image if processing fails
-              return {
-                url,
-                width: dimensions.width,
-                height: dimensions.height
-              };
-            }
-          })
-        );
+        // Return images directly without post-processing
+        const processedImages = data.output.map((url: string) => ({
+          url,
+          width: dimensions.width,
+          height: dimensions.height
+        }));
         
         toast({
           title: "Success!",

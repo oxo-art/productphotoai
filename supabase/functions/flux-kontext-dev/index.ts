@@ -23,7 +23,9 @@ serve(async (req) => {
     console.log('Received request:', { 
       prompt: body.prompt?.substring(0, 100),
       hasImage: !!body.input_image,
-      aspectRatio: body.aspect_ratio 
+      aspectRatio: body.aspect_ratio,
+      width: body.width,
+      height: body.height
     })
 
     // Validate required fields
@@ -65,7 +67,19 @@ serve(async (req) => {
       }
     }
 
+    // Add aspect ratio parameters if provided
+    if (body.aspect_ratio) {
+      replicatePayload.input.aspect_ratio = body.aspect_ratio
+    }
+    
+    // Add width and height if provided
+    if (body.width && body.height) {
+      replicatePayload.input.width = body.width
+      replicatePayload.input.height = body.height
+    }
+
     console.log('Calling Replicate API with model: black-forest-labs/flux-kontext-dev')
+    console.log('Payload input:', replicatePayload.input)
 
     // Call Replicate API
     const response = await fetch(
