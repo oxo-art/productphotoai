@@ -251,7 +251,7 @@ const ImageUpload = () => {
             
             {/* AI Prompt Enhancer - Replacing Quick Suggestions */}
             <div className="space-y-3">
-              <p className="text-white/70 text-sm font-medium">AI Prompt Enhancement:</p>
+              <p className="text-white/70 text-sm font-medium">Generate your prompt:</p>
               <PromptEnhancer onPromptGenerated={handlePromptGenerated} />
             </div>
           </div>

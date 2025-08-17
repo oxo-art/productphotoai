@@ -288,7 +288,7 @@ const GlassImageUpload = () => {
             
             {/* AI Prompt Enhancer - Replacing Quick Suggestions */}
             <div className="space-y-3">
-              <p className={`${textStyles.secondary} text-sm font-medium`}>AI Prompt Enhancement:</p>
+              <p className={`${textStyles.secondary} text-sm font-medium`}>Generate your prompt:</p>
               <PromptEnhancer 
                 onPromptGenerated={handlePromptGenerated}
                 getThemeStyle={getThemeStyle}

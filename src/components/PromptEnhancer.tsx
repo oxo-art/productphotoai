@@ -93,12 +93,9 @@ const PromptEnhancer = ({
   return (
     <div className="space-y-4">
       <div className="space-y-3">
-        <label className={`${getTextStyle('secondary')} text-sm font-medium`}>
-          Describe your vision in simple words
-        </label>
         <div className="space-y-3">
           <Textarea
-            placeholder="e.g., make it look professional, add luxury vibes, create a natural outdoor scene..."
+            placeholder="Describe your vision..."
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
             className={`min-h-[80px] ${getCardStyle()} ${getTextStyle('primary')} placeholder:text-white/50 resize-none rounded-xl`}
@@ -116,7 +113,7 @@ const PromptEnhancer = ({
             ) : (
               <>
                 <Sparkles className="mr-2 h-4 w-4" />
-                Generate Detailed Prompt
+                Generate Prompt
               </>
             )}
           </Button>
