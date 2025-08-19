@@ -2,6 +2,7 @@
 import GlassNavbar from "@/components/GlassNavbar";
 import GlassHeroSection from "@/components/GlassHeroSection";
 import GlassFeaturesSection from "@/components/GlassFeaturesSection";
+import Footer from "@/components/Footer";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 
 const GlassIndex = () => {
@@ -12,6 +13,7 @@ const GlassIndex = () => {
       <GlassNavbar />
       <GlassHeroSection />
       <GlassFeaturesSection />
+      <Footer />
     </div>
   );
 };
