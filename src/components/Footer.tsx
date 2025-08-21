@@ -24,12 +24,6 @@ const Footer = () => {
           >
             Terms and Conditions
           </Link>
-          <Link 
-            to="/refund" 
-            className="text-white hover:text-white/80 transition-colors duration-200"
-          >
-            Refund & Cancellation
-          </Link>
         </div>
         <div className="text-center text-white/70 text-sm mt-8">
           © 2025 Decorspaceai. All rights reserved.
