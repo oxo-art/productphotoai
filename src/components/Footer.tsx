@@ -31,6 +31,9 @@ const Footer = () => {
             Refund & Cancellation
           </Link>
         </div>
+        <div className="text-center text-white/70 text-sm mt-8">
+          © 2025 Decorspaceai. All rights reserved.
+        </div>
       </div>
     </footer>
   );
