@@ -7,10 +7,10 @@ const Footer = () => {
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-wrap justify-center gap-8 md:gap-12 text-white">
           <Link 
-            to="/design" 
+            to="/privacy" 
             className="text-white hover:text-white/80 transition-colors duration-200"
           >
-            Design Tool
+            Privacy
           </Link>
           <Link 
             to="/contact" 
