@@ -1,5 +1,4 @@
 
-import Footer from "@/components/Footer";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
 
 const Contact = () => {
@@ -50,7 +49,6 @@ const Contact = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
