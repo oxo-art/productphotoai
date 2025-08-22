@@ -29,12 +29,6 @@ const GlassNavbar = () => {
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className={`${getThemeStyle('popover')} border-white/10`}>
-              <SheetHeader>
-                <SheetTitle className={textStyles.primary}>Navigation</SheetTitle>
-                <SheetDescription className={textStyles.secondary}>
-                  Navigate through the application
-                </SheetDescription>
-              </SheetHeader>
               <div className="mt-6 space-y-4">
                 <Link to="/" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
                   Home
@@ -42,9 +36,9 @@ const GlassNavbar = () => {
                 <Link to="/design" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
                   Design Tool
                 </Link>
-                <a href="#" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
-                  Gallery
-                </a>
+                <Link to="/contact" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                  Contact us
+                </Link>
                 <a href="#" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
                   Settings
                 </a>
@@ -71,9 +65,9 @@ const GlassNavbar = () => {
             <Link to="/design" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
               Design Tool
             </Link>
-            <a href="#" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
-              Gallery
-            </a>
+            <Link to="/contact" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
+              Contact us
+            </Link>
             <a href="#" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
               Settings
             </a>
