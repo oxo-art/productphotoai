@@ -5,6 +5,7 @@ import { smoothScrollToTop } from "@/utils/scrollUtils";
 
 const Terms = () => {
   const { getThemeStyle } = useGlassTheme();
+  const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
 
   useEffect(() => {
     // Scroll to top when component mounts
@@ -14,12 +15,12 @@ const Terms = () => {
   return (
     <div className={`min-h-screen bg-gradient-to-br ${getThemeStyle('background')} transition-all duration-1000`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-        <div className="max-w-4xl mx-auto bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-6 sm:p-8 lg:p-12">
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6 sm:mb-8">
+        <div className={`max-w-4xl mx-auto ${getThemeStyle('card')} rounded-2xl p-6 sm:p-8 lg:p-12`}>
+          <h1 className={`text-3xl sm:text-4xl lg:text-5xl font-bold ${textStyles.primary} mb-6 sm:mb-8`}>
             Terms & Conditions
           </h1>
           
-          <div className="prose prose-sm sm:prose-base lg:prose-lg text-white/90 space-y-4 sm:space-y-6 max-w-none">
+          <div className={`prose prose-sm sm:prose-base lg:prose-lg ${textStyles.secondary} space-y-4 sm:space-y-6 max-w-none`}>
             <p className="leading-relaxed text-sm sm:text-base">
               These Terms and Conditions, along with privacy policy or other terms ("Terms") constitute a binding agreement by and between ABR ONLINE SERVICES, ( "Website Owner" or "we" or "us" or "our") and you ("you" or "your") and relate to your use of our website, goods (as applicable) or services (as applicable) (collectively, "Services").
             </p>
@@ -28,7 +29,7 @@ const Terms = () => {
               By using our website and availing the Services, you agree that you have read and accepted these Terms (including the Privacy Policy). We reserve the right to modify these Terms at any time and without assigning any reason. It is your responsibility to periodically review these Terms to stay informed of updates.
             </p>
             
-            <p className="leading-relaxed font-semibold text-sm sm:text-base">
+            <p className={`leading-relaxed font-semibold text-sm sm:text-base ${textStyles.primary}`}>
               The use of this website or availing of our Services is subject to the following terms of use:
             </p>
             

@@ -23,25 +23,42 @@ const GlassNavbar = () => {
         <div className="flex items-center space-x-3">
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className={`md:hidden ${textStyles.primary} hover:bg-white/10`}>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className={`md:hidden ${textStyles.primary} hover:bg-white/10`}
+                aria-label="Open navigation menu"
+              >
                 <Menu className="h-5 w-5" />
                 <span className="sr-only">Toggle menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className={`${getThemeStyle('popover')} border-white/10`}>
+              <SheetHeader>
+                <SheetTitle className={textStyles.primary}>Navigation</SheetTitle>
+                <SheetDescription className={textStyles.secondary}>
+                  Navigate through the application
+                </SheetDescription>
+              </SheetHeader>
               <div className="mt-6 space-y-4">
-                <Link to="/" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                <Link 
+                  to="/" 
+                  className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors min-h-[44px] flex items-center`}
+                >
                   Home
                 </Link>
-                <Link to="/design" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                <Link 
+                  to="/design" 
+                  className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors min-h-[44px] flex items-center`}
+                >
                   Design Tool
                 </Link>
-                <Link to="/contact" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
+                <Link 
+                  to="/contact" 
+                  className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors min-h-[44px] flex items-center`}
+                >
                   Contact us
                 </Link>
-                <a href="#" className={`block px-4 py-3 text-sm ${textStyles.primary} hover:bg-white/10 rounded-lg transition-colors`}>
-                  Settings
-                </a>
               </div>
             </SheetContent>
           </Sheet>
@@ -68,9 +85,6 @@ const GlassNavbar = () => {
             <Link to="/contact" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
               Contact us
             </Link>
-            <a href="#" className={`text-sm font-medium ${textStyles.secondary} hover:${textStyles.primary} transition-colors`}>
-              Settings
-            </a>
           </div>
           <GlassThemeSelector />
         </div>

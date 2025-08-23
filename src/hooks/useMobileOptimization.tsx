@@ -26,6 +26,8 @@ export const useMobileOptimization = (): MobileOptimization => {
   });
 
   useEffect(() => {
+    let resizeTimeout: NodeJS.Timeout;
+
     const checkDevice = () => {
       const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       
@@ -50,14 +52,20 @@ export const useMobileOptimization = (): MobileOptimization => {
       });
     };
 
+    const debouncedCheckDevice = () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(checkDevice, 150);
+    };
+
     checkDevice();
-    window.addEventListener('resize', checkDevice);
+    window.addEventListener('resize', debouncedCheckDevice);
     
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     mediaQuery.addEventListener('change', checkDevice);
 
     return () => {
-      window.removeEventListener('resize', checkDevice);
+      clearTimeout(resizeTimeout);
+      window.removeEventListener('resize', debouncedCheckDevice);
       mediaQuery.removeEventListener('change', checkDevice);
     };
   }, []);
