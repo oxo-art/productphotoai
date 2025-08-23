@@ -15,6 +15,13 @@ interface ExtendedNavigator extends Navigator {
   deviceMemory?: number;
 }
 
+// Extend Window interface for the timeout
+declare global {
+  interface Window {
+    resizeTimeout: NodeJS.Timeout;
+  }
+}
+
 export const useMobileOptimization = (): MobileOptimization => {
   const [optimization, setOptimization] = useState<MobileOptimization>({
     isMobile: false,
@@ -63,7 +70,9 @@ export const useMobileOptimization = (): MobileOptimization => {
     // Add event listeners with proper cleanup
     const handleResize = () => {
       // Debounce resize events for better performance
-      clearTimeout(window.resizeTimeout);
+      if (window.resizeTimeout) {
+        clearTimeout(window.resizeTimeout);
+      }
       window.resizeTimeout = setTimeout(checkDevice, 100);
     };
 
@@ -87,16 +96,11 @@ export const useMobileOptimization = (): MobileOptimization => {
       } else {
         mediaQuery.removeListener(handleMotionChange);
       }
-      clearTimeout(window.resizeTimeout);
+      if (window.resizeTimeout) {
+        clearTimeout(window.resizeTimeout);
+      }
     };
   }, []);
 
   return optimization;
 };
-
-// Extend Window interface for the timeout
-declare global {
-  interface Window {
-    resizeTimeout: number;
-  }
-}
