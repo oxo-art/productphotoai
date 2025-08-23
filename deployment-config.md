@@ -25,6 +25,16 @@ Add the following to your package.json scripts section:
 ## Environment Variables (if needed)
 - Set `NODE_ENV=production` in your Digital Ocean app settings
 
+## Troubleshooting
+
+### Common npm Warnings
+- **"npm warn config only Use `--omit=dev`"**: This warning appears when using deprecated `--only=production` flag. The Dockerfile has been updated to use `--omit=dev` instead.
+
+### Build Issues
+- Ensure all dependencies are properly installed
+- Verify the build command completes successfully
+- Check that the dist folder is created after build
+
 ## Alternative: Static Site Deployment
 
 If you prefer to deploy as a static site instead of an app:

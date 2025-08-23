@@ -8,8 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY bun.lockb ./
 
-# Install dependencies
-RUN npm ci --only=production
+# Install dependencies using modern npm syntax
+RUN npm ci --omit=dev
 
 # Copy source code
 COPY . .
