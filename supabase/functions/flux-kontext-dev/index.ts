@@ -57,33 +57,24 @@ serve(async (req) => {
       )
     }
 
-    // Prepare the request payload for Replicate API
+    // Prepare the request payload for Replicate API using Qwen Image Edit model
     const replicatePayload = {
       input: {
+        image: body.input_image,
         prompt: body.prompt,
-        input_image: body.input_image,
+        go_fast: true,
+        aspect_ratio: body.aspect_ratio || "4:5",
         output_format: "png",
-        num_inference_steps: 30
+        output_quality: 80
       }
     }
 
-    // Add aspect ratio parameters if provided
-    if (body.aspect_ratio) {
-      replicatePayload.input.aspect_ratio = body.aspect_ratio
-    }
-    
-    // Add width and height if provided
-    if (body.width && body.height) {
-      replicatePayload.input.width = body.width
-      replicatePayload.input.height = body.height
-    }
-
-    console.log('Calling Replicate API with model: black-forest-labs/flux-kontext-dev')
+    console.log('Calling Replicate API with model: qwen/qwen-image-edit')
     console.log('Payload input:', replicatePayload.input)
 
-    // Call Replicate API
+    // Call Replicate API with the new Qwen Image Edit model
     const response = await fetch(
-      'https://api.replicate.com/v1/models/black-forest-labs/flux-kontext-dev/predictions',
+      'https://api.replicate.com/v1/models/qwen/qwen-image-edit/predictions',
       {
         method: 'POST',
         headers: {
