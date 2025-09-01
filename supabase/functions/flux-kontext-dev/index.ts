@@ -6,6 +6,19 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+// Map frontend aspect ratios to Qwen-compatible ones
+const mapAspectRatio = (frontendRatio: string): string => {
+  const aspectRatioMap: { [key: string]: string } = {
+    "1:1": "1:1",
+    "16:9": "16:9", 
+    "4:5": "3:4",    // Map 4:5 to closest supported portrait ratio
+    "4:3": "4:3",
+    "9:16": "9:16"
+  }
+  
+  return aspectRatioMap[frontendRatio] || "3:4"
+}
+
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
@@ -57,13 +70,17 @@ serve(async (req) => {
       )
     }
 
+    // Map aspect ratio to Qwen-compatible format
+    const mappedAspectRatio = mapAspectRatio(body.aspect_ratio || "4:5")
+    console.log('Aspect ratio mapping:', body.aspect_ratio, '->', mappedAspectRatio)
+
     // Prepare the request payload for Replicate API using Qwen Image Edit model
     const replicatePayload = {
       input: {
         image: body.input_image,
         prompt: body.prompt,
         go_fast: true,
-        aspect_ratio: body.aspect_ratio || "4:5",
+        aspect_ratio: mappedAspectRatio,
         output_format: "png",
         output_quality: 80
       }
