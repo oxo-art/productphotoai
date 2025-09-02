@@ -107,23 +107,16 @@ const GlassImageUpload = () => {
     setPrompt(suggestion);
   };
 
-  const getAspectRatioBoxStyle = (ratio: string) => {
-    const aspectRatio = aspectRatios.find(ar => ar.value === ratio);
-    if (!aspectRatio) return { width: '24px', height: '24px' };
+  const getAspectRatioBoxStyle = (ratio: string): React.CSSProperties => {
+    // Simple aspect ratio visualization without specific dimensions
+    const aspectMap: Record<string, React.CSSProperties> = {
+      "1:1": { width: '24px', height: '24px' },
+      "16:9": { width: '24px', height: '13.5px' },
+      "4:3": { width: '24px', height: '18px' },
+      "9:16": { width: '13.5px', height: '24px' }
+    };
     
-    // Calculate dimensions for visual representation (max 24px)
-    const maxSize = 24;
-    let width, height;
-    
-    if (aspectRatio.width >= aspectRatio.height) {
-      width = maxSize;
-      height = (aspectRatio.height / aspectRatio.width) * maxSize;
-    } else {
-      height = maxSize;
-      width = (aspectRatio.width / aspectRatio.height) * maxSize;
-    }
-    
-    return { width: `${width}px`, height: `${height}px` };
+    return aspectMap[ratio] || { width: '24px', height: '24px' };
   };
 
   return (

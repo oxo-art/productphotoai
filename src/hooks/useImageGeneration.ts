@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { UploadedImage, GeneratedImage } from "@/types/imageGeneration";
-import { getAspectRatioDimensions } from "@/config/aspectRatios";
 
 export const useImageGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -38,17 +37,10 @@ export const useImageGeneration = () => {
       console.log("Calling Qwen Image Edit function...");
       console.log("Selected aspect ratio:", selectedAspectRatio);
       
-      // Get output dimensions based on selected aspect ratio
-      const dimensions = getAspectRatioDimensions(selectedAspectRatio);
-      
-      console.log("Using aspect ratio dimensions:", dimensions.width, "x", dimensions.height);
-      
       const requestBody = {
         prompt: prompt,
         input_image: uploadedImage.url,
-        aspect_ratio: selectedAspectRatio,
-        width: dimensions.width,
-        height: dimensions.height
+        aspect_ratio: selectedAspectRatio
       };
       
       console.log("Request body:", requestBody);
@@ -71,13 +63,13 @@ export const useImageGeneration = () => {
       }
 
       if (data?.success && data.output && Array.isArray(data.output) && data.output.length > 0) {
-        console.log("Processing generated images directly from API response...");
+        console.log("Using generated images directly from API response...");
         
-        // Return images directly without post-processing
+        // Return images directly without any processing or dimension assumptions
         const processedImages = data.output.map((url: string) => ({
           url,
-          width: dimensions.width,
-          height: dimensions.height
+          width: 0, // Let browser determine natural dimensions
+          height: 0
         }));
         
         toast({
