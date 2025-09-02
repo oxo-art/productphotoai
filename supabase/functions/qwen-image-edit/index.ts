@@ -5,17 +5,10 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-// Map frontend aspect ratios to Qwen-compatible ones
-const mapAspectRatio = (frontendRatio: string): string => {
-  const aspectRatioMap: { [key: string]: string } = {
-    "1:1": "1:1",
-    "16:9": "16:9", 
-    "4:5": "3:4",    // Map 4:5 to closest supported portrait ratio
-    "4:3": "4:3",
-    "9:16": "9:16"
-  }
-  
-  return aspectRatioMap[frontendRatio] || "3:4"
+// Validate aspect ratio is supported by Qwen Image Edit
+const validateAspectRatio = (aspectRatio: string): string => {
+  const supportedRatios = ["1:1", "16:9", "4:3", "9:16"];
+  return supportedRatios.includes(aspectRatio) ? aspectRatio : "1:1";
 }
 
 serve(async (req) => {
@@ -69,20 +62,19 @@ serve(async (req) => {
       )
     }
 
-    // Map aspect ratio to Qwen-compatible format
-    const mappedAspectRatio = mapAspectRatio(body.aspect_ratio || "4:5")
-    console.log('Aspect ratio mapping:', body.aspect_ratio, '->', mappedAspectRatio)
+    // Validate aspect ratio
+    const validatedAspectRatio = validateAspectRatio(body.aspect_ratio || "1:1")
+    console.log('Aspect ratio validation:', body.aspect_ratio, '->', validatedAspectRatio)
 
     // Prepare the request payload for Replicate API using Qwen Image Edit model
     const replicatePayload = {
       input: {
         image: body.input_image,
         prompt: body.prompt,
-        go_fast: false,  // Prioritize quality over speed
-        aspect_ratio: mappedAspectRatio,
+        go_fast: true,  // As requested by user
+        aspect_ratio: validatedAspectRatio,
         output_format: "png",
-        output_quality: 95,  // Maximum quality
-        num_inference_steps: 50  // Higher steps for better quality
+        output_quality: 80  // Following Qwen API schema
       }
     }
 
