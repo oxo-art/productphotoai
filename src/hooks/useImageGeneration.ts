@@ -10,7 +10,8 @@ export const useImageGeneration = () => {
 
   const generateImage = async (
     prompt: string,
-    uploadedImage: UploadedImage
+    uploadedImage: UploadedImage,
+    selectedAspectRatio: string
   ): Promise<GeneratedImage[]> => {
     if (!prompt.trim()) {
       toast({
@@ -34,10 +35,12 @@ export const useImageGeneration = () => {
 
     try {
       console.log("Calling Qwen Image Edit function...");
+      console.log("Selected aspect ratio:", selectedAspectRatio);
       
       const requestBody = {
         prompt: prompt,
-        input_image: uploadedImage.url
+        input_image: uploadedImage.url,
+        aspect_ratio: selectedAspectRatio
       };
       
       console.log("Request body:", requestBody);
