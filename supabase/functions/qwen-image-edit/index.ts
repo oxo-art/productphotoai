@@ -5,11 +5,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-// Validate aspect ratio is supported by Qwen Image Edit
-const validateAspectRatio = (aspectRatio: string): string => {
-  const supportedRatios = ["1:1", "16:9", "4:3", "9:16"];
-  return supportedRatios.includes(aspectRatio) ? aspectRatio : "1:1";
-}
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -62,22 +57,12 @@ serve(async (req) => {
       )
     }
 
-    // Validate aspect ratio
-    const validatedAspectRatio = validateAspectRatio(body.aspect_ratio || "1:1")
-    console.log('Aspect ratio validation:', body.aspect_ratio, '->', validatedAspectRatio)
-
-    // Enhanced prompt engineering for logo and brand preservation
-    const enhancedPrompt = `${body.prompt}. IMPORTANT: Maintain all original product branding, logos, text, and brand identity exactly as shown. Do not replace with generic products. Preserve all existing text, logos, and brand markings precisely. No logo changes or brand alterations.`
-
     // Prepare the request payload for Replicate API using Qwen Image Edit model
     const replicatePayload = {
       input: {
         image: body.input_image,
-        prompt: enhancedPrompt,
-        go_fast: true,  // As requested by user
-        aspect_ratio: validatedAspectRatio,
-        output_format: "png",
-        output_quality: 95  // Increased for better logo/detail preservation
+        prompt: body.prompt,
+        aspect_ratio: body.aspect_ratio || "1:1"
       }
     }
 
