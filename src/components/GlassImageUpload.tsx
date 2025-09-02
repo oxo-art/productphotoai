@@ -323,10 +323,6 @@ const GlassImageUpload = () => {
                     src={image.url}
                     alt={`Generated ${index + 1}`}
                     className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg"
-                    style={{
-                      maxWidth: `${image.width}px`,
-                      maxHeight: `${image.height}px`
-                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute top-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
