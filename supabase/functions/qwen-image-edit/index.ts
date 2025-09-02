@@ -23,9 +23,7 @@ serve(async (req) => {
     console.log('Received request:', { 
       prompt: body.prompt?.substring(0, 100),
       hasImage: !!body.input_image,
-      aspectRatio: body.aspect_ratio,
-      width: body.width,
-      height: body.height
+      outputQuality: 80
     })
 
     // Validate required fields
@@ -62,7 +60,7 @@ serve(async (req) => {
       input: {
         image: body.input_image,
         prompt: body.prompt,
-        aspect_ratio: body.aspect_ratio || "1:1"
+        output_quality: 80
       }
     }
 

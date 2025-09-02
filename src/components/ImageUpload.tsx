@@ -4,10 +4,10 @@ import { Upload, Image as ImageIcon, X, Loader2, Download, Sparkles, Lightbulb }
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { useToast } from "@/hooks/use-toast";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
-import { aspectRatios } from "@/config/aspectRatios";
+
 import { UploadedImage, GeneratedImage } from "@/types/imageGeneration";
 import { useImageGeneration } from "@/hooks/useImageGeneration";
 import { processImageFile, downloadImage } from "@/utils/fileHandling";
@@ -25,7 +25,7 @@ const ImageUpload = () => {
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
   const [prompt, setPrompt] = useState("");
-  const [selectedAspectRatio, setSelectedAspectRatio] = useState("1:1");
+  
   const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -99,7 +99,7 @@ const ImageUpload = () => {
   const handleGenerate = async () => {
     if (!uploadedImage) return;
     
-    const newImages = await generateImage(prompt, uploadedImage, selectedAspectRatio);
+    const newImages = await generateImage(prompt, uploadedImage);
     if (newImages.length > 0) {
       setGeneratedImages(prev => [...prev, ...newImages]);
     }
@@ -163,11 +163,7 @@ const ImageUpload = () => {
                 <img
                   src={uploadedImage.url}
                   alt="Uploaded image"
-                  className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg"
-                  style={{
-                    maxWidth: `${uploadedImage.width}px`,
-                    maxHeight: `${uploadedImage.height}px`
-                  }}
+                  className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg max-w-2xl mx-auto"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <Button
@@ -211,27 +207,6 @@ const ImageUpload = () => {
           </div>
           
           <div className="space-y-6">
-            {/* Aspect Ratio Selector */}
-            <div className="space-y-3">
-              <label className={`${textStyles.secondary} text-sm font-medium`}>Aspect Ratio</label>
-              <Select value={selectedAspectRatio} onValueChange={setSelectedAspectRatio}>
-                <SelectTrigger className={`${getThemeStyle('input')} ${textStyles.primary}`}>
-                  <SelectValue placeholder="Select aspect ratio" />
-                </SelectTrigger>
-                <SelectContent className="bg-gray-900/95 backdrop-blur-lg border-white/20 z-[80]">
-                  {aspectRatios.map((ratio) => (
-                    <SelectItem 
-                      key={ratio.value} 
-                      value={ratio.value}
-                      className="text-white hover:bg-white/10 focus:bg-white/10"
-                    >
-                      {ratio.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
             <Textarea
               placeholder="Describe how you want to transform your image..."
               value={prompt}
@@ -293,11 +268,12 @@ const ImageUpload = () => {
                   <img
                     src={image.url}
                     alt={`Generated ${index + 1}`}
-                    className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg"
-                    style={{
-                      maxWidth: `${image.width}px`,
-                      maxHeight: `${image.height}px`
+                    className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg max-w-2xl mx-auto"
+                    onError={(e) => {
+                      console.error('Failed to load generated image:', image.url);
+                      e.currentTarget.style.display = 'none';
                     }}
+                    onLoad={() => console.log('Generated image loaded successfully:', image.url)}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute top-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

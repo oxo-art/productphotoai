@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
-import { aspectRatios } from "@/config/aspectRatios";
+
 import { UploadedImage, GeneratedImage } from "@/types/imageGeneration";
 import { useImageGeneration } from "@/hooks/useImageGeneration";
 import { processImageFile, downloadImage } from "@/utils/fileHandling";
@@ -23,7 +23,7 @@ const GlassImageUpload = () => {
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
   const [prompt, setPrompt] = useState("");
-  const [selectedAspectRatio, setSelectedAspectRatio] = useState("1:1");
+  
   const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -97,7 +97,7 @@ const GlassImageUpload = () => {
   const handleGenerate = async () => {
     if (!uploadedImage) return;
     
-    const newImages = await generateImage(prompt, uploadedImage, selectedAspectRatio);
+    const newImages = await generateImage(prompt, uploadedImage);
     if (newImages.length > 0) {
       setGeneratedImages(prev => [...prev, ...newImages]);
     }
@@ -107,17 +107,6 @@ const GlassImageUpload = () => {
     setPrompt(suggestion);
   };
 
-  const getAspectRatioBoxStyle = (ratio: string): React.CSSProperties => {
-    // Simple aspect ratio visualization without specific dimensions
-    const aspectMap: Record<string, React.CSSProperties> = {
-      "1:1": { width: '24px', height: '24px' },
-      "16:9": { width: '24px', height: '13.5px' },
-      "4:3": { width: '24px', height: '18px' },
-      "9:16": { width: '13.5px', height: '24px' }
-    };
-    
-    return aspectMap[ratio] || { width: '24px', height: '24px' };
-  };
 
   return (
     <div className="w-full max-w-4xl mx-auto space-y-8">
@@ -220,46 +209,6 @@ const GlassImageUpload = () => {
           </div>
           
           <div className="space-y-6">
-            {/* Aspect Ratio Glass Buttons */}
-            <div className="space-y-3">
-              <label className={`${textStyles.secondary} text-sm font-medium`}>Aspect Ratio</label>
-              <div className="flex flex-wrap gap-3">
-                {aspectRatios.map((ratio) => (
-                  <button
-                    key={ratio.value}
-                    onClick={() => setSelectedAspectRatio(ratio.value)}
-                    className={`group relative flex flex-col items-center gap-2 p-4 rounded-xl backdrop-blur-md border transition-all duration-300 hover:scale-105 ${
-                      selectedAspectRatio === ratio.value
-                        ? `${getThemeStyle('buttonPrimary')} border-white/40 shadow-lg`
-                        : `${getThemeStyle('button')} border-white/20 hover:border-white/30`
-                    }`}
-                  >
-                    {/* Visual representation of aspect ratio */}
-                    <div 
-                      className={`bg-white/80 rounded-sm ${
-                        selectedAspectRatio === ratio.value ? 'shadow-md' : 'shadow-sm'
-                      }`}
-                      style={getAspectRatioBoxStyle(ratio.value)}
-                    />
-                    <span className={`text-xs font-medium ${
-                      selectedAspectRatio === ratio.value 
-                        ? 'text-white' 
-                        : textStyles.secondary
-                    }`}>
-                      {ratio.label}
-                    </span>
-                    
-                    {/* Selection indicator */}
-                    {selectedAspectRatio === ratio.value && (
-                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full flex items-center justify-center">
-                        <div className="w-1.5 h-1.5 bg-blue-500 rounded-full"></div>
-                      </div>
-                    )}
-                  </button>
-                ))}
-              </div>
-            </div>
-
             <Textarea
               placeholder="Describe how you want to transform your image..."
               value={prompt}
