@@ -11,10 +11,10 @@ import { useImageGeneration } from "@/hooks/useImageGeneration";
 import { processImageFile, downloadImage } from "@/utils/fileHandling";
 
 const promptSuggestions = [
-  "Place this product in a luxury lifestyle setting with premium lighting",
-  "Create a professional studio shot with clean white background and soft shadows", 
-  "Transform into an Instagram-worthy flat lay with trendy props and styling",
-  "Add dramatic cinematic lighting with moody atmosphere for premium brand appeal"
+  "Place this product in a luxury lifestyle setting with premium lighting while keeping all logos intact",
+  "Create a professional studio shot with clean white background and soft shadows preserving brand identity", 
+  "Transform into an Instagram-worthy flat lay with trendy props while maintaining original branding",
+  "Add dramatic cinematic lighting with moody atmosphere keeping all product details and logos visible"
 ];
 
 const GlassImageUpload = () => {

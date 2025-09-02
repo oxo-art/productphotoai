@@ -66,15 +66,18 @@ serve(async (req) => {
     const validatedAspectRatio = validateAspectRatio(body.aspect_ratio || "1:1")
     console.log('Aspect ratio validation:', body.aspect_ratio, '->', validatedAspectRatio)
 
+    // Enhanced prompt engineering for logo and brand preservation
+    const enhancedPrompt = `${body.prompt}. IMPORTANT: Maintain all original product branding, logos, text, and brand identity exactly as shown. Do not replace with generic products. Preserve all existing text, logos, and brand markings precisely. No logo changes or brand alterations.`
+
     // Prepare the request payload for Replicate API using Qwen Image Edit model
     const replicatePayload = {
       input: {
         image: body.input_image,
-        prompt: body.prompt,
+        prompt: enhancedPrompt,
         go_fast: true,  // As requested by user
         aspect_ratio: validatedAspectRatio,
         output_format: "png",
-        output_quality: 80  // Following Qwen API schema
+        output_quality: 95  // Increased for better logo/detail preservation
       }
     }
 

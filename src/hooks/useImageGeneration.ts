@@ -43,8 +43,11 @@ export const useImageGeneration = () => {
       
       console.log("Using aspect ratio dimensions:", dimensions.width, "x", dimensions.height);
       
+      // Enhanced prompt for better logo and brand preservation
+      const brandPreservationPrompt = `${prompt}. CRITICAL: Keep all original logos, brand names, text, and product details exactly as shown. Do not change or replace any branding elements. Maintain product authenticity and brand identity precisely.`;
+      
       const requestBody = {
-        prompt: prompt,
+        prompt: brandPreservationPrompt,
         input_image: uploadedImage.url,
         aspect_ratio: selectedAspectRatio,
         width: dimensions.width,

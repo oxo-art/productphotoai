@@ -54,15 +54,9 @@ export const processImageToAspectRatio = (
       // Draw the image centered with letterboxing/pillarboxing
       ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
 
-      // Detect mobile for better quality - mobile devices often have high DPI screens
-      const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      const devicePixelRatio = window.devicePixelRatio || 1;
-      
-      // Use maximum quality for mobile/high-DPI devices to preserve detail
-      const quality = (isMobile || devicePixelRatio > 1) ? 1.0 : 0.95;
-      
-      // Convert to data URL with optimized quality
-      const processedImageUrl = canvas.toDataURL('image/png', quality);
+      // Use maximum quality to preserve image details and logos
+      // PNG format maintains better quality for images with text and logos
+      const processedImageUrl = canvas.toDataURL('image/png', 1.0);
       resolve(processedImageUrl);
     };
 
