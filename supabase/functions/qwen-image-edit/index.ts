@@ -1,4 +1,3 @@
-
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
@@ -87,10 +86,10 @@ serve(async (req) => {
       }
     }
 
-    console.log('Calling Replicate API with model: qwen/qwen-image-edit')
+    console.log('Calling Replicate API with Qwen Image Edit model')
     console.log('Payload input:', replicatePayload.input)
 
-    // Call Replicate API with the new Qwen Image Edit model
+    // Call Replicate API with the Qwen Image Edit model
     const response = await fetch(
       'https://api.replicate.com/v1/models/qwen/qwen-image-edit/predictions',
       {

@@ -1,5 +1,5 @@
 
 project_id = "ynzkqaakzhlvhusqwemu"
 
-[functions.flux-kontext-dev]
+[functions.qwen-image-edit]
 verify_jwt = false

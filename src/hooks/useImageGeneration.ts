@@ -35,7 +35,7 @@ export const useImageGeneration = () => {
     setIsGenerating(true);
 
     try {
-      console.log("Calling Flux Kontext Dev function...");
+      console.log("Calling Qwen Image Edit function...");
       console.log("Selected aspect ratio:", selectedAspectRatio);
       
       // Get output dimensions based on selected aspect ratio
@@ -53,7 +53,7 @@ export const useImageGeneration = () => {
       
       console.log("Request body:", requestBody);
       
-      const { data, error } = await supabase.functions.invoke('flux-kontext-dev', {
+      const { data, error } = await supabase.functions.invoke('qwen-image-edit', {
         body: requestBody
       });
 
