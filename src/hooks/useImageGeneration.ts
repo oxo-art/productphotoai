@@ -39,8 +39,9 @@ export const useImageGeneration = () => {
       
       const requestBody = {
         prompt: prompt,
-        input_image: uploadedImage.url,
-        aspect_ratio: selectedAspectRatio
+        image: uploadedImage.url,
+        aspect_ratio: selectedAspectRatio,
+        output_quality: 80
       };
       
       console.log("Request body:", requestBody);

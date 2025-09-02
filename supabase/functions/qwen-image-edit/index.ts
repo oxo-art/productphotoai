@@ -22,10 +22,9 @@ serve(async (req) => {
     const body = await req.json()
     console.log('Received request:', { 
       prompt: body.prompt?.substring(0, 100),
-      hasImage: !!body.input_image,
+      hasImage: !!body.image,
       aspectRatio: body.aspect_ratio,
-      width: body.width,
-      height: body.height
+      outputQuality: body.output_quality
     })
 
     // Validate required fields
@@ -43,11 +42,11 @@ serve(async (req) => {
       )
     }
 
-    if (!body.input_image) {
+    if (!body.image) {
       return new Response(
         JSON.stringify({ 
           success: false,
-          error: 'Input image is required',
+          error: 'Image is required',
           details: ['Please upload an image first']
         }), 
         { 
@@ -60,9 +59,10 @@ serve(async (req) => {
     // Prepare the request payload for Replicate API using Qwen Image Edit model
     const replicatePayload = {
       input: {
-        image: body.input_image,
+        image: body.image,
         prompt: body.prompt,
-        aspect_ratio: body.aspect_ratio || "1:1"
+        aspect_ratio: body.aspect_ratio || "match_input_image",
+        output_quality: body.output_quality || 80
       }
     }
 

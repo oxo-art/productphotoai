@@ -23,7 +23,7 @@ const GlassImageUpload = () => {
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
   const [prompt, setPrompt] = useState("");
-  const [selectedAspectRatio, setSelectedAspectRatio] = useState("1:1");
+  const [selectedAspectRatio, setSelectedAspectRatio] = useState("match_input_image");
   const [generatedImages, setGeneratedImages] = useState<GeneratedImage[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -110,6 +110,7 @@ const GlassImageUpload = () => {
   const getAspectRatioBoxStyle = (ratio: string): React.CSSProperties => {
     // Simple aspect ratio visualization without specific dimensions
     const aspectMap: Record<string, React.CSSProperties> = {
+      "match_input_image": { width: '24px', height: '20px', borderRadius: '4px' },
       "1:1": { width: '24px', height: '24px' },
       "16:9": { width: '24px', height: '13.5px' },
       "4:3": { width: '24px', height: '18px' },

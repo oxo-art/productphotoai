@@ -13,10 +13,9 @@ export interface GeneratedImage {
 
 export interface ImageGenerationRequest {
   prompt: string;
-  input_image: string;
+  image: string;
   aspect_ratio: string;
-  width: number;
-  height: number;
+  output_quality: number;
 }
 
 export interface ImageGenerationResponse {
@@ -33,20 +32,16 @@ export const validateImageGenerationRequest = (request: Partial<ImageGenerationR
     errors.push("Prompt is required");
   }
   
-  if (!request.input_image) {
-    errors.push("Input image is required");
+  if (!request.image) {
+    errors.push("Image is required");
   }
   
   if (!request.aspect_ratio) {
     errors.push("Aspect ratio is required");
   }
   
-  if (typeof request.width !== 'number' || request.width <= 0) {
-    errors.push("Valid width is required");
-  }
-  
-  if (typeof request.height !== 'number' || request.height <= 0) {
-    errors.push("Valid height is required");
+  if (typeof request.output_quality !== 'number' || request.output_quality <= 0) {
+    errors.push("Valid output quality is required");
   }
   
   return errors;
