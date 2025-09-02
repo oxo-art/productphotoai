@@ -37,8 +37,21 @@ export const useImageGeneration = () => {
       console.log("Calling Qwen Image Edit function...");
       console.log("Selected aspect ratio:", selectedAspectRatio);
       
+      // Enhanced prompt engineering to preserve logos and prevent cropping
+      let enhancedPrompt = prompt;
+      
+      // Add logo preservation instructions
+      if (!prompt.toLowerCase().includes('logo') && !prompt.toLowerCase().includes('brand')) {
+        enhancedPrompt += ". IMPORTANT: Preserve all product logos, text, and branding exactly as shown. Keep all text on the product readable and intact";
+      }
+      
+      // Add aspect ratio specific instructions to prevent cropping
+      if (selectedAspectRatio !== "match_input_image") {
+        enhancedPrompt += `. For ${selectedAspectRatio} format: DO NOT crop the subject or product. Instead, adjust the background and composition while keeping the full person and product visible. Add background elements or extend the scene as needed to fit ${selectedAspectRatio} without losing any important content`;
+      }
+
       const requestBody = {
-        prompt: prompt,
+        prompt: enhancedPrompt,
         image: uploadedImage.url,
         aspect_ratio: selectedAspectRatio,
         output_quality: 80

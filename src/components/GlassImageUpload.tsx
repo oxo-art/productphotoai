@@ -11,10 +11,10 @@ import { useImageGeneration } from "@/hooks/useImageGeneration";
 import { processImageFile, downloadImage } from "@/utils/fileHandling";
 
 const promptSuggestions = [
-  "Place this product in a luxury lifestyle setting with premium lighting while keeping all logos intact",
-  "Create a professional studio shot with clean white background and soft shadows preserving brand identity", 
-  "Transform into an Instagram-worthy flat lay with trendy props while maintaining original branding",
-  "Add dramatic cinematic lighting with moody atmosphere keeping all product details and logos visible"
+  "Professional studio photography with luxury lighting, preserve all product logos and text exactly",
+  "Clean minimalist background, maintain full product visibility and original branding without cropping", 
+  "Elegant lifestyle scene with premium props, keep all product details and logos perfectly intact",
+  "Modern aesthetic with soft shadows, ensure complete product and person visibility in frame"
 ];
 
 const GlassImageUpload = () => {
@@ -322,7 +322,11 @@ const GlassImageUpload = () => {
                   <img
                     src={image.url}
                     alt={`Generated ${index + 1}`}
-                    className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg"
+                    className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg max-w-full max-h-[80vh] mx-auto"
+                    style={{ 
+                      display: 'block',
+                      objectFit: 'contain'
+                    }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute top-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
