@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { useGlassTheme } from "@/contexts/GlassThemeContext";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 import { aspectRatios } from "@/config/aspectRatios";
 import { UploadedImage, GeneratedImage } from "@/types/imageGeneration";
 import { useImageGeneration } from "@/hooks/useImageGeneration";
@@ -19,6 +20,7 @@ const promptSuggestions = [
 
 const GlassImageUpload = () => {
   const { getThemeStyle } = useGlassTheme();
+  const { isMobile, isLowEndDevice, blurIntensity } = useMobileOptimization();
   const textStyles = getThemeStyle('text') as { primary: string; secondary: string; muted: string };
   const [dragActive, setDragActive] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
@@ -121,20 +123,20 @@ const GlassImageUpload = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto space-y-8">
+    <div className={`w-full max-w-4xl mx-auto space-y-${isMobile ? '4' : '8'} ${isMobile ? 'px-4' : ''}`}>
       {/* Upload Section */}
       <Card className={`${getThemeStyle('card')} ${getThemeStyle('shadow')} transition-all duration-1000`}>
-        <CardContent className="p-8">
+        <CardContent className={`${isMobile ? 'p-4' : 'p-8'}`}>
           <div className="flex items-center gap-3 mb-6">
             <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
               <Upload className={`w-5 h-5 ${textStyles.primary}`} />
             </div>
-            <h3 className={`text-xl font-semibold ${textStyles.primary}`}>Upload Your Image</h3>
+            <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-semibold ${textStyles.primary}`}>Upload Your Image</h3>
           </div>
           
           {!uploadedImage ? (
             <div
-              className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 ${
+              className={`border-2 border-dashed rounded-xl ${isMobile ? 'p-6' : 'p-12'} text-center transition-all duration-300 ${
                 dragActive 
                   ? "border-blue-400 bg-blue-500/10 scale-105" 
                   : "border-white/30 hover:border-white/50 hover:bg-white/5"
@@ -145,18 +147,18 @@ const GlassImageUpload = () => {
               onDrop={handleDrop}
             >
               <div className="relative">
-                <Upload className={`mx-auto h-16 w-16 ${textStyles.muted} mb-6`} />
+                <Upload className={`mx-auto ${isMobile ? 'h-12 w-12' : 'h-16 w-16'} ${textStyles.muted} mb-6`} />
                 <div className={`absolute -top-2 -right-2 w-6 h-6 ${getThemeStyle('buttonPrimary')} rounded-full flex items-center justify-center`}>
                   <Sparkles className="w-3 h-3 text-white" />
                 </div>
               </div>
-              <h3 className={`text-2xl font-semibold mb-4 ${textStyles.primary}`}>Drop your image here</h3>
-              <p className={`${textStyles.secondary} mb-6 text-lg`}>
+              <h3 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-semibold mb-4 ${textStyles.primary}`}>Drop your image here</h3>
+              <p className={`${textStyles.secondary} mb-6 ${isMobile ? 'text-base' : 'text-lg'}`}>
                 Drag and drop your image, or click to browse
               </p>
               <Button 
                 onClick={openFileDialog}
-                className={`${getThemeStyle('buttonPrimary')} text-white px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-md`}
+                className={`${getThemeStyle('buttonPrimary')} text-white ${isMobile ? 'px-6 py-3' : 'px-8 py-3'} rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-md`}
               >
                 Choose File
               </Button>
@@ -174,17 +176,13 @@ const GlassImageUpload = () => {
                 <img
                   src={uploadedImage.url}
                   alt="Uploaded image"
-                  className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg"
-                  style={{
-                    maxWidth: `${uploadedImage.width}px`,
-                    maxHeight: `${uploadedImage.height}px`
-                  }}
+                  className={`w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg ${isMobile ? 'max-h-[60vh]' : ''}`}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className={`absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${isLowEndDevice ? 'hidden' : ''}`}></div>
                 <Button
                   variant="destructive"
                   size="icon"
-                  className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 h-10 w-10 bg-red-500/80 hover:bg-red-500"
+                  className={`absolute top-4 right-4 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300 h-10 w-10 bg-red-500/80 hover:bg-red-500`}
                   onClick={removeImage}
                 >
                   <X className="h-5 w-5" />
@@ -193,7 +191,7 @@ const GlassImageUpload = () => {
               
               <Button
                 onClick={openFileDialog}
-                className={`w-full ${getThemeStyle('button')} ${textStyles.primary} hover:bg-white/20 transition-all duration-300 border border-white/30 backdrop-blur-md`}
+                className={`w-full ${getThemeStyle('button')} ${textStyles.primary} hover:bg-white/20 transition-all duration-300 border border-white/30 ${blurIntensity}`}
               >
                 Choose another image
               </Button>
@@ -212,24 +210,24 @@ const GlassImageUpload = () => {
 
       {/* Prompt Section */}
       <Card className={`${getThemeStyle('card')} ${getThemeStyle('shadow')} transition-all duration-1000`}>
-        <CardContent className="p-8">
+        <CardContent className={`${isMobile ? 'p-4' : 'p-8'}`}>
           <div className="flex items-center gap-3 mb-6">
             <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
               <Lightbulb className={`w-5 h-5 ${textStyles.primary}`} />
             </div>
-            <h3 className={`text-xl font-semibold ${textStyles.primary}`}>Describe Your Vision</h3>
+            <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-semibold ${textStyles.primary}`}>Describe Your Vision</h3>
           </div>
           
           <div className="space-y-6">
             {/* Aspect Ratio Glass Buttons */}
             <div className="space-y-3">
               <label className={`${textStyles.secondary} text-sm font-medium`}>Aspect Ratio</label>
-              <div className="flex flex-wrap gap-3">
+              <div className={`grid ${isMobile ? 'grid-cols-3' : 'flex flex-wrap'} gap-3`}>
                 {aspectRatios.map((ratio) => (
                   <button
                     key={ratio.value}
                     onClick={() => setSelectedAspectRatio(ratio.value)}
-                    className={`group relative flex flex-col items-center gap-2 p-4 rounded-xl backdrop-blur-md border transition-all duration-300 hover:scale-105 ${
+                    className={`group relative flex flex-col items-center gap-2 ${isMobile ? 'p-3' : 'p-4'} rounded-xl ${blurIntensity} border transition-all duration-300 ${!isLowEndDevice ? 'hover:scale-105' : ''} ${
                       selectedAspectRatio === ratio.value
                         ? `${getThemeStyle('buttonPrimary')} border-white/40 shadow-lg`
                         : `${getThemeStyle('button')} border-white/20 hover:border-white/30`
@@ -242,7 +240,7 @@ const GlassImageUpload = () => {
                       }`}
                       style={getAspectRatioBoxStyle(ratio.value)}
                     />
-                    <span className={`text-xs font-medium ${
+                    <span className={`${isMobile ? 'text-xs' : 'text-xs'} font-medium ${
                       selectedAspectRatio === ratio.value 
                         ? 'text-white' 
                         : textStyles.secondary
@@ -270,7 +268,7 @@ const GlassImageUpload = () => {
             
             <Button 
               onClick={handleGenerate} 
-              className={`w-full ${getThemeStyle('buttonPrimary')} text-white py-4 text-lg font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-105`}
+              className={`w-full ${getThemeStyle('buttonPrimary')} text-white py-4 ${isMobile ? 'text-base' : 'text-lg'} font-semibold rounded-xl shadow-lg transition-all duration-300 ${!isLowEndDevice ? 'hover:scale-105' : ''}`}
               disabled={isGenerating || !uploadedImage}
             >
               {isGenerating ? (
@@ -289,12 +287,12 @@ const GlassImageUpload = () => {
             {/* Prompt Suggestions */}
             <div className="space-y-3">
               <p className={`${textStyles.secondary} text-sm font-medium`}>Quick suggestions:</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2'} gap-3`}>
                 {promptSuggestions.map((suggestion, index) => (
                   <button
                     key={index}
                     onClick={() => addPromptSuggestion(suggestion)}
-                    className={`px-4 py-3 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 hover:scale-105 rounded-lg text-left border border-white/20 hover:border-white/30`}
+                    className={`px-4 py-3 ${getThemeStyle('button')} ${textStyles.secondary} hover:${textStyles.primary} text-sm transition-all duration-200 ${!isLowEndDevice ? 'hover:scale-105' : ''} rounded-lg text-left border border-white/20 hover:border-white/30`}
                   >
                     {suggestion}
                   </button>
@@ -308,12 +306,12 @@ const GlassImageUpload = () => {
       {/* Output Section */}
       {generatedImages.length > 0 && (
         <Card className={`${getThemeStyle('card')} ${getThemeStyle('shadow')} transition-all duration-1000`}>
-          <CardContent className="p-8">
+          <CardContent className={`${isMobile ? 'p-4' : 'p-8'}`}>
             <div className="flex items-center gap-3 mb-6">
               <div className={`p-2 rounded-lg ${getThemeStyle('card')}`}>
                 <ImageIcon className={`w-5 h-5 ${textStyles.primary}`} />
               </div>
-              <h3 className={`text-xl font-semibold ${textStyles.primary}`}>Your Transformed Images</h3>
+              <h3 className={`${isMobile ? 'text-lg' : 'text-xl'} font-semibold ${textStyles.primary}`}>Your Transformed Images</h3>
             </div>
             
             <div className="grid gap-6">
@@ -322,29 +320,29 @@ const GlassImageUpload = () => {
                   <img
                     src={image.url}
                     alt={`Generated ${index + 1}`}
-                    className="w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg max-w-full max-h-[80vh] mx-auto"
+                    className={`w-full h-auto object-contain rounded-xl border border-white/20 shadow-lg max-w-full ${isMobile ? 'max-h-[70vh]' : 'max-h-[80vh]'} mx-auto`}
                     style={{ 
                       display: 'block',
                       objectFit: 'contain'
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute top-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black/50 to-transparent ${isMobile ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300`}></div>
+                  <div className={`absolute ${isMobile ? 'top-2 right-2' : 'top-4 right-4'} flex gap-3 ${isMobile ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'} transition-opacity duration-300`}>
                     <button
-                      className={`h-12 w-12 rounded-xl ${getThemeStyle('buttonPrimary')} p-[2px] transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110`}
+                      className={`${isMobile ? 'h-10 w-10' : 'h-12 w-12'} rounded-xl ${getThemeStyle('buttonPrimary')} p-[2px] transition-all duration-200 shadow-lg hover:shadow-xl ${!isLowEndDevice ? 'hover:scale-110' : ''}`}
                       onClick={() => handleDownloadImage(image.url, index)}
                     >
-                      <div className="h-full w-full rounded-xl bg-white/90 backdrop-blur-sm flex items-center justify-center hover:bg-white/80 transition-colors">
-                        <Download className="h-5 w-5 text-gray-700" />
+                      <div className={`h-full w-full rounded-xl bg-white/90 ${blurIntensity} flex items-center justify-center hover:bg-white/80 transition-colors`}>
+                        <Download className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'} text-gray-700`} />
                       </div>
                     </button>
                     <Button
                       variant="destructive"
                       size="icon"
-                      className="h-12 w-12 shadow-lg bg-red-500/80 hover:bg-red-500 hover:scale-110 transition-all duration-200"
+                      className={`${isMobile ? 'h-10 w-10' : 'h-12 w-12'} shadow-lg bg-red-500/80 hover:bg-red-500 ${!isLowEndDevice ? 'hover:scale-110' : ''} transition-all duration-200`}
                       onClick={() => setGeneratedImages(prev => prev.filter((_, i) => i !== index))}
                     >
-                      <X className="h-5 w-5" />
+                      <X className={`${isMobile ? 'h-4 w-4' : 'h-5 w-5'}`} />
                     </Button>
                   </div>
                 </div>

@@ -3,10 +3,12 @@ import { useState } from 'react';
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { UploadedImage, GeneratedImage } from "@/types/imageGeneration";
+import { useMobileOptimization } from "@/hooks/useMobileOptimization";
 
 export const useImageGeneration = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
+  const { isMobile, isLowEndDevice } = useMobileOptimization();
 
   const generateImage = async (
     prompt: string,
@@ -40,6 +42,11 @@ export const useImageGeneration = () => {
       // Enhanced prompt engineering to preserve logos and prevent cropping
       let enhancedPrompt = prompt;
       
+      // Add mobile-specific optimizations for clearer results
+      if (isMobile) {
+        enhancedPrompt += ". Mobile-optimized: Use high contrast, sharp details, and clear definition to ensure quality on mobile screens";
+      }
+      
       // Add logo preservation instructions
       if (!prompt.toLowerCase().includes('logo') && !prompt.toLowerCase().includes('brand')) {
         enhancedPrompt += ". IMPORTANT: Preserve all product logos, text, and branding exactly as shown. Keep all text on the product readable and intact";
@@ -50,11 +57,14 @@ export const useImageGeneration = () => {
         enhancedPrompt += `. For ${selectedAspectRatio} format: DO NOT crop the subject or product. Instead, adjust the background and composition while keeping the full person and product visible. Add background elements or extend the scene as needed to fit ${selectedAspectRatio} without losing any important content`;
       }
 
+      // Optimize quality based on device capabilities
+      const optimizedQuality = isLowEndDevice ? 75 : isMobile ? 85 : 90;
+
       const requestBody = {
         prompt: enhancedPrompt,
         image: uploadedImage.url,
         aspect_ratio: selectedAspectRatio,
-        output_quality: 80
+        output_quality: optimizedQuality
       };
       
       console.log("Request body:", requestBody);
