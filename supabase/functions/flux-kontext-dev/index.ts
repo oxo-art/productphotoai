@@ -79,10 +79,11 @@ serve(async (req) => {
       input: {
         image: body.input_image,
         prompt: body.prompt,
-        go_fast: true,
+        go_fast: false,  // Prioritize quality over speed
         aspect_ratio: mappedAspectRatio,
         output_format: "png",
-        output_quality: 80
+        output_quality: 95,  // Maximum quality
+        num_inference_steps: 50  // Higher steps for better quality
       }
     }
 
